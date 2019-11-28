@@ -13,7 +13,7 @@ import './../css/animate.min.css';
 
 
 
-
+const c = 1;
 // WEB INITIALIZATION
 colorsInit(colors);
 selectSortingBtn(DOMelements.selectSortBtn);
