@@ -16,7 +16,7 @@ import './../css/animate.min.css';
 
 // WEB INITIALIZATION
 colorsInit(colors);
-selectSortingBtn(DOMelements.bubbleSortBtn);
+selectSortingBtn(DOMelements.selectSortBtn);
 const state = {
     sortStop: false,
     sortPause: false,
