@@ -11,7 +11,7 @@
   },
   "author": "Jan Radzimiński",
   "license": "ISC",
-  "homepage": "https://radziminski.github.io/Sortify/",
+  "homepage": "https://radziminski.github.io/sortify/",
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
