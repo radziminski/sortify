@@ -11,9 +11,12 @@ import './../css/style.css';
 import './../css/queries.css';  
 import './../css/animate.min.css';
 
-colorsInit(colors);
 
-// STATE
+
+
+// WEB INITIALIZATION
+colorsInit(colors);
+selectSortingBtn(DOMelements.selectSortBtn);
 const state = {
     sortStop: false,
     sortPause: false,
