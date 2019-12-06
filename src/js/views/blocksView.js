@@ -6,7 +6,7 @@ import { DOMelements, colors, selectBlock } from '../base';
 
 const renderCurrentBlock = async (block, height, index, animated = true) => {
     DOMelements.blocksList.insertAdjacentHTML('beforeend',
-        `<li class="blocks__single-block id-${index} ${animated ? `animated fadeInUp` : null} "
+        `<li class="section-blocks__single-block id-${index} ${animated ? `animated fadeInUp` : null} "
             style="margin-left: ${block.blockMargin}px;
             margin-right: ${block.blockMargin}px;
             width: ${block.blockActualWidth}px;

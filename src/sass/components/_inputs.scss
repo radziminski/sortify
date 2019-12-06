@@ -1,0 +1,47 @@
+.slider {
+    margin-bottom: 1.5rem;
+    display: flex;
+    vertical-align: middle;
+    justify-content: space-between;
+
+    &__label {
+        font-size: 1.6rem;
+        padding-top: 0.1rem;
+    }
+
+    &__slide-input {
+        appearance: none;
+        width: 63%;
+        height: 2.5rem;
+        border-radius: .5rem;  
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.75;
+        transition: opacity 0.2s;
+        cursor: pointer;
+    }
+
+    &__slide-input:hover {
+        opacity: 1;
+    }
+
+    &__text-input {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        color: $color-white;
+        margin-left: .5rem;
+        width: 3.2rem;
+        height: 2.7rem;
+        font-size: 1.6rem;
+    }
+}
+
+.inputs input {
+    height: 4rem;
+    width: 10rem;
+    border: 2px solid rgb(94, 63, 100);
+    margin: 1.5rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+}

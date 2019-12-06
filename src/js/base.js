@@ -1,11 +1,6 @@
 export const DOMelements = {
-    body: document.querySelector('body'),
-    navigation: document.querySelector('.navigation'),
-    divider: document.querySelector('.divider'),
-    footer: document.querySelector('.footer'),
-    settings: document.querySelector('.controls'),
-    blocks: document.querySelector('.blocks'),
-    blocksList: document.querySelector('.blocks__list'),
+    blocks: document.querySelector('.section-blocks'),
+    blocksList: document.querySelector('.section-blocks__list'),
 
     // Sorting Btns
     buttons: document.querySelector('.controls__sorting-buttons'),
@@ -55,14 +50,6 @@ export const colors = {
     // dark: '#2c3e50',
     // light: '#3a536b',
     // accent: '#65939c'
-}
-
-export const colorsInit = ( colors ) => {
-    DOMelements.body.style.backgroundColor = colors.default;
-    DOMelements.navigation.style.backgroundColor = colors.dark;
-    DOMelements.divider.style.backgroundColor = colors.default;
-    DOMelements.footer.style.backgroundColor = colors.light;
-    DOMelements.settings.style.backgroundColor = colors.dark;
 }
 
 export const selectBlock = id => {

@@ -1,0 +1,52 @@
+.btn {
+    display: inline-block;
+    margin: 0;
+    padding: 1rem 0;
+    width: 12rem;
+    height: 4rem;
+    background-color: #2B90FE;
+    border-radius: 2rem;
+    color: $color-white;
+    font-size: 1.42rem;
+    border: none;
+    transition: all 0.3s;
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+        background-color:rgb(43, 75, 254);
+    }
+        /* transform: translateY(-0.2rem) */
+
+    &:active {
+        background-color: rgb(35, 59, 194);
+        transition: all 0.1s;
+        transform: translateY(0.1rem)
+    }
+
+    
+    &--active {
+        background-color: #FF43D1;
+    }
+
+    &--active:hover {
+        background-color: rgb(223, 56, 181);
+    }
+
+    &--active:active {
+        background-color: rgb(187, 46, 152);
+    }
+
+    &--control {
+        width: 23.5rem;
+        height: 3rem;
+        margin-top: .8rem;
+        margin-bottom: 1.5rem;
+        padding: 0.7rem 1rem;
+        font-size: 1.4rem;
+        border-radius: .5rem;
+        transition: all 0.15s;
+    }
+}
+
+

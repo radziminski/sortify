@@ -1,21 +1,21 @@
 //////////////////////////////////
 // index.js //////////////////////
 //////////////////////////////////
+
 import Blocks from "./models/Blocks";
 import * as blocksView from "./views/blocksView";
 import SelectSort from "./models/Sorts/SelectSort";
 import BubbleSort from "./models/Sorts/BubbleSort";
-import { DOMelements, selectBlock, colorsInit, colors, togglePlayIcon, selectSortingBtn } from "./base";
+import { DOMelements, selectBlock, colors, togglePlayIcon, selectSortingBtn } from "./base";
 import * as settingsView from "./views/settingsView";
-import './../css/style.css';  
-import './../css/queries.css';  
+import './../sass/main.scss';  
 import './../css/animate.min.css';
 
 
 
-const c = 1;
+
 // WEB INITIALIZATION
-colorsInit(colors);
+
 selectSortingBtn(DOMelements.selectSortBtn);
 const state = {
     sortStop: false,
@@ -116,25 +116,26 @@ DOMelements.sortingButtons.addEventListener('click', event => {
 
 DOMelements.startSortBtn.addEventListener('click', event => {
     if (!state.sorting) return;
-    if(settingsView.togglePlayIcon()) state.sorting.sortIt(state.blocks.sizes, getTime(), getAnimate());
-    state.sorting.stop();
+    if (settingsView.togglePlayIcon()) state.sorting.sortIt(state.blocks.sizes, getTime(), getAnimate());
+    else state.sorting.pause();
     //state.sorting = true;
 });
 
 DOMelements.stopSortBtn.addEventListener('click', event => {
-    state.sorting.stop();
+    console.log(state.blocks.blocksNum)
+    state.sorting.stop(state.blocks.blocksNum);
     settingsView.changeToPlayIcon();
 });
 
 DOMelements.generateBlocksBtn.addEventListener('click', event => {
-    state.sorting.stop();
+    state.sorting.stop(state.blocks.blocksNum);
     settingsView.changeToPlayIcon();
     //state.sorting = false;
     renderBlocks(getBlocksNum());
 });
 
 DOMelements.shuffleBlocksBtn.addEventListener('click', event => {
-    state.sorting.stop();
+    state.sorting.stop(state.blocks.blocksNum);
     settingsView.changeToPlayIcon();
     state.blocks.blocksShuffle();
     reRenderBlocks(getBlocksNum());
@@ -184,7 +185,7 @@ window.addEventListener('load', () => {
 });
 
 window.addEventListener('resize', () => {
-    state.sorting.stop();
+    state.sorting.stop(state.blocks.blocksNum);
     settingsView.changeToPlayIcon();
     reRenderBlocks();
 });

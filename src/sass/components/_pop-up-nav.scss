@@ -1,0 +1,152 @@
+.pop-up-nav__icon {
+
+    position: fixed;
+    left: 85%;
+    top: 5%;
+    z-index: 999;
+
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+
+    animation: fadeInOp 0.3s;
+
+    background-color: $color-primary;
+    transition: all 0.2s;
+    cursor: pointer;
+
+    opacity: 0.75;
+
+    .rect {
+        position: absolute;
+        width: 59%;
+        height: 4px;
+        background-color: $color-white;
+        opacity: 1;
+        transition: all 0.2s;
+
+        &:nth-child(1) {
+
+            top: 29%;
+            left: 21.5%;
+        }
+        &:nth-child(2) {
+            top: 47%;
+            left: 21.5%;
+        }
+        &:nth-child(3) {
+            top: 66%;
+            left: 21.5%;
+        }
+    }
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &--active {
+        .rect {
+            position: absolute;
+            width: 59%;
+            height: 4px;
+            background-color: $color-white;
+            opacity: 1;
+            transition: all 0.2s;;
+            &:nth-child(1) {
+                top: 47%;
+                left: 20%;
+                transform: rotate(45deg);
+            }
+            &:nth-child(3) {
+                top: 47%;
+                left: 20%;
+                transform: rotate(-45deg);
+            }
+            &:nth-child(2) {
+                opacity: 0;
+            }
+        }
+    }
+    @include respond(tab-port) {
+        left: 85%;
+        top: 2.5rem; 
+    }
+
+    @include respond(phone) {
+        left: 80%;
+        top: 4%;
+        animation: fadeInOp 0.3s 0.9s;
+        animation-fill-mode: backwards;
+        width: 5rem;
+        height: 5rem;
+    }
+}
+
+.pop-up-nav__cover {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 900;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: all 0.3s;
+    animation: fadeIn 0.3s;
+    animation-fill-mode: forwards;
+}
+
+.pop-up-nav__links {
+    display: inherit;
+    width: 35rem;
+    height: 50rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    //border: 1px solid $color-white;
+    text-align: center;
+    a {
+        display: block;
+        background-color: $color-white;
+        color: $color-grey;
+        font-weight: 400;
+        font-size: 2.1rem;
+        text-decoration: none;
+        padding: 2rem 1rem;
+        transition: all 0.2s;
+
+        &:nth-child(odd) {
+            background-color: rgb(238, 238, 238);
+        }
+
+        &:hover {
+            background-color: $color-primary;
+            color: $color-white;
+            transform: scale(1.05);
+        }
+    }
+
+    @include respond(phone) {
+        top: 58%;
+    }
+
+    @include respond(small-phone-land) {
+        height: 40rem;
+        a {
+            padding: 1rem 1rem;
+        }
+    }
+}
+
+.pop-up-nav__logo {
+    display: block;
+    background-image: linear-gradient(to right bottom, rgba($color-primary, 1), rgba($color-primary, 0.7));
+    padding: 2rem 1rem;
+    color: $color-white;
+    font-weight: 700;
+    font-size: 2.6rem;
+    letter-spacing: 2px;
+
+}

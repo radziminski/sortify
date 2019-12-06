@@ -7,6 +7,7 @@ class Sort {
         this.breakPointer = breakPointer;
         this.pausePointer = pausePointer;
         this.blockWidth = blockWidth;
+        this.sortStep = 0;
         
     }
 
@@ -160,12 +161,15 @@ class Sort {
     /////   SORTING MANAGEMENT METHODS   /////
     //////////////////////////////////////////
     
-    stop() {
+    stop(blocksNum = 0) {
         this.breakPointer = true;
+        this.sortStep = 0;
+        blocksNum ? blocksView.colorAllBlocks(blocksNum) : null;
     }
 
     pause() {
-        this.pausePointer = true;
+        this.breakPointer = true;
+        for (let block = 0; block < this.sortStep; block++) blocksView.colorSingleBlock(block);
     }
 }
 

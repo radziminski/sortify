@@ -257,7 +257,7 @@ h2 {
     font-size: 3.3rem;
     margin: .72rem;
     cursor: pointer;
-    color: white;
+    color: $color-white;
     transition: color 0.15s;
 }
 

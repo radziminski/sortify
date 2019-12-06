@@ -10,21 +10,25 @@
     <title>Sortify</title>
 </head>
 <body>
-    <!-- =======================> NAVIGATION -->
-    <div class="navigation">
-        <div class="navigation__items">
-            <h1 class="navigation__logo">Sortify</h1>
-            
-            <label class="navigation__switch">
-                <input class="navigation__switch-input" type="checkbox">
-                <span class="navigation__switch-span"></span>
-            </label>
+    <!-- =======================> HEADER -->
+    <header class="header">
+        <div class="row">
+            <div class="navigation">
+                <div class="navigation__items">
+                    <h1 class="navigation__logo">Sortify</h1>
+                    
+                    <label class="navigation__switch">
+                        <input class="navigation__switch-input" type="checkbox">
+                        <span class="navigation__switch-span"></span>
+                    </label>
+                </div>
+            </div>
         </div>
-    </div>
-    
+        
+    </header>
     <!-- ===========================> BLOCKS -->
-    <div class="blocks">
-        <ul class="blocks__list">
+    <section class="section-blocks">
+        <ul class="section-blocks__list">
             <!-- 
             <li class="blocks__single-block">
                     &nbsp;
@@ -33,11 +37,12 @@
                     &nbsp;
             </li> -->
         </ul>
-    </div>
+    </section>
+
     <div class="divider"></div>
 
     <!-- ==========================> SETTINGS -->
-    <div class="controls">
+    <section class="section-controls">
         <div class="row controls__player js--player">
                 <ion-icon name="play" class="controls__icon play js--play"></ion-icon>
                 <ion-icon name="square" class="controls__icon js--stop"></ion-icon>
@@ -56,7 +61,7 @@
                 <h2 class="settings-title">Advanced Settings</h2>
             </div>
             <div class="controls__settings-content">
-                <div class="column column--settings">
+                <div class="col-1-of-2">
                     <div class="slider">
                         <label class="slider__label">Number of blocks:</label>
                         <input type="text" class="slider__text-input js--blocks-num-text" value="20"></input>
@@ -75,7 +80,7 @@
                     </div>
                     
                 </div>
-                <div class="column column--settings">
+                <div class="col-1-of-2">
                     <div class="checkbox-container">
                         <p>Animated:</p>
                         <input class="animated js--animate" type="checkbox" checked="checked">
@@ -89,7 +94,7 @@
             </div>
             
         </div>
-    </div>
+    </section>
 
     <div class="footer">
         <p class="footer__author">&#9400 Created by Jan Radzimiński 2019</p>
