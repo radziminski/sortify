@@ -27,7 +27,7 @@ export const DOMelements = {
     inputAnimateCheckbox: document.querySelector('.js--animate'),
 }
 
-export function selectSortingBtn(btn) {
+export function highlightSortingBtn(btn) {
     const allBtns = DOMelements.allSortingBtns;
     for (let i = 0; i < allBtns.length; i++) {
         allBtns[i].classList.remove('btn--active');

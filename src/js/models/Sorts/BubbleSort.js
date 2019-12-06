@@ -29,7 +29,7 @@ class BubbleSort extends Sort {
         await this.delay();
         this.breakPointer = false;
 
-        if (waitTime < 10) {
+        if (waitTime <= 10) {
             this.instantBubbleSort(sizes);
             settingsView.changeToPlayIcon();
             return;
@@ -40,11 +40,10 @@ class BubbleSort extends Sort {
 
         let n = sizes.length;
         while (n > 1) {
-            let ifAnySwapped;
+            let ifAnySwapped = false;
             // n !== sizes.length ? blocksView.colorSingleBlock(n , 'rgb(31, 111, 197)') : null;
             for (let i = 0; i < n - 1; i++) {
-                ifAnySwapped = false;
-                if (n !== sizes.length || i !== 0) await this.wait(waitTime).catch(err => {
+                if ((n !== sizes.length || i !== 0) && waitTime > 100) await this.wait(waitTime).catch(err => {
                     contionueFlag = false;
                 });
                 if (!contionueFlag) break;
@@ -56,18 +55,20 @@ class BubbleSort extends Sort {
                 if (!contionueFlag) break;
 
                 if (sizes[i] < sizes[i + 1]) {
-                    blocksView.colorSeveralBlocks(colors.chosen, i, i + 1);
-                    await this.wait(waitTime).catch(err => {
-                        contionueFlag = false;
-                    });
-                    if (!contionueFlag) break;
+                    if (waitTime > 100) {
+                        blocksView.colorSeveralBlocks(colors.chosen, i, i + 1);
+                        await this.wait(waitTime).catch(err => {
+                            contionueFlag = false;
+                        });
+                        if (!contionueFlag) break;
+                    }
 
                     if (waitTime > 100) {
                         await this.blocksSwapAnimation(i, i + 1, waitTime).catch(() => {
                             contionueFlag = false;
                         });
                     } else {
-                        blocksView.swapBlocksColors(i, i + 1);
+                        // blocksView.swapBlocksColors(i, i + 1);
                         blocksView.swapBlocksHeight(i, i + 1);
                     }
                         
@@ -92,7 +93,7 @@ class BubbleSort extends Sort {
             }
             if (!ifAnySwapped) break;
 
-            n = n - 1;
+            n--;
         }
 
         // Adding green highlight to inform that array is sorted:

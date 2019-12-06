@@ -6,7 +6,7 @@ import Blocks from "./models/Blocks";
 import * as blocksView from "./views/blocksView";
 import SelectSort from "./models/Sorts/SelectSort";
 import BubbleSort from "./models/Sorts/BubbleSort";
-import { DOMelements, selectBlock, colors, togglePlayIcon, selectSortingBtn } from "./base";
+import { DOMelements, selectBlock, colors, togglePlayIcon, highlightSortingBtn } from "./base";
 import * as settingsView from "./views/settingsView";
 import './../sass/main.scss';  
 import './../css/animate.min.css';
@@ -16,18 +16,16 @@ import './../css/animate.min.css';
 
 // WEB INITIALIZATION
 
-selectSortingBtn(DOMelements.selectSortBtn);
+highlightSortingBtn(DOMelements.selectSortBtn);
 const state = {
     sortStop: false,
     sortPause: false,
     sorting: false,
 };
+
+
+// for testing purposes: 
 window.state = state;
-state.sortStop = false;
-state.sortPause = false;
-
-state.selectBlock = selectBlock;
-
 //////////////////////////////////
 // CONTROLLERS ///////////////////
 //////////////////////////////////
@@ -88,27 +86,27 @@ DOMelements.sortingButtons.addEventListener('click', event => {
     settingsView.changeToPlayIcon();
     switch (selectedBtn) {
         case DOMelements.bubbleSortBtn:
-            selectSortingBtn(selectedBtn);
+            highlightSortingBtn(selectedBtn);
             state.sorting = new BubbleSort(state.blocks.blockWidth, false, false);
             break;
         case DOMelements.selectSortBtn:
-            selectSortingBtn(selectedBtn);
+            highlightSortingBtn(selectedBtn);
             state.sorting = new SelectSort(state.blocks.blockWidth, false, false);
             break;
         case DOMelements.insertSortBtn:
-            selectSortingBtn(selectedBtn);
+            highlightSortingBtn(selectedBtn);
             break;
         case DOMelements.quickSortBtn:
-            selectSortingBtn(selectedBtn);
+            highlightSortingBtn(selectedBtn);
             break;
         case DOMelements.mergeSortBtn:
-            selectSortingBtn(selectedBtn);
+            highlightSortingBtn(selectedBtn);
             break;
         case DOMelements.heapSortBtn:
-            selectSortingBtn(selectedBtn);
+            highlightSortingBtn(selectedBtn);
             break;
         case DOMelements.raddixSortBtn:
-            selectSortingBtn(selectedBtn);
+            highlightSortingBtn(selectedBtn);
             break;
         default: null;
     }
