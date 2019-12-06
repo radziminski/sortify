@@ -65,26 +65,22 @@ body {
 
 .heading-section {
     display: block;
-    margin: 0 0 2.5rem 0;
-
-    padding-left: 3rem;
-    padding-right: 3rem;
-
-    color: $color-grey-dark;
+    margin: 0 0 0.5rem 0;
+    color: $color-white;
     
-    font-size: 3.5rem;
+    font-size: 3rem;
     font-weight: 400;
     word-spacing: 4px;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     text-transform: capitalize;
     backface-visibility: hidden;
 
     &:after {
         content: " ";
         display: block;
-        margin: 0 auto;
+
         
-        width: 20%;
+        width: 13%;
         height: 2px;
         
         border-bottom: 2px solid $color-primary;

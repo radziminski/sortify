@@ -45,3 +45,17 @@
     padding: 1rem;
     font-size: 1.5rem;
 }
+
+.checkbox {
+    margin-bottom: 1.5rem;
+    display: flex;
+    vertical-align: bottom;
+    justify-content: start;
+}
+
+.checkbox input {
+    padding: .5rem;
+    margin-left: 4rem;
+    margin-top: .7rem;
+    cursor: pointer;
+}

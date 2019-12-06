@@ -3,16 +3,16 @@ export const DOMelements = {
     blocksList: document.querySelector('.section-blocks__list'),
 
     // Sorting Btns
-    buttons: document.querySelector('.controls__sorting-buttons'),
-    allSortingBtns: document.querySelectorAll('.controls__sorting-btn'),
-    sortingButtons: document.querySelector('.controls__sorting-buttons'),
-    bubbleSortBtn: document.querySelector('.js--bubble__btn'),
-    selectSortBtn: document.querySelector('.js--select__btn'),
-    insertSortBtn: document.querySelector('.js--insert__btn'),
-    quickSortBtn: document.querySelector('.js--quick__btn'),
-    mergeSortBtn: document.querySelector('.js--merge__btn'),
-    heapSortBtn: document.querySelector('.js--heap__btn'),
-    raddixSortBtn: document.querySelector('.js--raddix__btn'),
+    buttons: document.querySelector('.section-controls__sorting-buttons'),
+    allSortingBtns: document.querySelectorAll('.js--sort-btn'),
+    sortingButtons: document.querySelector('.section-controls__sorting-buttons'),
+    bubbleSortBtn: document.querySelector('.js--bubble-btn'),
+    selectSortBtn: document.querySelector('.js--select-btn'),
+    insertSortBtn: document.querySelector('.js--insert-btn'),
+    quickSortBtn: document.querySelector('.js--quick-btn'),
+    mergeSortBtn: document.querySelector('.js--merge-btn'),
+    heapSortBtn: document.querySelector('.js--heap-btn'),
+    raddixSortBtn: document.querySelector('.js--raddix-btn'),
 
     // Adv Settings
     startSortBtn: document.querySelector('.js--play'),

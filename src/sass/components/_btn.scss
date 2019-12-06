@@ -7,7 +7,7 @@
     background-color: #2B90FE;
     border-radius: 2rem;
     color: $color-white;
-    font-size: 1.42rem;
+    font-size: 1.5rem;
     border: none;
     transition: all 0.3s;
     cursor: pointer;
@@ -22,6 +22,12 @@
         background-color: rgb(35, 59, 194);
         transition: all 0.1s;
         transform: translateY(0.1rem)
+    }
+
+    &--full {
+        width: 15rem;
+        border-radius: 0;
+        //border-left: 1px solid $color-black;
     }
 
     

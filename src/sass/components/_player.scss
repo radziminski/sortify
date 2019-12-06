@@ -1,0 +1,21 @@
+
+/* ==============> PLAYER */
+
+.player {
+    flex: 1 1 0;
+    display: block;
+    text-align: center;
+    padding-top: 2rem;
+}
+
+.player__icon {
+    font-size: 3.3rem;
+    margin: .72rem;
+    cursor: pointer;
+    color: $color-white;
+    transition: color 0.15s;
+    &:hover,
+    &:active {
+        color: #2B90FE;
+    }
+}

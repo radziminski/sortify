@@ -1,3 +1,7 @@
+.header {
+    background-color: $color-primary-dark;
+}
+
 .section {
     &-blocks {
         width: 100%;
@@ -5,9 +9,9 @@
         overflow: hidden;
         
         &__list {
-            width: 110rem;
-            height: 45vh;
-            margin: 5% auto 0 auto;
+            max-width: 110rem;
+            height: 45rem;
+            margin: 0 auto ;
             padding: 2rem 0 0 0;
             list-style: none;
             display: flex;
@@ -34,6 +38,32 @@
     &-controls {
         width: 100%;
         background-color: $color-primary-dark;
+        padding-bottom: 5rem;
+        
+        &__sorting-buttons {
+            flex: 1 1 0;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+
+
+            .btn--full {
+                &:hover {
+                    transform: scale(1.05);
+                }
+            }
+
+            .btn--full:first-child {
+                border-left: 0;
+                border-top-left-radius: 2rem;
+                border-bottom-left-radius: 2rem;
+            }
+            
+            .btn--full:last-child {
+                border-top-right-radius: 2rem;
+                border-bottom-right-radius: 2rem;
+            }
+        }
     }
 }
 

@@ -34,3 +34,14 @@
 .u-padding-left-small {
     padding-left: 5rem;
 }
+
+.u-two-buttons {
+    padding: 0 2rem;
+    @include clearfix;
+    button:first-child {
+        float: left;
+    }
+    button:last-child {
+        float: right;
+    }
+}
