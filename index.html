@@ -43,54 +43,60 @@
 
     <!-- ==========================> SETTINGS -->
     <section class="section-controls">
-        <div class="row controls__player js--player">
-                <ion-icon name="play" class="controls__icon play js--play"></ion-icon>
-                <ion-icon name="square" class="controls__icon js--stop"></ion-icon>
-        </div>
-        <div class="row controls__sorting-buttons">
-            <button class="btn controls__sorting-btn js--bubble__btn">Bubble Sort</button>
-            <button class="btn controls__sorting-btn js--select__btn active">Selection Sort</button>
-            <button class="btn controls__sorting-btn js--insert__btn">Insert Sort</button>
-            <button class="btn controls__sorting-btn js--quick__btn">Quick Sort</button>
-            <button class="btn controls__sorting-btn js--merge__btn">Merge Sort</button>
-            <button class="btn controls__sorting-btn js--heap__btn">Heap Sort</button>
-            <button class="btn controls__sorting-btn js--raddix__btn">Raddix Sort</button>
-        </div>
-        <div class="row controls__settings">
-            <div class="controls__settings-title">
-                <h2 class="settings-title">Advanced Settings</h2>
+        <div class="row">
+            <div class="player js--player">
+                    <ion-icon name="play" class="player__icon play js--play"></ion-icon>
+                    <ion-icon name="square" class="player__icon js--stop"></ion-icon>
             </div>
-            <div class="controls__settings-content">
-                <div class="col-1-of-2">
-                    <div class="slider">
-                        <label class="slider__label">Number of blocks:</label>
-                        <input type="text" class="slider__text-input js--blocks-num-text" value="20"></input>
-                        <input type="range" class="slider__slide-input js--blocks-num-slide" min="2" max="500" value="20"></input>
-                    </div>
+        </div>
 
-                    <div class="slider">
-                        <label class="slider__label">Sorting Speed [s]:</label>
-                        <input type="text" class="slider__text-input js--sorting-speed-text" value="0.4"></input>
-                        <input type="range" class="slider__slide-input js--sorting-speed-slide" min="1" max="1000" value="400"></input>
+        <div class="row">
+            <div class="section-controls__sorting-buttons">
+                <button class="btn btn--full js--sort-btn js--bubble-btn">Bubble Sort</button>
+                <button class="btn btn--full js--sort-btn js--select-btn active">Selection Sort</button>
+                <button class="btn btn--full js--sort-btn js--insert-btn">Insert Sort</button>
+                <button class="btn btn--full js--sort-btn js--quick-btn">Quick Sort</button>
+                <button class="btn btn--full js--sort-btn js--merge-btn">Merge Sort</button>
+                <button class="btn btn--full js--sort-btn js--heap-btn">Heap Sort</button>
+                <button class="btn btn--full js--sort-btn js--raddix-btn">Raddix Sort</button>
+            </div>
+        </div>
+        
+        <div class="section-controls__settings">
+            <div class="row">
+                <h2 class="heading-section">Settings</h2>
+            </div>
+            <div class="row">
+                    <div class="col-1-of-2">
+                        <div class="slider">
+                            <label class="slider__label">Number of blocks:</label>
+                            <input type="text" class="slider__text-input js--blocks-num-text" value="20"></input>
+                            <input type="range" class="slider__slide-input js--blocks-num-slide" min="2" max="500" value="20"></input>
+                        </div>
+    
+                        <div class="slider">
+                            <label class="slider__label">Sorting Speed [s]:</label>
+                            <input type="text" class="slider__text-input js--sorting-speed-text" value="0.4"></input>
+                            <input type="range" class="slider__slide-input js--sorting-speed-slide" min="1" max="1000" value="400"></input>
+                        </div>
+    
+                        <div class="u-two-buttons">
+                            <button class="btn btn--control js--generate-blocks-btn">Generate New Blocks</button>
+                            <button class="btn btn--control js--shuffle-blocks-btn">Shuffle Current Blocks</button>
+                        </div>
+                        
                     </div>
-
-                    <div class="controls__control-btns">
-                        <button class="btn btn--control js--generate-blocks-btn">Generate New Blocks</button>
-                        <button class="btn btn--control js--shuffle-blocks-btn">Shuffle Current Blocks</button>
+                    <div class="col-1-of-2">
+                        <div class="checkbox">
+                            <p>Animated:</p>
+                            <input class="checkbox__input animated js--animate" type="checkbox" checked="checked">
+                        </div>
+                        <div class="slider">
+                            <label class="slider__label">Sth:</label>
+                            <input type="text" class="slider__text-input" value="5"></input>
+                            <input type="range" class="slider__slide-input" min="1" max="10" value="5"></input>
+                        </div>
                     </div>
-                    
-                </div>
-                <div class="col-1-of-2">
-                    <div class="checkbox-container">
-                        <p>Animated:</p>
-                        <input class="animated js--animate" type="checkbox" checked="checked">
-                    </div>
-                    <div class="slider">
-                        <label class="slider__label">Sth:</label>
-                        <input type="text" class="slider__text-input" value="5"></input>
-                        <input type="range" class="slider__slide-input" min="1" max="10" value="5"></input>
-                    </div>
-                </div>
             </div>
             
         </div>
