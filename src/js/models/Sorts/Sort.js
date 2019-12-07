@@ -7,7 +7,7 @@ class Sort {
         this.breakPointer = breakPointer;
         this.pausePointer = pausePointer;
         this.blockWidth = blockWidth;
-        this.sortStep = 0;
+        this.currentStep = 1;
     }
 
 
@@ -180,14 +180,111 @@ class Sort {
     
     stop(blocksNum = 0) {
         this.breakPointer = true;
-        this.sortStep = 0;
         blocksNum ? blocksView.colorAllBlocks(blocksNum) : null;
+        this.currentStep = 1;
     }
 
     pause() {
         this.breakPointer = true;
-        for (let block = 0; block < this.sortStep; block++) blocksView.colorSingleBlock(block);
+        //for (let block = 0; block < this.sortStep; block++) blocksView.colorSingleBlock(block);
     }
+
+    async stepsDecoder(step, arg) {
+        return new Promise(async (resolve, reject) => {
+        switch (step) {
+            case 0: 
+                await this.wait(arg.waitTime)
+                .catch(err => {
+                    reject(null);
+                });
+                console.log('step0')
+                break;
+
+            case 1:
+                blocksView.colorSeveralBlocksArr(arg.color, arg.blocks);
+                console.log('step1')
+                break;
+            
+            case 2:
+                blocksView.colorAllBlocks(arg.blocksNum, arg.color);
+                console.log('step2')
+                break;
+
+            case 3:
+                await this.blocksSwapAnimation(arg.blocks[0], arg.blocks[1], arg.waitTime)
+                .catch(err => {
+                    reject(null);
+                });
+                console.log('step3')
+                break;
+
+            case 4:
+                blocksView.swapBlocksHeight(arg.blocks[0], arg.blocks[1]);
+                console.log('step4')
+                break;
+            
+            case 5:
+                this.arrSwap(arg.sizes, arg.blocks[0], arg.blocks[1]);
+                console.log('step5')
+                break;
+        };
+
+        this.delay().catch(err => {
+            reject(null);
+        });
+        resolve();
+        });
+    }
+
+    async sortIt(sizes, waitTime, animated = true, sortType = true) {
+        this.breakPointer = true;
+        await this.delay();
+        this.breakPointer = false;
+        this.pausePointer = false;
+
+        this.makeSteps(sizes, waitTime, sortType);
+        let completed = false;
+
+        completed = await this.executeSteps().catch(err => {
+            console.log('cought Highest');
+            return;
+        })
+
+
+        if (completed) {
+            blocksView.colorAllBlocks(sizes.length);
+            waitTime > 300 ? await this.wait(waitTime) : await this.wait(250);
+            blocksView.colorAllBlocks(sizes.length, 'rgba(0,173,68,1)');
+            waitTime > 300 ? await this.wait(waitTime) : await this.wait(400);
+            blocksView.colorAllBlocks(sizes.length);
+        }
+
+        settingsView.changeToPlayIcon();
+    }
+
+    
+    async executeSteps() {
+        return new Promise(async (resolve, reject) => {
+            let cont = true;
+            let i = this.currentStep;
+            while (i < this.stepsArr.length) {
+                if (this.breakPointer) {
+                    reject(false);
+                    return;
+                }
+                this.currentStep = i;
+                await this.stepsDecoder(this.stepsArr[i].stepNum, this.stepsArr[i].arg)
+                .catch(err => {
+                    reject(false);
+                    return;
+                });
+                i++;
+            }
+            resolve(true);
+        });
+    }
+
+
 }
 
 export default Sort;

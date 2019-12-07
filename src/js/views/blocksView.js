@@ -45,6 +45,12 @@ export const renderBlocks = async (sizes, blockWidth, animated = true) => {
         })
     }
 
+    export function colorSeveralBlocksArr(color, blocks) {
+        blocks.forEach(block => {
+            colorSingleBlock(block, color);
+        })
+    }
+
     export function colorAllBlocks(blocksNum, color = colors.default) {
         for (let i = 0; i < blocksNum; i++) colorSingleBlock(i, color);
     }
