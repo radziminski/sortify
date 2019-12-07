@@ -190,61 +190,97 @@ class Sort {
     }
 
     async stepsDecoder(step, arg) {
+        /* STEPS:
+            0: wait some time 
+                arg:    waitTime
+
+            1: color several blocks 
+                arg:    color
+                arg:    blocks[]
+
+            2:  color all blocks
+                arg:    color
+                arg:    blocksnum
+
+            3:  block swap animation
+                arg:    blocks[]
+                arg:    waitTime
+
+            4:  swap blocks height
+                arg:    blocks[]
+
+            5:  arr swap
+                arg:    arr
+                arg:    blocks[]
+
+            6:  swap blocks colors
+                arg:    blocks[]
+        
+        */
+
         return new Promise(async (resolve, reject) => {
         switch (step) {
             case 0: 
+                console.log('step0')
                 await this.wait(arg.waitTime)
                 .catch(err => {
                     reject(null);
                 });
-                console.log('step0')
                 break;
 
             case 1:
-                blocksView.colorSeveralBlocksArr(arg.color, arg.blocks);
                 console.log('step1')
+                blocksView.colorSeveralBlocksArr(arg.color, arg.blocks);
                 break;
             
             case 2:
-                blocksView.colorAllBlocks(arg.blocksNum, arg.color);
                 console.log('step2')
+                blocksView.colorAllBlocks(arg.blocksNum, arg.color);
                 break;
 
             case 3:
+                console.log('step3')
                 await this.blocksSwapAnimation(arg.blocks[0], arg.blocks[1], arg.waitTime)
                 .catch(err => {
                     reject(null);
                 });
-                console.log('step3')
                 break;
 
             case 4:
-                blocksView.swapBlocksHeight(arg.blocks[0], arg.blocks[1]);
                 console.log('step4')
+                blocksView.swapBlocksHeight(arg.blocks[0], arg.blocks[1]);
                 break;
             
             case 5:
-                this.arrSwap(arg.sizes, arg.blocks[0], arg.blocks[1]);
                 console.log('step5')
+                this.arrSwap(arg.sizes, arg.blocks[0], arg.blocks[1]);
                 break;
+            
+            case 6:
+                console.log('step6')
+                blocksView.swapBlocksColors(arg.blocks[0], arg.blocks[1]);
+                break;
+
         };
 
         this.delay().catch(err => {
             reject(null);
         });
+
         resolve();
         });
     }
 
     async sortIt(sizes, waitTime, animated = true, sortType = true) {
+        console.log('in');
         this.breakPointer = true;
         await this.delay();
         this.breakPointer = false;
         this.pausePointer = false;
 
-        this.makeSteps(sizes, waitTime, sortType);
+        this.makeSteps(sizes, waitTime, animated, sortType);
         let completed = false;
-
+        console.log('after========');
         completed = await this.executeSteps().catch(err => {
             console.log('cought Highest');
             return;
@@ -268,6 +304,7 @@ class Sort {
             let cont = true;
             let i = this.currentStep;
             while (i < this.stepsArr.length) {
+                console.log(this.stepsArr[i])
                 if (this.breakPointer) {
                     reject(false);
                     return;

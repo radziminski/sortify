@@ -30,7 +30,7 @@ class BubbleSort extends Sort {
     }
 
     // STEPS MAKER
-    async makeSteps(sizesOrig, waitTime, sortType = true) {
+    async makeSteps(sizesOrig, waitTime, animated = true, sortType = true) {
         this.stepsArr = [];
         this.stepsArr.push({
             stepNum: 'initial settings',
