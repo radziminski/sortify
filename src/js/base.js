@@ -25,6 +25,8 @@ export const DOMelements = {
     generateBlocksBtn: document.querySelector('.js--generate-blocks-btn'),
     shuffleBlocksBtn: document.querySelector('.js--shuffle-blocks-btn'),
     inputAnimateCheckbox: document.querySelector('.js--animate'),
+    inputSortTypeCheckbox: document.querySelector('.js--sort-type'),
+    inputDisplayHeightsCheckbox: document.querySelector('.js--display-heights'),
 }
 
 export function highlightSortingBtn(btn) {

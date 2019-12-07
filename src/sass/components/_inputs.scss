@@ -51,11 +51,16 @@
     display: flex;
     vertical-align: bottom;
     justify-content: start;
-}
+    
+    &__label {
+        font-size: 1.6rem;
+        padding-top: 0.1rem;
+    }
 
-.checkbox input {
-    padding: .5rem;
-    margin-left: 4rem;
-    margin-top: .7rem;
-    cursor: pointer;
+    &__input {
+        padding: .5rem;
+        margin-left: 4rem;
+        margin-top: .7rem;
+        cursor: pointer;
+    }
 }

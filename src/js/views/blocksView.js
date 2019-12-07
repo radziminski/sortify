@@ -11,7 +11,7 @@ const renderCurrentBlock = async (block, height, index, animated = true) => {
             margin-right: ${block.blockMargin}px;
             width: ${block.blockActualWidth}px;
             height: ${height}px;
-            background-color: ${colors.default};">&nbsp;</li>`);
+            background-color: ${colors.default};">${height}</li>`);
 }
 
 export const renderBlocks = async (sizes, blockWidth, animated = true) => {
@@ -63,7 +63,27 @@ export const renderBlocks = async (sizes, blockWidth, animated = true) => {
         const temp = firstBlock.style.height;
         firstBlock.style.height = secondBlock.style.height;
         secondBlock.style.height = temp;
+
+        const temp2 = firstBlock.innerHTML;
+        firstBlock.innerHTML= secondBlock.innerHTML;
+        secondBlock.innerHTML = temp2;
     };
+
+    export function toggleBlocksHeight(blocksNum, show = 1) {
+        for (let i = 0; i < blocksNum; i++) {
+            const block = selectBlock(i);
+            if (!show) {
+                block.innerHTML = " ";
+            } else {
+                block.innerHTML = parseInt(block.style.height);
+                if (blocksNum > 25) block.style.fontSize = '1.2rem';
+                if (blocksNum > 35) block.style.fontSize = '0.9rem';
+                if (blocksNum > 50) block.style.fontSize = '0.6rem';
+                if (blocksNum > 70) block.style.fontSize = '0.4rem';
+                if (blocksNum > 100) block.style.fontSize = '0rem';
+            }
+        }
+    }
 
     export function swapBlocksColors(blockA, blockB) {
         let colorTemp = selectBlock(blockA).style.backgroundColor;

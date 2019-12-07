@@ -2,18 +2,23 @@ import Sort from "./Sort";
 import { colors } from '../../base';
 import * as blocksView from '../../views/blocksView';
 import * as settingsView from '../../views/settingsView';
+
+
 class BubbleSort extends Sort {
     constructor(blockWidth, breakPointer, pausePointer) {
         super(blockWidth, breakPointer, pausePointer);
+        this.stepsArr = [];
     }
 
-    instantBubbleSort(sizes) {
+    instantBubbleSort(sizes, sortType) {
         let n = sizes.length;
         let ifAnySwapped;
         while (n > 1) {
             ifAnySwapped = false;
             for (let i = 0; i < n - 1; i++) {
-                if (sizes[i] < sizes[i + 1]) {
+
+                if (sizes[i] < sizes[i + 1] && sortType ||
+                    sizes[i] > sizes[i + 1] && !sortType) {
                     this.arrSwap(sizes, i, i + 1);
                     ifAnySwapped = true;
                 }
@@ -23,14 +28,14 @@ class BubbleSort extends Sort {
         blocksView.renderBlocks(sizes, this.blockWidth, false);
     }
 
-    async sortIt(sizes, waitTime, animated = true) {
+    async sortIt(sizes, waitTime, animated = true, sortType = true) {
         // Stopping ongoing sorting and starting new
         this.stop();
         await this.delay();
         this.breakPointer = false;
 
-        if (waitTime <= 10) {
-            this.instantBubbleSort(sizes);
+        if (waitTime < 10) {
+            this.instantBubbleSort(sizes, sortType);
             settingsView.changeToPlayIcon();
             return;
         }
@@ -54,7 +59,8 @@ class BubbleSort extends Sort {
                 });
                 if (!contionueFlag) break;
 
-                if (sizes[i] < sizes[i + 1]) {
+                if (sortType && sizes[i] < sizes[i + 1] ||
+                    !sortType && sizes[i] > sizes[i + 1]) {
                     if (waitTime > 100) {
                         blocksView.colorSeveralBlocks(colors.chosen, i, i + 1);
                         await this.wait(waitTime).catch(err => {
@@ -107,5 +113,7 @@ class BubbleSort extends Sort {
       
     }
 }
+
+
 
 export default BubbleSort;

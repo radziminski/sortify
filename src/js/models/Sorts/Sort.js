@@ -8,7 +8,6 @@ class Sort {
         this.pausePointer = pausePointer;
         this.blockWidth = blockWidth;
         this.sortStep = 0;
-        
     }
 
 
@@ -67,6 +66,13 @@ class Sort {
         return max;
     };
 
+    findMin(curr, arr) {
+        let max = curr;
+        for (let i = curr + 1; i < arr.length; i++)
+            if (arr[i] < arr[max]) max = i;
+        return max;
+    };
+
     //////////////////////////////////////////
     ////////   BLOCKS ASYNC METHODS   ////////
     //////////////////////////////////////////
@@ -106,7 +112,7 @@ class Sort {
         })
     }
 
-    highlightConsequtiveBlocks(startBlock, endBlock, time) {
+    highlightConsequtiveBlocks(startBlock, endBlock, time, sortType) {
         return new Promise(async (resolve, reject) => {
             let currentBlock = startBlock + 1;
             let currentMaxHeight = selectBlock(startBlock).style.height;
@@ -119,24 +125,35 @@ class Sort {
             });
 
             while (currentBlock <= endBlock && !terminate) {
-                if (parseInt(selectBlock(currentBlock).style.height) > parseInt(currentMaxHeight)) {
-                    blocksView.colorSingleBlock(currentBlock, colors.highlight);
-                    currentMaxHeight = selectBlock(currentBlock).style.height;
-                    await this.wait(time / 2, () => {
-                        blocksView.colorSingleBlock(currentBlock, colors.chosen);
-                        if (!flag) blocksView.colorSingleBlock(currentMaxBlock, colors.default);
-                        flag = false;
-                        currentMaxBlock = currentBlock;
-                    }).catch((err) => {
-                        resolve(err);
-                        terminate = true;
-                        return;
-                    });
-                    
-                    await this.wait(time / 2).catch((err) => {
-                        resolve(err);
-                        terminate = true;
-                        return;
+                let swap = false;
+                if (sortType && 
+                    parseInt(selectBlock(currentBlock).style.height) > parseInt(currentMaxHeight))
+                        swap = true;
+                else if (!sortType && 
+                    parseInt(selectBlock(currentBlock).style.height) < parseInt(currentMaxHeight))
+                        swap = true;
+
+                if (sortType && 
+                    parseInt(selectBlock(currentBlock).style.height) > parseInt(currentMaxHeight) ||
+                    !sortType && 
+                    parseInt(selectBlock(currentBlock).style.height) < parseInt(currentMaxHeight)) {
+                        blocksView.colorSingleBlock(currentBlock, colors.highlight);
+                        currentMaxHeight = selectBlock(currentBlock).style.height;
+                        await this.wait(time / 2, () => {
+                            blocksView.colorSingleBlock(currentBlock, colors.chosen);
+                            if (!flag) blocksView.colorSingleBlock(currentMaxBlock, colors.default);
+                            flag = false;
+                            currentMaxBlock = currentBlock;
+                        }).catch((err) => {
+                            resolve(err);
+                            terminate = true;
+                            return;
+                        });
+                        
+                        await this.wait(time / 2).catch((err) => {
+                            resolve(err);
+                            terminate = true;
+                            return;
                     });
                 } else {
                     blocksView.colorSingleBlock(currentBlock, colors.highlight);

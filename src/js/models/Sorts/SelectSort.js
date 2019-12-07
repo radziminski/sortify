@@ -9,16 +9,16 @@ class SelectSortView extends Sort {
         this.sortStep = 0;
     }
 
-    instantSelectSort(sizes) {
+    instantSelectSort(sizes, sortType) {
         for (let i = 0; i < sizes.length - 1; i++) {
-            let max = this.findMax(i, sizes);
-            this.arrSwap(sizes, i, max);
+            let max = sortType ? this.findMax(i, sizes) : this.findMin(i, sizes);
+            max != i ? this.arrSwap(sizes, i, max) : null;
         }
 
         blocksView.renderBlocks(sizes, this.blockWidth);
     }
 
-    async nextIteration(currentBlock, sizes, waitTime, animated = true) {
+    async nextIteration(currentBlock, sizes, waitTime, animated = true, sortType) {
         return new Promise(async (resolve, reject) => {
             if (currentBlock !== 0) 
                 await this.wait(waitTime)
@@ -29,9 +29,11 @@ class SelectSortView extends Sort {
             let ifContinue = true;
             blocksView.colorSingleBlock(currentBlock, 'red');
 
+            
             const maxBlock = waitTime > 200 && animated ? 
-                ifContinue = await this.highlightConsequtiveBlocks(currentBlock, sizes.length - 1, waitTime) :
-                this.findMax(currentBlock, sizes);
+                ifContinue = await this.highlightConsequtiveBlocks(currentBlock, sizes.length - 1, waitTime, sortType) :
+                sortType ? this.findMax(currentBlock, sizes) : this.findMin(currentBlock, sizes);
+            
             if (!ifContinue && (ifContinue !== 0)) {
                 resolve(null);
                 return;
@@ -81,13 +83,13 @@ class SelectSortView extends Sort {
     
     };
 
-    async sortIt(sizes, waitTime, animated = true) {
+    async sortIt(sizes, waitTime, animated = true, sortType = true) {
         this.breakPointer = true;
         await this.delay();
         this.breakPointer = false;
 
         if (waitTime < 10) {
-            this.instantSelectSort(sizes);
+            this.instantSelectSort(sizes, sortType);
             settingsView.changeToPlayIcon();
             return;
         }
@@ -101,7 +103,7 @@ class SelectSortView extends Sort {
             i > 0 ? blocksView.colorSingleBlock(i - 1, 'rgb(31, 111, 197)') : null;
             this.sortStep = i;
             // Next iteration:
-            if (await this.nextIteration(i, sizes, waitTime, animated)) continue;
+            if (await this.nextIteration(i, sizes, waitTime, animated, sortType)) continue;
             else {
                 return;
             }

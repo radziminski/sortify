@@ -39,6 +39,12 @@ const getTime = () => {
 const getAnimate = () => {
     return DOMelements.inputAnimateCheckbox.checked;
 }
+const getSortType = () => {
+    return DOMelements.inputSortTypeCheckbox.checked;
+}
+const getDisplayHeights = () => {
+    return DOMelements.inputDisplayHeightsCheckbox.checked;
+}
 
 const renderBlocks = (blocksNum, minHeight = 20, maxHeight = 200) => {
     const contaninerWidth = DOMelements.blocksList.offsetWidth;
@@ -56,6 +62,8 @@ const renderBlocks = (blocksNum, minHeight = 20, maxHeight = 200) => {
 
     // Render Blocks
     blocksView.renderBlocks(state.blocks.sizes, blockWidth);
+
+    blocksView.toggleBlocksHeight(state.blocks.blocksNum, getDisplayHeights());
 };
 
 const reRenderBlocks = (minHeight = 20, maxHeight = 500) => {
@@ -70,6 +78,8 @@ const reRenderBlocks = (minHeight = 20, maxHeight = 500) => {
     state.blocks = new Blocks(state.blocks.blocksNum, blockWidth, state.blocks.sizes);
 
     blocksView.renderBlocks(state.blocks.sizes, blockWidth, false);
+
+    blocksView.toggleBlocksHeight(state.blocks.blocksNum, getDisplayHeights());
 }
 
 /* Here go controllers */
@@ -114,13 +124,13 @@ DOMelements.sortingButtons.addEventListener('click', event => {
 
 DOMelements.startSortBtn.addEventListener('click', event => {
     if (!state.sorting) return;
-    if (settingsView.togglePlayIcon()) state.sorting.sortIt(state.blocks.sizes, getTime(), getAnimate());
+    
+    if (settingsView.togglePlayIcon()) state.sorting.sortIt(state.blocks.sizes, getTime(), getAnimate(), getSortType());
     else state.sorting.pause();
     //state.sorting = true;
 });
 
 DOMelements.stopSortBtn.addEventListener('click', event => {
-    console.log(state.blocks.blocksNum)
     state.sorting.stop(state.blocks.blocksNum);
     settingsView.changeToPlayIcon();
 });
@@ -176,6 +186,10 @@ DOMelements.inputSortingSpeedText.addEventListener('input', event => {
         DOMelements.inputSortingSpeedText.value = Math.round(value * 100) / 100;
     }
 });
+
+DOMelements.inputDisplayHeightsCheckbox.addEventListener('input', event => {
+    blocksView.toggleBlocksHeight(state.blocks.blocksNum, event.target.checked);
+})
 
 window.addEventListener('load', () => {
     state.sorting = new SelectSort(null, false, false);
