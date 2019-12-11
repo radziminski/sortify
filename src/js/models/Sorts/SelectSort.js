@@ -4,11 +4,11 @@ import * as blocksView from '../../views/blocksView';
 import * as settingsView from '../../views/settingsView';
 
 class SelectSortView extends Sort {
-    constructor(blockWidth, breakPointer, pausePointer) {
-        super(blockWidth, breakPointer, pausePointer);
+    constructor(blockWidth, breakPointer) {
+        super(blockWidth, breakPointer);
     }
 
-    instantSelectSort(sizes, sortType) {
+    instantSort(sizes, sortType) {
         for (let i = 0; i < sizes.length - 1; i++) {
             let max = sortType ? this.findMax(i, sizes) : this.findMin(i, sizes);
             max != i ? this.arrSwap(sizes, i, max) : null;
@@ -123,8 +123,21 @@ class SelectSortView extends Sort {
                                     blocks: [nextBlock],
                                 },
                             });
+                            this.stepsArr.push({
+                                stepNum: 0,
+                                arg: {
+                                    waitTime: 50,
+                                },
+                            });
                         }
                     }
+                } else {
+                    this.stepsArr.push({
+                        stepNum: 0,
+                        arg: {
+                            waitTime: 50,
+                        },
+                    });
                 }
                 
                 // if max is not current block we need to do swap and swap animation
@@ -365,3 +378,67 @@ export default SelectSortView;
 //     })
 
 // };
+
+
+
+// highlightConsequtiveBlocks(startBlock, endBlock, time, sortType) {
+//     return new Promise(async (resolve, reject) => {
+//         let currentBlock = startBlock + 1;
+//         let currentMaxHeight = selectBlock(startBlock).style.height;
+//         let currentMaxBlock = startBlock;
+//         let flag = true;
+//         let terminate = false;
+//         await this.wait(time / 2).catch((err) => {
+//             resolve(err);
+//             return;
+//         });
+
+//         while (currentBlock <= endBlock && !terminate) {
+//             let swap = false;
+//             if (sortType && 
+//                 parseInt(selectBlock(currentBlock).style.height) > parseInt(currentMaxHeight))
+//                     swap = true;
+//             else if (!sortType && 
+//                 parseInt(selectBlock(currentBlock).style.height) < parseInt(currentMaxHeight))
+//                     swap = true;
+
+//             if (sortType && 
+//                 parseInt(selectBlock(currentBlock).style.height) > parseInt(currentMaxHeight) ||
+//                 !sortType && 
+//                 parseInt(selectBlock(currentBlock).style.height) < parseInt(currentMaxHeight)) {
+//                     blocksView.colorSingleBlock(currentBlock, colors.highlight);
+//                     currentMaxHeight = selectBlock(currentBlock).style.height;
+//                     await this.wait(time / 2, () => {
+//                         blocksView.colorSingleBlock(currentBlock, colors.chosen);
+//                         if (!flag) blocksView.colorSingleBlock(currentMaxBlock, colors.default);
+//                         flag = false;
+//                         currentMaxBlock = currentBlock;
+//                     }).catch((err) => {
+//                         resolve(err);
+//                         terminate = true;
+//                         return;
+//                     });
+                    
+//                     await this.wait(time / 2).catch((err) => {
+//                         resolve(err);
+//                         terminate = true;
+//                         return;
+//                 });
+//             } else {
+//                 blocksView.colorSingleBlock(currentBlock, colors.highlight);
+//                 await this.wait(time / 2, () => {
+//                     blocksView.colorSingleBlock(currentBlock, colors.default);
+//                 }).catch((err) => {
+//                     resolve(err);
+//                     terminate = true;
+//                     return;
+//                 });
+                
+//             }
+//             currentBlock++;
+//         };
+//         blocksView.colorSingleBlock(currentBlock - 1, colors.default);
+//         resolve(currentMaxBlock);
+//         return;
+//     })
+// }

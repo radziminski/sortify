@@ -58,6 +58,9 @@ export const selectBlock = id => {
     return document.querySelector(`.id-${id}`);
 }
 
+
+
+
 export const animateCSS = (element, animationName, callback) => {
     const node = document.querySelector(element)
     node.classList.add('animated', animationName)

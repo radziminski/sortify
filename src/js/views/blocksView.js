@@ -62,6 +62,10 @@ export const renderBlocks = async (sizes, blockWidth, animated = true) => {
         } else colorSingleBlock(blockA, colors.default);
     };
 
+    export function clearRaiseBlocks(blocksNum) {
+        for (let i = 0; i < blocksNum; i++) selectBlock(i).style.marginBottom = '0px';
+    }
+
     export function swapBlocksHeight(blockA, blockB) {
         const firstBlock = selectBlock(blockA);
         const secondBlock = selectBlock(blockB);
@@ -96,6 +100,8 @@ export const renderBlocks = async (sizes, blockWidth, animated = true) => {
         selectBlock(blockA).style.backgroundColor = selectBlock(blockB).style.backgroundColor;
         selectBlock(blockB).style.backgroundColor = colorTemp;
     }
+
+    
 
 export const clearBlocks = () => {
     DOMelements.blocksList.innerHTML = '';

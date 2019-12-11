@@ -6,12 +6,12 @@ import * as settingsView from '../../views/settingsView';
 
 
 class BubbleSort extends Sort {
-    constructor(blockWidth, breakPointer, pausePointer) {
-        super(blockWidth, breakPointer, pausePointer);
+    constructor(blockWidth, breakPointer) {
+        super(blockWidth, breakPointer);
         this.stepsArr = [];
     }
 
-    instantBubbleSort(sizes, sortType) {
+    instantSort(sizes, sortType) {
         let n = sizes.length;
         let ifAnySwapped;
         while (n > 1) {

@@ -6,6 +6,7 @@ import Blocks from "./models/Blocks";
 import * as blocksView from "./views/blocksView";
 import SelectSort from "./models/Sorts/SelectSort";
 import BubbleSort from "./models/Sorts/BubbleSort";
+import InsertSort from "./models/Sorts/InsertSort";
 import { DOMelements, selectBlock, colors, togglePlayIcon, highlightSortingBtn } from "./base";
 import * as settingsView from "./views/settingsView";
 import './../sass/main.scss';  
@@ -18,14 +19,15 @@ import './../css/animate.min.css';
 
 highlightSortingBtn(DOMelements.selectSortBtn);
 const state = {
-    sortStop: false,
-    sortPause: false,
     sorting: false,
 };
 
 
 // for testing purposes: 
 window.state = state;
+
+
+
 //////////////////////////////////
 // CONTROLLERS ///////////////////
 //////////////////////////////////
@@ -92,7 +94,7 @@ const reRenderBlocks = (minHeight = 20, maxHeight = 500) => {
 
 DOMelements.sortingButtons.addEventListener('click', event => {
     const selectedBtn = event.target;
-    state.sorting.stop(); // this should be in each case vv
+    state.sorting.stop(state.blocks.blocksNum); // this should be in each case vv
     settingsView.changeToPlayIcon();
     switch (selectedBtn) {
         case DOMelements.bubbleSortBtn:
@@ -105,6 +107,7 @@ DOMelements.sortingButtons.addEventListener('click', event => {
             break;
         case DOMelements.insertSortBtn:
             highlightSortingBtn(selectedBtn);
+            state.sorting = new InsertSort(state.blocks.blockWidth, false, false);
             break;
         case DOMelements.quickSortBtn:
             highlightSortingBtn(selectedBtn);
