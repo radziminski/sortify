@@ -56,6 +56,14 @@
                     transform: scale(1.08);
                     z-index: 100;
                 }
+
+                @include respond (tab-port) {
+                    height: 7rem;
+                    padding: 0 1rem;
+                }
+                @include respond (small-phone) {
+                    width: 5rem;
+                }
             }
 
             .btn--full:first-child {

@@ -9,6 +9,13 @@ class Sort {
         this.currentStep = 1;
     }
 
+    //////////////////////////////////////////
+    ///////    TO OVERWRITE METHODS:   ///////
+    //////////////////////////////////////////
+
+    instantSort(sizes, sortType) {
+        console.log('This should be overwriten');
+    }
 
     //////////////////////////////////////////
     /////////      TIME METHODS:     /////////
@@ -95,8 +102,8 @@ class Sort {
             selectBlock(blockB).style.transform = `translate(${(-1) * (distance)}px, 0)`;
 
             await this.wait(1.5 * transitionTime, () => {
-                selectBlock(blockA).style.transition = 'background-color 0.2s, transform 0s';
-                selectBlock(blockB).style.transition = 'background-color 0.2s, transform 0s';
+                selectBlock(blockA).style.transition = 'background-color 0.0s, transform 0s';
+                selectBlock(blockB).style.transition = 'background-color 0.0s, transform 0s';
                 selectBlock(blockA).style.transform = 'translate(0, 0)';
                 selectBlock(blockB).style.transform = 'translate(0, 0)';
                 selectBlock(blockA).style.marginBottom = blockBPrevMargin;
@@ -111,6 +118,14 @@ class Sort {
                 reject(err);
                 return;
             });
+
+            await this.delay().catch(err => {
+                reject(err);
+                return;
+            })
+            selectBlock(blockA).style.transition = 'background-color 0.2s, transform 0s';
+            selectBlock(blockB).style.transition = 'background-color 0.2s, transform 0s';
+
             resolve(true);
         })
     }
@@ -323,6 +338,14 @@ class Sort {
         this.breakPointer = true;
         await this.delay();
         this.breakPointer = false;
+
+        if (waitTime < 10) {
+            this.instantSort(sizes, sortType);
+            blocksView.renderBlocks(sizes, this.blockWidth, true);
+            settingsView.changeToPlayIcon();
+            blocksView.toggleBlocksHeight(sizes.length, 0);
+            return;
+        }
 
         // Creating steps array
         this.makeSteps(sizes, waitTime, animated, sortType);

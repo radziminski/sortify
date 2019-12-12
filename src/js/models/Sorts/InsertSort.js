@@ -34,6 +34,16 @@ class InsertSort extends Sort {
             for (let markedBlock = 1; markedBlock < sizes.length; markedBlock++) {
                 const markedBlockHeight = sizes[markedBlock];
 
+                if (markedBlock === 2) {
+                    this.stepsArr.push({
+                        stepNum: 1,
+                            arg: {
+                                blocks: [0, 1],
+                                color: colors.sorted,
+                            },
+                    });
+                }
+
                 this.stepsArr.push({
                     stepNum: 1,
                         arg: {

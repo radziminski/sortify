@@ -52,6 +52,12 @@
         font-size: 1.4rem;
         border-radius: .5rem;
         transition: all 0.15s;
+
+        @include respond(tab-port) {
+            display: block;
+            width: 100%;
+            float: none;
+        }
     }
 }
 
