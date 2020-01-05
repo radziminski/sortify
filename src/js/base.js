@@ -1,4 +1,9 @@
 export const DOMelements = {
+    // Layout
+    loader: document.querySelector('.loader-box'),
+    hideWrapper: document.querySelector('.hide-wrapper'),
+
+    // Blocks
     blocks: document.querySelector('.section-blocks'),
     blocksList: document.querySelector('.section-blocks__list'),
 

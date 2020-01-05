@@ -11,7 +11,8 @@
     border: none;
     transition: all 0.3s;
     cursor: pointer;
-    outline: none;
+    backface-visibility: hidden;
+    
 
     &:hover {
         background-color:rgb(43, 75, 254);
@@ -19,6 +20,7 @@
         /* transform: translateY(-0.2rem) */
 
     &:active {
+        outline: none;
         background-color: rgb(35, 59, 194);
         transition: all 0.1s;
         transform: translateY(0.1rem)
@@ -33,14 +35,12 @@
     
     &--active {
         background-color: #FF43D1;
-    }
-
-    &--active:hover {
-        background-color: rgb(223, 56, 181);
-    }
-
-    &--active:active {
-        background-color: rgb(187, 46, 152);
+        &:hover {
+            background-color: rgb(223, 56, 181);
+        }
+        &:active {
+            background-color: rgb(187, 46, 152);
+        }
     }
 
     &--control {

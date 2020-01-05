@@ -17,6 +17,15 @@ import './../css/animate.min.css';
 
 // WEB INITIALIZATION
 
+// FOUC fix
+document.onreadystatechange = function() { 
+    if (document.readyState === "complete") {
+        DOMelements.loader.style.display = 'none';
+        DOMelements.hideWrapper.style.visibility = 'visible';
+        //elements.hideWrapper.style.opacity = 1;
+    }
+}
+
 highlightSortingBtn(DOMelements.selectSortBtn);
 const state = {
     sorting: false,

@@ -10,11 +10,12 @@
 
 @import "./components/btn";
 @import "./components/inputs";
-@import "./components/nav";
 @import "./components/player";
 @import "./components/blocks-transforms";
 
+@import "./layout/nav";
 @import "./layout/grid";
+@import "./layout/loader";
 
 @import "./pages/home";
 

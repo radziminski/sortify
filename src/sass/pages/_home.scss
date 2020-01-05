@@ -93,13 +93,11 @@
     width: 100%;
     background-color: $color-primary;
     margin: 0;
-    padding: 1rem;
+    padding: 0.8rem;
     text-align: center;
 
     &__author {
         display: inline-block;
-        
         font-size: 1.6rem;
-        padding-bottom: 0.5rem;
     }
 }
