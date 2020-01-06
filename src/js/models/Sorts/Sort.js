@@ -199,9 +199,9 @@ class Sort {
         this.currentStep = 1;
     }
 
-    pause() {
+    pause(sizes = null) {
         this.breakPointer = true;
-
+        //if (sizes) blocksView.renderBlocks(sizes, this.blockWidth, false);
     }
 
 
@@ -344,11 +344,19 @@ class Sort {
             blocksView.renderBlocks(sizes, this.blockWidth, true);
             settingsView.changeToPlayIcon();
             blocksView.toggleBlocksHeight(sizes.length, 0);
+            
             return;
         }
 
+        if (waitTime < 50) {
+            blocksView.disableTransition(sizes.length);
+        } else {
+            blocksView.enableTransition(sizes.length);
+        }
+
         // Creating steps array
-        this.makeSteps(sizes, waitTime, animated, sortType);
+        if (this.currentStep === 1)
+            this.makeSteps(sizes, waitTime, animated, sortType);
 
         // Executing steps
         let completed = false;

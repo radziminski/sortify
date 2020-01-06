@@ -103,6 +103,18 @@ export const renderBlocks = async (sizes, blockWidth, animated = true) => {
 
     
 
-export const clearBlocks = () => {
-    DOMelements.blocksList.innerHTML = '';
-};
+    export const clearBlocks = () => {
+        DOMelements.blocksList.innerHTML = '';
+    };
+
+    export const disableTransition = (blocksNum) => {
+        for (let i = 0; i < blocksNum; i++) {
+            selectBlock(i).classList.add('u-disable-transition');
+        }
+    }
+
+    export const enableTransition = (blocksNum) => {
+        for (let i = 0; i < blocksNum; i++) {
+            selectBlock(i).classList.remove('u-disable-transition');
+        }
+    }

@@ -138,7 +138,10 @@ DOMelements.startSortBtn.addEventListener('click', event => {
     if (!state.sorting) return;
     
     if (settingsView.togglePlayIcon()) state.sorting.sortIt(state.blocks.sizes, getTime(), getAnimate(), getSortType());
-    else state.sorting.pause();
+    else {
+        state.sorting.pause(state.blocks.sizes);
+        console.log(state.blocks.sizes)
+    }
     //state.sorting = true;
 });
 
