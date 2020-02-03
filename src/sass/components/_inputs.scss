@@ -8,6 +8,7 @@
     &__label {
         font-size: 1.6rem;
         padding-top: 0.1rem;
+        width: 14.5rem;
     }
 
     &__slide-input {
@@ -27,17 +28,18 @@
         border: none;
         outline: none;
         color: $color-white;
-        margin-left: .5rem;
         width: 3.2rem;
         height: 2.7rem;
         font-size: 1.6rem;
+        transform: translateX(-40%);
+        text-align: center;
     }
 
     &__values {
         position: absolute;
         top: 0;
-        left: 42%;
-        width: 70%;
+        left: 33%;
+        width: 82%;
     }
 
     &__values-list {
@@ -73,6 +75,11 @@
 
     &--high {
         padding-top: 1.3rem;
+        margin-top: 0.5rem;
+    }
+
+    &--high &__slide-input { 
+        width: 68%;
     }
 
     &--high &__text-input {

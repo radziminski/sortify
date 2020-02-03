@@ -5,19 +5,22 @@
     background-color: $color-primary-dark;
     
     &__items {
-        max-width: 80rem;
+        max-width: 90rem;
         margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        display: block;
+        height: 100%;
     }
     
     &__logo {
-        padding: .8rem;
+        display: inline-block;
         text-align: left;
-        font-size: 3.5rem;
-        color: $color-white;
-        font-family: 'Dancing Script', cursive;
+        margin-top: 0.5rem;
+        height: 90%;
+
+    }
+
+    &__logo-img {
+        height: 100%;
     }
     
 }

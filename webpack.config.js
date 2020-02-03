@@ -44,6 +44,26 @@ module.exports = {
                   'sass-loader',
                 ],
               },
+              {
+                  test: /\.png$/i,
+                  use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: './img',
+                        esModule: false,
+                    }
+                }]
+              },
+              {
+                test: /\.(html)$/,
+                use: {
+                    loader: 'html-loader',
+                    options: {
+                        attrs: ['img:src']
+                    }
+                }
+            }
         ]
     }
 }

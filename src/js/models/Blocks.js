@@ -6,10 +6,10 @@ export default class Blocks {
     }
 
     generateBlocks(minHeight, maxHeight) {
-        let rand;
         this.clearSizes();
         for (let i = 0; i < this.blocksNum; i++) {
-            rand = Math.round((Math.random() * 1000) % (maxHeight - minHeight) + minHeight);
+            let rand = Math.round((Math.random() * 1000) % (maxHeight - minHeight)) + minHeight;
+            if (!rand) rand = minHeight;
             this.sizes.push(rand);
         };
     }

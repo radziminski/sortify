@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Dancing+Script:700&display=swap" rel="stylesheet">
 
+    <link rel="shortcut icon" type="image/png" href="./img/favicon.png"/>
     <title>Sortify</title>
 </head>
 <body>
@@ -22,12 +23,12 @@
         <div class="row">
             <div class="navigation">
                 <div class="navigation__items">
-                    <h1 class="navigation__logo">Sortify</h1>
-                    
-                    <label class="navigation__switch">
+                    <!-- <h1 class="navigation__logo">Sortify</h1> -->
+                    <div class="navigation__logo"><img src="./img/logo.png" alt="Sortify Logo" class="navigation__logo-img"></div>
+                    <!-- <label class="navigation__switch">
                         <input class="navigation__switch-input" type="checkbox">
                         <span class="navigation__switch-span"></span>
-                    </label>
+                    </label> -->
                 </div>
             </div>
         </div>
@@ -86,13 +87,13 @@
                         <div class="slider">
                             <label class="slider__label">Min block height:</label>
                             <input type="text" class="slider__text-input js--blocks-min-height-text" value="20"></input>
-                            <input type="range" class="slider__slide-input js--blocks-min-height-slide" min="1" max="300" value="10"></input>
+                            <input type="range" class="slider__slide-input js--blocks-min-height-slide" min="20" max="400" value="20"></input>
                         </div>
 
                         <div class="slider">
                             <label class="slider__label">Max block height:</label>
-                            <input type="text" class="slider__text-input js--blocks-max-height-text" value="20"></input>
-                            <input type="range" class="slider__slide-input js--blocks-max-height-slide" min="1" max="300" value="10"></input>
+                            <input type="text" class="slider__text-input js--blocks-max-height-text" value="200"></input>
+                            <input type="range" class="slider__slide-input js--blocks-max-height-slide" min="20" max="400" value="200"></input>
                         </div>
 
                         <div class="checkbox">
@@ -110,7 +111,7 @@
                     <div class="col-1-of-2">
                         <div class="u-centered-text"><h2 class="heading-column">Sorting settings</h2></div>
                         <div class="slider slider--high">
-                            <label class="slider__label">Sorting Speed [s]:</label>
+                            <label class="slider__label">Sorting speed:</label>
                             <input type="range" class="slider__slide-input js--sorting-speed-slide" min="1" max="5" value="3"></input>
                             <div class="slider__values">
                                 <ul class="slider__values-list">

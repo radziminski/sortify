@@ -37,11 +37,13 @@ window.state = state;
 
 
 
-//////////////////////////////////
-// CONTROLLERS ///////////////////
-//////////////////////////////////
+//////////////////////////////////////////
+/////////      CONTROLLERS       /////////
+//////////////////////////////////////////
 
-const getBlocksNum = () => DOMelements.inputBlocksNumSlider.value;
+const getBlocksNum = () => parseInt(DOMelements.inputBlocksNumSlider.value);
+const getMinHeight = () => parseInt(DOMelements.inputMinHeightSlider.value);
+const getMaxHeight = () => parseInt(DOMelements.inputMaxHeightSlider.value);
 const getTime = () => {
     switch(DOMelements.inputSortingSpeedSlider.value) {
         case '1':
@@ -62,25 +64,22 @@ const getDisplayHeights = () => DOMelements.inputDisplayHeightsCheckbox.checked;
 
 const renderBlocks = (blocksNum, minHeight = 20, maxHeight = 200) => {
     const contaninerWidth = DOMelements.blocksList.offsetWidth;
-    console.log(contaninerWidth)
     let blockWidth = Math.floor(contaninerWidth / blocksNum * 100) / 100;
-    if (blockWidth > 70) {
-        blockWidth = 70;
-    };
+    blockWidth > 70 ? blockWidth = 70 : null;
+
     state.sorting ? state.sorting.stop() : null;
     state.sorting.blockWidth = blockWidth;
     state.blocks = new Blocks(blocksNum, blockWidth);
 
-    // Generate sizes
+    // Generate blocks sizes
     state.blocks.generateBlocks(minHeight, maxHeight);
 
     // Render Blocks
     blocksView.renderBlocks(state.blocks.sizes, blockWidth);
-
     blocksView.toggleBlocksHeight(state.blocks.blocksNum, getDisplayHeights());
 };
 
-const reRenderBlocks = (minHeight = 20, maxHeight = 500) => {
+const reRenderBlocks = () => {
     // const contaninerWidth = DOMelements.blocks.clientWidth - 65;
     const contaninerWidth = DOMelements.blocksList.offsetWidth;
     let blockWidth = Math.floor(contaninerWidth / state.blocks.blocksNum * 100) / 100;
@@ -92,11 +91,8 @@ const reRenderBlocks = (minHeight = 20, maxHeight = 500) => {
     state.blocks = new Blocks(state.blocks.blocksNum, blockWidth, state.blocks.sizes);
 
     blocksView.renderBlocks(state.blocks.sizes, blockWidth, false);
-
     blocksView.toggleBlocksHeight(state.blocks.blocksNum, getDisplayHeights());
 }
-
-/* Here go controllers */
 
 
 
@@ -157,7 +153,7 @@ DOMelements.generateBlocksBtn.addEventListener('click', event => {
     state.sorting.stop(state.blocks.blocksNum);
     settingsView.changeToPlayIcon();
     //state.sorting = false;
-    renderBlocks(getBlocksNum());
+    renderBlocks(getBlocksNum(), getMinHeight(), getMaxHeight());
 });
 
 DOMelements.shuffleBlocksBtn.addEventListener('click', event => {
@@ -208,15 +204,50 @@ DOMelements.inputSortingSpeedSlider.addEventListener('input', event => {
     
 });
 
+const sliderOverflowCheck = (min, max, type) => {
+    if (max <= min) {
+        if (type === 'max') {
+            DOMelements.inputMinHeightText.value = max;
+            DOMelements.inputMinHeightSlider.value = max;
+        } else {
+            DOMelements.inputMaxHeightText.value = min;
+            DOMelements.inputMaxHeightSlider.value = min;
+        }
+    }
+}
 
+DOMelements.inputMaxHeightSlider.addEventListener('input', event => {
+    DOMelements.inputMaxHeightText.value = event.target.value;
+    sliderOverflowCheck(getMinHeight(), parseInt(event.target.value), 'max');
+});
+
+DOMelements.inputMaxHeightText.addEventListener('input', event => {
+    if (event.target.value < 20) event.target.value = 20;
+    if (event.target.value > 400) event.target.value = 400;
+    DOMelements.inputMaxHeightSlider.value = event.target.value;
+    sliderOverflowCheck(getMinHeight(), parseInt(event.target.value), 'max');
+});
+
+
+DOMelements.inputMinHeightSlider.addEventListener('input', event => {
+    DOMelements.inputMinHeightText.value = event.target.value;
+    sliderOverflowCheck(parseInt(event.target.value), getMaxHeight(), 'min');
+});
+
+DOMelements.inputMinHeightText.addEventListener('input', event => {
+    if (event.target.value < 20) event.target.value = 20;
+    if (event.target.value > 400) event.target.value = 400;
+    DOMelements.inputMinHeightSlider.value = event.target.value;
+    sliderOverflowCheck(parseInt(event.target.value), getMaxHeight(), 'min');
+});
 
 DOMelements.inputDisplayHeightsCheckbox.addEventListener('input', event => {
     blocksView.toggleBlocksHeight(state.blocks.blocksNum, event.target.checked);
-})
+});
 
 window.addEventListener('load', () => {
     state.sorting = new SelectSort(null, false, false);
-    renderBlocks(getBlocksNum());
+    renderBlocks(getBlocksNum(), getMinHeight(), getMaxHeight());
 });
 
 window.addEventListener('resize', () => {
