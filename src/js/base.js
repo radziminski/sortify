@@ -19,6 +19,14 @@ export const DOMelements = {
     heapSortBtn: document.querySelector('.js--heap-btn'),
     raddixSortBtn: document.querySelector('.js--raddix-btn'),
 
+    // Sorting speed slider
+    speedSliderLabels: document.querySelectorAll('.js--speed-slider-label'),
+    speedSliderLabelSupSlow: document.querySelector('.js--speed-slider-label-sslow'),
+    speedSliderLabelSlow: document.querySelector('.js--speed-slider-label-slow'),
+    speedSliderLabelMedium: document.querySelector('.js--speed-slider-label-medium'),
+    speedSliderLabelFast: document.querySelector('.js--speed-slider-label-fast'),
+    speedSliderLabelSupFast: document.querySelector('.js--speed-slider-label-sfast'),
+
     // Adv Settings
     startSortBtn: document.querySelector('.js--play'),
     stopSortBtn: document.querySelector('.js--stop'),
@@ -26,12 +34,15 @@ export const DOMelements = {
     inputBlocksNumSlider: document.querySelector('.js--blocks-num-slide'),
     inputBlocksNumText: document.querySelector('.js--blocks-num-text'),
     inputSortingSpeedSlider: document.querySelector('.js--sorting-speed-slide'),
-    inputSortingSpeedText: document.querySelector('.js--sorting-speed-text'),
     generateBlocksBtn: document.querySelector('.js--generate-blocks-btn'),
     shuffleBlocksBtn: document.querySelector('.js--shuffle-blocks-btn'),
     inputAnimateCheckbox: document.querySelector('.js--animate'),
     inputSortTypeCheckbox: document.querySelector('.js--sort-type'),
     inputDisplayHeightsCheckbox: document.querySelector('.js--display-heights'),
+    inputMinHeightText: document.querySelector('.js--blocks-min-height-text'),
+    inputMinHeightSlider: document.querySelector('.js--blocks-min-height-slide'),
+    inputMaxHeightText: document.querySelector('.js--blocks-max-height-text'),
+    inputMaxHeightSlider: document.querySelector('.js--blocks-max-height-slide'),
 }
 
 export function highlightSortingBtn(btn) {

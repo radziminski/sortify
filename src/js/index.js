@@ -41,21 +41,24 @@ window.state = state;
 // CONTROLLERS ///////////////////
 //////////////////////////////////
 
-const getBlocksNum = () => {
-    return DOMelements.inputBlocksNumSlider.value;
-}
+const getBlocksNum = () => DOMelements.inputBlocksNumSlider.value;
 const getTime = () => {
-    return DOMelements.inputSortingSpeedSlider.value;
+    switch(DOMelements.inputSortingSpeedSlider.value) {
+        case '1':
+            return 1500;
+        case '2':
+            return 700;
+        case '3':
+            return 300;
+        case '4':
+            return 100;
+        case '5':
+            return 50;
+    }
 }
-const getAnimate = () => {
-    return DOMelements.inputAnimateCheckbox.checked;
-}
-const getSortType = () => {
-    return DOMelements.inputSortTypeCheckbox.checked;
-}
-const getDisplayHeights = () => {
-    return DOMelements.inputDisplayHeightsCheckbox.checked;
-}
+const getAnimate = () => DOMelements.inputAnimateCheckbox.checked;
+const getSortType = () => DOMelements.inputSortTypeCheckbox.checked;
+const getDisplayHeights = () => DOMelements.inputDisplayHeightsCheckbox.checked;
 
 const renderBlocks = (blocksNum, minHeight = 20, maxHeight = 200) => {
     const contaninerWidth = DOMelements.blocksList.offsetWidth;
@@ -182,25 +185,30 @@ DOMelements.inputBlocksNumText.addEventListener('input', event => {
 });
 
 DOMelements.inputSortingSpeedSlider.addEventListener('input', event => {
-    DOMelements.inputSortingSpeedText.value = Math.round(event.target.value / 10) / 100;
+    DOMelements.speedSliderLabels.forEach(element => {
+        element.classList.remove('u-highlighted-text');
+    })
+    switch (event.target.value) {
+        case '1':
+            DOMelements.speedSliderLabelSupSlow.classList.add('u-highlighted-text');
+            break;
+        case '2':
+            DOMelements.speedSliderLabelSlow.classList.add('u-highlighted-text');
+            break;
+        case '3':
+            DOMelements.speedSliderLabelMedium.classList.add('u-highlighted-text');
+            break;
+        case '4':
+            DOMelements.speedSliderLabelFast.classList.add('u-highlighted-text');
+            break;
+        case '5':
+            DOMelements.speedSliderLabelSupFast.classList.add('u-highlighted-text');
+            break;
+    }
+    
 });
 
-DOMelements.inputSortingSpeedText.addEventListener('input', event => {
-    const value = event.target.value;
-    if (isNaN(value)) {
-        DOMelements.inputSortingSpeedSlider.value = 400;
-        DOMelements.inputSortingSpeedText.value = 0.4;
-    } else if (value < 0) {
-        DOMelements.inputSortingSpeedSlider.value = 0;
-        DOMelements.inputSortingSpeedText.value = 0;
-    } else if (value > 1) {
-        DOMelements.inputSortingSpeedSlider.value = 1000;
-        DOMelements.inputSortingSpeedText.value = 1;
-    } else {
-        DOMelements.inputSortingSpeedSlider.value = value * 1000;
-        DOMelements.inputSortingSpeedText.value = Math.round(value * 100) / 100;
-    }
-});
+
 
 DOMelements.inputDisplayHeightsCheckbox.addEventListener('input', event => {
     blocksView.toggleBlocksHeight(state.blocks.blocksNum, event.target.checked);

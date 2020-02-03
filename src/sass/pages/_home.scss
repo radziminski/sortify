@@ -49,33 +49,9 @@
             display: flex;
             text-align: center;
             justify-content: center;
+            margin-bottom: 1rem;
 
-
-            .btn--full {
-                &:hover {
-                    transform: scale(1.08);
-                    z-index: 100;
-                }
-
-                @include respond (tab-port) {
-                    height: 7rem;
-                    padding: 0 1rem;
-                }
-                @include respond (small-phone) {
-                    width: 5rem;
-                }
-            }
-
-            .btn--full:first-child {
-                border-left: 0;
-                border-top-left-radius: 2rem;
-                border-bottom-left-radius: 2rem;
-            }
             
-            .btn--full:last-child {
-                border-top-right-radius: 2rem;
-                border-bottom-right-radius: 2rem;
-            }
         }
     }
 }

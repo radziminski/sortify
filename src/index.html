@@ -60,57 +60,76 @@
 
         <div class="row">
             <div class="section-controls__sorting-buttons">
-                <button class="btn btn--full js--sort-btn js--bubble-btn">Bubble Sort</button>
-                <button class="btn btn--full js--sort-btn js--select-btn active">Selection Sort</button>
-                <button class="btn btn--full js--sort-btn js--insert-btn">Insert Sort</button>
-                <button class="btn btn--full js--sort-btn js--quick-btn">Quick Sort</button>
-                <button class="btn btn--full js--sort-btn js--merge-btn">Merge Sort</button>
-                <button class="btn btn--full js--sort-btn js--heap-btn">Heap Sort</button>
-                <button class="btn btn--full js--sort-btn js--raddix-btn">Raddix Sort</button>
+                <button class="btn btn--full btn--inline js--sort-btn js--bubble-btn">Bubble Sort</button>
+                <button class="btn btn--full btn--inline js--sort-btn js--select-btn active">Selection Sort</button>
+                <button class="btn btn--full btn--inline js--sort-btn js--insert-btn">Insert Sort</button>
+                <button class="btn btn--full btn--inline js--sort-btn js--quick-btn">Quick Sort</button>
+                <button class="btn btn--full btn--inline js--sort-btn js--merge-btn">Merge Sort</button>
+                <button class="btn btn--full btn--inline js--sort-btn js--heap-btn">Heap Sort</button>
+                <button class="btn btn--full btn--inline js--sort-btn js--raddix-btn">Raddix Sort</button>
             </div>
         </div>
         
         <div class="section-controls__settings">
-            <div class="row">
+            <!-- <div class="row">
                 <h2 class="heading-section">Settings</h2>
-            </div>
+            </div> -->
             <div class="row">
                     <div class="col-1-of-2">
+                        <div class="u-centered-text"><h2 class="heading-column">Blocks settings</h2></div>
                         <div class="slider">
                             <label class="slider__label">Number of blocks:</label>
                             <input type="text" class="slider__text-input js--blocks-num-text" value="20"></input>
                             <input type="range" class="slider__slide-input js--blocks-num-slide" min="2" max="500" value="20"></input>
                         </div>
-    
+
                         <div class="slider">
-                            <label class="slider__label">Sorting Speed [s]:</label>
-                            <input type="text" class="slider__text-input js--sorting-speed-text" value="0.4"></input>
-                            <input type="range" class="slider__slide-input js--sorting-speed-slide" min="1" max="1000" value="400"></input>
+                            <label class="slider__label">Min block height:</label>
+                            <input type="text" class="slider__text-input js--blocks-min-height-text" value="20"></input>
+                            <input type="range" class="slider__slide-input js--blocks-min-height-slide" min="1" max="300" value="10"></input>
+                        </div>
+
+                        <div class="slider">
+                            <label class="slider__label">Max block height:</label>
+                            <input type="text" class="slider__text-input js--blocks-max-height-text" value="20"></input>
+                            <input type="range" class="slider__slide-input js--blocks-max-height-slide" min="1" max="300" value="10"></input>
+                        </div>
+
+                        <div class="checkbox">
+                            <div class="checkbox__label-text">Show heights:</div>
+                            <input class="checkbox__input animated js--display-heights" type="checkbox" id="heights">
+                            <label class="checkbox__toggle" for="heights"><span></span></label>
                         </div>
     
-                        <div class="u-two-buttons">
+                        <div class="u-two-row-elements">
                             <button class="btn btn--control js--generate-blocks-btn">Generate New Blocks</button>
                             <button class="btn btn--control js--shuffle-blocks-btn">Shuffle Current Blocks</button>
                         </div>
                         
                     </div>
                     <div class="col-1-of-2">
+                        <div class="u-centered-text"><h2 class="heading-column">Sorting settings</h2></div>
+                        <div class="slider slider--high">
+                            <label class="slider__label">Sorting Speed [s]:</label>
+                            <input type="range" class="slider__slide-input js--sorting-speed-slide" min="1" max="5" value="3"></input>
+                            <div class="slider__values">
+                                <ul class="slider__values-list">
+                                    <li class="slider__value js--speed-slider-label js--speed-slider-label-sslow">super-slow</li>
+                                    <li class="slider__value js--speed-slider-label js--speed-slider-label-slow">slow</li>
+                                    <li class="slider__value u-highlighted-text js--speed-slider-label js--speed-slider-label-medium">medium</li>
+                                    <li class="slider__value js--speed-slider-label js--speed-slider-label-fast">&nbsp;fast</li>
+                                    <li class="slider__value js--speed-slider-label js--speed-slider-label-sfast">super-fast</li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="checkbox">
-                            <label class="checkbox__label">Animated:</label>
-                            <input class="checkbox__input animated js--animate" type="checkbox" checked>
+                            <div class="checkbox__label-text">Animated:</div>
+                            <input class="checkbox__input animated js--animate" type="checkbox" id="animate" checked>
+                            <label class="checkbox__toggle" for="animate"><span></span></label>
                         </div>
                         <div class="checkbox">
                             <label class="checkbox__label">Sorting type:</label>
                             <input class="checkbox__input animated js--sort-type" type="checkbox" >
-                        </div>
-                        <div class="checkbox">
-                            <label class="checkbox__label">Show heights:</label>
-                            <input class="checkbox__input animated js--display-heights" type="checkbox" >
-                        </div>
-                        <div class="slider">
-                            <label class="slider__label">Sth:</label>
-                            <input type="text" class="slider__text-input" value="5"></input>
-                            <input type="range" class="slider__slide-input" min="1" max="10" value="5"></input>
                         </div>
                     </div>
             </div>

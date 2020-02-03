@@ -35,7 +35,7 @@
     padding-left: 5rem;
 }
 
-.u-two-buttons {
+.u-two-row-elements {
     padding: 0 2rem;
     @include clearfix;
     button:first-child {
@@ -48,4 +48,10 @@
 
 .u-disable-transition {
     transition: none !important;
+}
+
+.u-highlighted-text {
+    opacity: 1 !important; 
+    transform: translateX(-50%) translateY(-3px) scale(1.12) !important;
+
 }

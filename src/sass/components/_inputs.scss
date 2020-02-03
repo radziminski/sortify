@@ -3,6 +3,7 @@
     display: flex;
     vertical-align: middle;
     justify-content: space-between;
+    position: relative;
 
     &__label {
         font-size: 1.6rem;
@@ -10,10 +11,11 @@
     }
 
     &__slide-input {
-        width: 63%;
+        width: 60%;
         opacity: 0.75;
         transition: opacity 0.2s;
         cursor: pointer;
+        
     }
 
     &__slide-input:hover {
@@ -29,6 +31,52 @@
         width: 3.2rem;
         height: 2.7rem;
         font-size: 1.6rem;
+    }
+
+    &__values {
+        position: absolute;
+        top: 0;
+        left: 42%;
+        width: 70%;
+    }
+
+    &__values-list {
+        list-style: none;
+        position: relative;
+
+    }
+
+    &__value {
+        font-size: 1.1rem;
+        color: $color-white;
+        opacity: 0.8;
+        position: absolute;
+        transform: translateX(-50%);
+        transition: all 0.2s;
+
+        &:nth-child(1) {
+            left: 0;
+        }
+        &:nth-child(2) {
+            left: 20%;
+        }
+        &:nth-child(3) {
+            left: 40%;
+        }
+        &:nth-child(4) {
+            left: 60%;
+        }
+        &:nth-child(5) {
+            left: 80%;
+        }
+    }
+
+    &--high {
+        padding-top: 1.3rem;
+    }
+
+    &--high &__text-input {
+        font-size: 1.2rem;
     }
 }
 
@@ -47,15 +95,82 @@
     vertical-align: bottom;
     justify-content: flex-start;
     
-    &__label {
+    &__label-text {
         font-size: 1.6rem;
         padding-top: 0.1rem;
+        width: 14.5rem;
+    }
+
+    &__toggle {
+        position: relative;
+        display: block;
+        width: 3.6rem;
+        height: 2rem;
+        cursor: pointer;
+        margin-top: 0.5rem;
+
+        &:before {
+            content: "";
+            position: relative;
+            top: 0.3rem;
+            left: 0.3rem;
+            width: 3.6rem;
+            height: 1rem;
+            display: block;
+            background-color: $color-gray;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1.7rem;
+            height: 1.7rem;
+            display: block;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 3px 8px rgba($color-gray, 0.5);
+            transition: all 0.2s ease;
+
+            &:before {
+                content: "";
+                position: absolute;
+                display: block;
+                margin: -1.8rem;
+                width: 5.6rem;
+                height: 5.6rem;
+                background-color: rgba($color-white, 0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                opacity: 1;
+                pointer-events: none;
+            }
+        }
+    }
+
+    &__input:checked + &__toggle {
+
+        &:before {
+            background: $color-primary-light;
+        }
+
+        span {
+            background-color: $color-white;
+            transform: translateX(2.3rem);
+            transition: all 0.2s, background-color 0.15s ease;
+            box-shadow: 0 3px 8px rgba($color-white, 0.3);
+
+            &:before {
+                transform: scale(1);
+                opacity: 0;
+                transition: all 0.4s ease;
+            }
+        }
     }
 
     &__input {
-        padding: .5rem;
-        margin-left: 4rem;
-        margin-top: .7rem;
-        cursor: pointer;
+        display: none;
     }
 }

@@ -83,9 +83,11 @@ export const renderBlocks = async (sizes, blockWidth, animated = true) => {
         for (let i = 0; i < blocksNum; i++) {
             const block = selectBlock(i);
             if (!show) {
-                block.innerHTML = " ";
+                //block.innerHTML = `<div style="animation: fadeOut 0.1s; animation-fill-mode: forwards;">${parseInt(block.style.height)}</div>`;
+                block.innerHTML = ` `;
             } else {
-                block.innerHTML = parseInt(block.style.height);
+               //block.innerHTML = `<div style="animation: fadeIn 0.1s;">${parseInt(block.style.height)}</div>`;
+               block.innerHTML = `${parseInt(block.style.height)}`;
                 if (blocksNum > 25) block.style.fontSize = '1.2rem';
                 if (blocksNum > 35) block.style.fontSize = '0.9rem';
                 if (blocksNum > 50) block.style.fontSize = '0.6rem';
@@ -100,8 +102,6 @@ export const renderBlocks = async (sizes, blockWidth, animated = true) => {
         selectBlock(blockA).style.backgroundColor = selectBlock(blockB).style.backgroundColor;
         selectBlock(blockB).style.backgroundColor = colorTemp;
     }
-
-    
 
     export const clearBlocks = () => {
         DOMelements.blocksList.innerHTML = '';

@@ -26,10 +26,52 @@
         transform: translateY(0.1rem)
     }
 
+    &:focus {
+        outline: none;
+    }
+
     &--full {
         width: 15rem;
         border-radius: 0;
         //border-left: 1px solid $color-black;
+    }
+
+    &--inline {
+        &:hover {
+            //transform: scale(1.08);
+            z-index: 100;
+        }
+
+        &:active {
+            outline: none;
+        }
+
+        @include respond (tab-port) {
+            height: 7rem;
+            padding: 0 1rem;
+        }
+        @include respond (small-phone) {
+            width: 5rem;
+        }
+
+        &:first-child {
+            border-left: 0;
+            border-top-left-radius: 2rem;
+            border-bottom-left-radius: 2rem;
+
+            &:active {
+                outline: none;
+            }
+        }
+        
+        &:last-child {
+            border-top-right-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+        }
+
+        &:focus {
+            outline: none;
+        }
     }
 
     
@@ -40,6 +82,9 @@
         }
         &:active {
             background-color: rgb(187, 46, 152);
+        }
+        &:focus {
+            outline: none;
         }
     }
 
