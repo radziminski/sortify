@@ -10,7 +10,7 @@
         
         &__list {
             max-width: 110rem;
-            height: 45rem;
+            height: 42rem;
             margin: 0 auto ;
             padding: 2rem 0 0 0;
             list-style: none;
@@ -42,7 +42,8 @@
     &-controls {
         width: 100%;
         background-color: $color-primary-dark;
-        padding-bottom: 5rem;
+        padding-bottom: 2rem;
+        
 
         &__sorting-buttons {
             flex: 1 1 0;
@@ -50,8 +51,22 @@
             text-align: center;
             justify-content: center;
             margin-bottom: 1rem;
+        }
 
-            
+        &__settings {
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        &__divider {
+            position: absolute;
+            height: 70%;
+            width: 2px;
+            background-color: $color-gray;
+            opacity: 0.25;
+            right: 50%;
+            top: 50%;
+            transform: translateY(-55%);
         }
     }
 }

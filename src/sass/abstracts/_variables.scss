@@ -1,9 +1,14 @@
 // COLORS
 $color-primary: #2B90FE;
-$color-primary-light: #2B90FE;
+$color-primary-medium-1: rgb(43, 75, 254);
+$color-primary-medium-2: rgb(35, 59, 194);
+$color-primary-light: rgb(98, 129, 230);
 $color-primary-dark: #141414;
 
-$color-secondary: #65939c;
+//$color-secondary: rgb(221, 2, 166);
+$color-secondary: #FF43D1;
+$color-secondary-medium-1: rgb(223, 56, 181); 
+$color-secondary-medium-2: rgb(187, 46, 152);
 
 $color-gray-dark: #333;
 $color-white: rgb(255, 255, 255);
@@ -11,6 +16,9 @@ $color-black: #000;
 $color-gray-light: rgb(244, 244, 244);
 $color-gray-medium: rgb(211, 211, 211);
 $color-gray: #555;
+
+// Gradient
+$background-grad: linear-gradient(to top left, rgba($color-primary-light, 0.8), rgba($color-primary, 0.8));
 
 // GRID
 $grid-width: 114rem;

@@ -8,7 +8,7 @@
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development --open",
-    "git:update": "git add . && git commit -m \"Logo update\" && git push",
+    "git:update": "git add . && git commit -m \"Styling changes\" && git push",
     "full-deploy": "npm run build && npm run git:update && npm run deploy"
   },
   "author": "Jan Radzimiński",

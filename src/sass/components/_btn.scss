@@ -4,7 +4,8 @@
     padding: 1rem 0;
     width: 12rem;
     height: 4rem;
-    background-color: #2B90FE;
+    background-color: $color-primary;
+    
     border-radius: 2rem;
     color: $color-white;
     font-size: 1.5rem;
@@ -15,13 +16,13 @@
     
 
     &:hover {
-        background-color:rgb(43, 75, 254);
+        background-color: $color-primary-medium-1;
     }
         /* transform: translateY(-0.2rem) */
 
     &:active {
         outline: none;
-        background-color: rgb(35, 59, 194);
+        background-color: $color-primary-medium-2;
         transition: all 0.1s;
         transform: translateY(0.1rem)
     }
@@ -76,19 +77,21 @@
 
     
     &--active {
-        background-color: #FF43D1;
+        background-color: $color-secondary;
+        
         &:hover {
-            background-color: rgb(223, 56, 181);
+            background-color: $color-secondary-medium-1;
         }
         &:active {
-            background-color: rgb(187, 46, 152);
+            background-color: $color-secondary-medium-2;
         }
         &:focus {
             outline: none;
         }
     }
-
+    
     &--control {
+        
         width: 23.5rem;
         height: 3rem;
         margin-top: .8rem;
@@ -103,6 +106,8 @@
             width: 100%;
             float: none;
         }
+
+        
     }
 }
 

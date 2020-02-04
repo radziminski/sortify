@@ -14,7 +14,6 @@ import './../css/animate.min.css';
 
 
 
-
 // WEB INITIALIZATION
 
 // FOUC fix
@@ -41,6 +40,7 @@ window.state = state;
 /////////      CONTROLLERS       /////////
 //////////////////////////////////////////
 
+
 const getBlocksNum = () => parseInt(DOMelements.inputBlocksNumSlider.value);
 const getMinHeight = () => parseInt(DOMelements.inputMinHeightSlider.value);
 const getMaxHeight = () => parseInt(DOMelements.inputMaxHeightSlider.value);
@@ -59,7 +59,7 @@ const getTime = () => {
     }
 }
 const getAnimate = () => DOMelements.inputAnimateCheckbox.checked;
-const getSortType = () => DOMelements.inputSortTypeCheckbox.checked;
+const getSortType = () => DOMelements.inputSortTypeDesCheckbox.checked;
 const getDisplayHeights = () => DOMelements.inputDisplayHeightsCheckbox.checked;
 
 const renderBlocks = (blocksNum, minHeight = 20, maxHeight = 200) => {
@@ -223,7 +223,7 @@ DOMelements.inputMaxHeightSlider.addEventListener('input', event => {
 
 DOMelements.inputMaxHeightText.addEventListener('input', event => {
     if (event.target.value < 20) event.target.value = 20;
-    if (event.target.value > 400) event.target.value = 400;
+    if (event.target.value > 300) event.target.value = 300;
     DOMelements.inputMaxHeightSlider.value = event.target.value;
     sliderOverflowCheck(getMinHeight(), parseInt(event.target.value), 'max');
 });
@@ -236,7 +236,7 @@ DOMelements.inputMinHeightSlider.addEventListener('input', event => {
 
 DOMelements.inputMinHeightText.addEventListener('input', event => {
     if (event.target.value < 20) event.target.value = 20;
-    if (event.target.value > 400) event.target.value = 400;
+    if (event.target.value > 300) event.target.value = 300;
     DOMelements.inputMinHeightSlider.value = event.target.value;
     sliderOverflowCheck(parseInt(event.target.value), getMaxHeight(), 'min');
 });
