@@ -7,6 +7,7 @@ import * as blocksView from "./views/blocksView";
 import SelectSort from "./models/Sorts/SelectSort";
 import BubbleSort from "./models/Sorts/BubbleSort";
 import InsertSort from "./models/Sorts/InsertSort";
+import QuickSort from './models/Sorts/QuickSort';
 import { DOMelements, selectBlock, colors, togglePlayIcon, highlightSortingBtn } from "./base";
 import * as settingsView from "./views/settingsView";
 import './../sass/main.scss';  
@@ -119,6 +120,7 @@ DOMelements.sortingButtons.addEventListener('click', event => {
             break;
         case DOMelements.quickSortBtn:
             highlightSortingBtn(selectedBtn);
+            state.sorting = new QuickSort(state.blocks.blockWidth, false, false);
             break;
         case DOMelements.mergeSortBtn:
             highlightSortingBtn(selectedBtn);

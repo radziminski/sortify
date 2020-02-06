@@ -67,6 +67,51 @@
             right: 50%;
             top: 50%;
             transform: translateY(-55%);
+
+            @include respond(tab-port) {
+                display: none;
+            }
+        }
+
+        &__col-title {
+            text-align: center;
+            width: 100%;
+            position: relative;
+
+            &:before, 
+            &:after {
+                content: "";
+                display: block;
+                height: 2px;
+                background-color: $color-gray;
+                width: 34%;
+                opacity: 0.3;
+                position: absolute;
+                top: 40%;
+                transform: translateY(-50%);
+
+                @include respond(tab-port) {
+                    width: 38%;
+                    opacity: 0.5;
+                }
+
+                @include respond(phone) {
+                    width: 30%;
+                }
+                @include respond(small-phone) {
+                    width: 25%;
+                }
+            }
+
+            &:before {
+                left: 0;
+            }
+
+            &:after {
+                right: 0;
+            }
+
+            
         }
     }
 }
