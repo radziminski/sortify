@@ -7,24 +7,28 @@
         width: 100%;
         background-color: $color-white;
         overflow: hidden;
-        
+
         &__list {
             max-width: 110rem;
             height: 42rem;
-            margin: 0 auto ;
+            margin: 0 auto;
             padding: 2rem 0 0 0;
             list-style: none;
             display: flex;
             align-items: flex-end;
             justify-content: center;
+
+            @include respond(small-deskt) {
+                height: 35rem;
+            }
         }
-        
+
         &__list li {
             flex: 0 0 auto;
             display: inline-block;
             padding: 0;
             background-color: transparent;
-            margin: 1rem .8rem 0 .8rem;
+            margin: 1rem 0.8rem 0 0.8rem;
             width: 3rem;
             height: 5rem;
             vertical-align: bottom;
@@ -32,18 +36,14 @@
 
             font-size: 1.8rem;
             text-align: center;
-            transform:translate(0px,0rem);
+            transform: translate(0px, 0rem);
         }
-
-    
     }
-    
 
     &-controls {
         width: 100%;
         background-color: $color-primary-dark;
         padding-bottom: 2rem;
-        
 
         &__sorting-buttons {
             flex: 1 1 0;
@@ -51,6 +51,28 @@
             text-align: center;
             justify-content: center;
             margin-bottom: 1rem;
+        }
+
+        &__performance-info {
+            font-size: 1.6rem;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            width: 60%;
+            margin: 0 auto;
+        }
+
+        &__performance-block {
+            width: 45%;
+            text-align: center;
+
+            &:nth-child(2) {
+                width: 2%;
+            }
+
+            &:nth-child(3) {
+                width: 45%;
+            }
         }
 
         &__settings {
@@ -78,9 +100,9 @@
             width: 100%;
             position: relative;
 
-            &:before, 
+            &:before,
             &:after {
-                content: "";
+                content: '';
                 display: block;
                 height: 2px;
                 background-color: $color-gray;
@@ -110,9 +132,8 @@
             &:after {
                 right: 0;
             }
-
-            
         }
+
     }
 }
 

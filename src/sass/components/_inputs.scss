@@ -257,10 +257,10 @@
         &:after {
             content: '';
             position: absolute;
-            top: 0.3rem;
-            left: 0.3rem;
-            width: 1rem;
-            height: 1rem;
+            top: 15%;
+            left: 15%;
+            width: 10px;
+            height: 10px;
             border-radius: 100%;
             background-color: $color-primary;
             transform: scale(0);

@@ -7,6 +7,9 @@ export const DOMelements = {
     blocks: document.querySelector('.section-blocks'),
     blocksList: document.querySelector('.section-blocks__list'),
 
+    // Performance
+    comparisonsNum: document.querySelector('.js--comp-num'),
+
     // Sorting Btns
     buttons: document.querySelector('.section-controls__sorting-buttons'),
     allSortingBtns: document.querySelectorAll('.js--sort-btn'),
@@ -43,16 +46,9 @@ export const DOMelements = {
     inputMinHeightText: document.querySelector('.js--blocks-min-height-text'),
     inputMinHeightSlider: document.querySelector('.js--blocks-min-height-slide'),
     inputMaxHeightText: document.querySelector('.js--blocks-max-height-text'),
-    inputMaxHeightSlider: document.querySelector('.js--blocks-max-height-slide'),
-}
+    inputMaxHeightSlider: document.querySelector('.js--blocks-max-height-slide')
+};
 
-export function highlightSortingBtn(btn) {
-    const allBtns = DOMelements.allSortingBtns;
-    for (let i = 0; i < allBtns.length; i++) {
-        allBtns[i].classList.remove('btn--active');
-    };
-    btn.classList.add('btn--active');
-}
 
 export const colors = {
     default: '#2B90FE',
@@ -69,25 +65,8 @@ export const colors = {
     // dark: '#2c3e50',
     // light: '#3a536b',
     // accent: '#65939c'
-}
+};
 
 export const selectBlock = id => {
     return document.querySelector(`.id-${id}`);
-}
-
-
-
-
-export const animateCSS = (element, animationName, callback) => {
-    const node = document.querySelector(element)
-    node.classList.add('animated', animationName)
-
-    function handleAnimationEnd() {
-        node.classList.remove('animated', animationName)
-        node.removeEventListener('animationend', handleAnimationEnd)
-
-        if (typeof callback === 'function') callback()
-    }
-
-    node.addEventListener('animationend', handleAnimationEnd)
-}
+};

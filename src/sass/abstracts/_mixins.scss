@@ -56,7 +56,7 @@
     }
 
     @if ($breakpoint) == small-deskt {  // 1440 px
-        @media (max-width: 90em) {
+        @media (max-width: 100em) {
             @content;
         }
     }

@@ -11,7 +11,7 @@ export default class Blocks {
             let rand = Math.round((Math.random() * 1000) % (maxHeight - minHeight)) + minHeight;
             if (!rand) rand = minHeight;
             this.sizes.push(rand);
-        };
+        }
     }
 
     blocksShuffle() {

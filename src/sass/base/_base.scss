@@ -10,6 +10,9 @@ html {
     // This defines what 1rem is (currently 10px)
     font-size: 62.5%;
     
+    @include respond(small-deskt) {
+        font-size: 60%;
+    }
     @include respond(tab-land) {
         font-size: 58%;
     }

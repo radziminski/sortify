@@ -23,7 +23,6 @@ class InsertSort extends Sort {
     }
 
     async makeSteps(sizesOrig, waitTime, animated = true, sortType = true) {
-        return new Promise(async (resolve, reject) => {
             this.stepsArr = [];
             this.stepsArr.push({
                 stepNum: 'initial settings',
@@ -99,6 +98,12 @@ class InsertSort extends Sort {
                 }
                 sizes[k] = markedBlockHeight;
                 this.stepsArr.push({
+                    stepNum: 0,
+                        arg: {
+                            waitTime: 50,
+                        },
+                });
+                this.stepsArr.push({
                     stepNum: 1,
                         arg: {
                             blocks: [k],
@@ -115,8 +120,7 @@ class InsertSort extends Sort {
 
                 
             }
-            resolve();
-        });
+            return true;
     }
 
     async stop(blocksNum = 0) {

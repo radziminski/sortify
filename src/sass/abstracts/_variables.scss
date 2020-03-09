@@ -18,7 +18,8 @@ $color-gray-medium: rgb(211, 211, 211);
 $color-gray: #555;
 
 // Gradient
-$background-grad: linear-gradient(to top left, rgba($color-primary-light, 0.8), rgba($color-primary, 0.8));
+$background-grad: linear-gradient(to top, rgba($color-primary-light, 0.8), rgba($color-primary, 0.8));
+$background-grad-2: linear-gradient(to top, rgba($color-primary-light, 1), rgba($color-primary, 1));
 
 // GRID
 $grid-width: 114rem;

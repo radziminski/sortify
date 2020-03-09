@@ -65,6 +65,12 @@ class BubbleSort extends Sort {
                     },
                 });
 
+                this.stepsArr.push({
+                    stepNum: 10,
+                    arg: {
+                    },
+                });
+
                 if (sortType && sizes[i] < sizes[i + 1] ||
                     !sortType && sizes[i] > sizes[i + 1]) {
                         console.log('true')

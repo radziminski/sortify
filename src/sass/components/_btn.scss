@@ -1,10 +1,11 @@
 .btn {
     display: inline-block;
     margin: 0;
-    padding: 1rem 0;
+    padding: 1.2rem 0;
     width: 12rem;
-    height: 4rem;
     background-color: $color-primary;
+    // background-color: transparent;
+    // background-image: $background-grad-2;
     
     border-radius: 2rem;
     color: $color-white;
@@ -32,7 +33,7 @@
     }
 
     &--full {
-        width: 15rem;
+        width: 17rem;
         border-radius: 0;
         //border-left: 1px solid $color-black;
     }
