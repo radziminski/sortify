@@ -59,6 +59,12 @@
         </div>
 
         <div class="row">
+            <div class="section-controls__performance-info">
+                <span class="section-controls__performance-block">Number of comparisons:&ensp;<span class="js--comp-num">0</span></span><span class="section-controls__performance-block">|</span><span class="section-controls__performance-block">Average comparisons - <span class="js--complexity">O(n)</span>:&ensp;<span class="js--arr-access">0</span></span>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="section-controls__sorting-buttons">
                 <button class="btn btn--full btn--inline js--sort-btn js--bubble-btn">Bubble Sort</button>
                 <button class="btn btn--full btn--inline js--sort-btn js--select-btn active">Selection Sort</button>
@@ -66,7 +72,6 @@
                 <button class="btn btn--full btn--inline js--sort-btn js--quick-btn">Quick Sort</button>
                 <button class="btn btn--full btn--inline js--sort-btn js--merge-btn">Merge Sort</button>
                 <button class="btn btn--full btn--inline js--sort-btn js--heap-btn">Heap Sort</button>
-                <button class="btn btn--full btn--inline js--sort-btn js--raddix-btn">Raddix Sort</button>
             </div>
         </div>
         
@@ -79,20 +84,20 @@
                         <div class="section-controls__col-title u-margin-bottom-small-2"><h2 class="heading-column">Blocks settings</h2></div>
                         <div class="slider">
                             <label class="slider__label">Number of blocks:</label>
-                            <input type="text" class="slider__text-input js--blocks-num-text" value="20"></input>
-                            <input type="range" class="slider__slide-input js--blocks-num-slide" min="2" max="300" value="20"></input>
+                            <input type="text" class="slider__text-input js--blocks-num-text" value="20" />
+                            <input type="range" class="slider__slide-input js--blocks-num-slide" min="2" max="300" value="20" />
                         </div>
 
                         <div class="slider">
                             <label class="slider__label">Min block height:</label>
-                            <input type="text" class="slider__text-input js--blocks-min-height-text" value="20"></input>
-                            <input type="range" class="slider__slide-input js--blocks-min-height-slide" min="20" max="300" value="20"></input>
+                            <input type="text" class="slider__text-input js--blocks-min-height-text" value="20" />
+                            <input type="range" class="slider__slide-input js--blocks-min-height-slide" min="20" max="300" value="20" />
                         </div>
 
                         <div class="slider">
                             <label class="slider__label">Max block height:</label>
-                            <input type="text" class="slider__text-input js--blocks-max-height-text" value="200"></input>
-                            <input type="range" class="slider__slide-input js--blocks-max-height-slide" min="20" max="300" value="200"></input>
+                            <input type="text" class="slider__text-input js--blocks-max-height-text" value="200" />
+                            <input type="range" class="slider__slide-input js--blocks-max-height-slide" min="20" max="300" value="200" />
                         </div>
 
                         <div class="checkbox">
@@ -112,14 +117,14 @@
                         <div class="section-controls__col-title"><h2 class="heading-column">Sorting settings</h2></div>
                         <div class="slider slider--high">
                             <label class="slider__label">Sorting speed:</label>
-                            <input type="range" class="slider__slide-input js--sorting-speed-slide" min="1" max="5" value="3"></input>
+                            <input type="range" class="slider__slide-input js--sorting-speed-slide" min="1" max="5" value="3" />
                             <div class="slider__values">
                                 <ul class="slider__values-list">
                                     <li class="slider__value js--speed-slider-label js--speed-slider-label-sslow">super-slow</li>
                                     <li class="slider__value js--speed-slider-label js--speed-slider-label-slow">slow</li>
                                     <li class="slider__value u-highlighted-text js--speed-slider-label js--speed-slider-label-medium">medium</li>
                                     <li class="slider__value js--speed-slider-label js--speed-slider-label-fast">&nbsp;fast</li>
-                                    <li class="slider__value js--speed-slider-label js--speed-slider-label-sfast">super-fast</li>
+                                    <li class="slider__value js--speed-slider-label js--speed-slider-label-sfast">instant</li>
                                 </ul>
                             </div>
                         </div>

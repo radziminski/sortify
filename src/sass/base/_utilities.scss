@@ -41,13 +41,10 @@
 }
 
 .u-two-row-elements {
-    padding: 0 2rem;
-    @include clearfix;
-    button:first-child {
-        float: left;
-    }
-    button:last-child {
-        float: right;
+    display: flex;
+    justify-content: space-around;
+    @include respond(tab-port) {
+        flex-direction: column;
     }
 }
 

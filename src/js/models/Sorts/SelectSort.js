@@ -3,7 +3,7 @@ import { colors } from '../../base';
 import * as blocksView from '../../views/blocksView';
 import * as settingsView from '../../views/settingsView';
 
-class SelectSortView extends Sort {
+class SelectSort extends Sort {
     constructor(blockWidth, breakPointer) {
         super(blockWidth, breakPointer);
     }
@@ -20,7 +20,7 @@ class SelectSortView extends Sort {
         settingsView.setComparisonNum(comparisonsNum);
     }
 
-    async makeSteps(sizesOrig, waitTime, animated = true, sortType = true) {
+    makeSteps(sizesOrig, waitTime, animated = true, sortType = true) {
         this.stepsArr = [];
         this.stepsArr.push({
             stepNum: 'initial settings',
@@ -31,13 +31,10 @@ class SelectSortView extends Sort {
         for (let currentBlock = 0; currentBlock < sizes.length; currentBlock++) {
             // coloring already sorted previous block
             currentBlock > 0
-                ? this.stepsArr.push({
-                      stepNum: 1,
-                      arg: {
-                          color: colors.sorted,
-                          blocks: [currentBlock - 1]
-                      }
-                  })
+                ? this.addStep('colorBlocks', {
+                    color: colors.sorted,
+                    blocks: [currentBlock - 1]
+                  })  
                 : null;
 
             // wait if not in first iteration
@@ -50,13 +47,11 @@ class SelectSortView extends Sort {
                 });
 
             // highliting current block
-            this.stepsArr.push({
-                stepNum: 1,
-                arg: {
-                    color: 'red',
+            this.addStep('colorBlocks', {
+                    color: colors.current,
                     blocks: [currentBlock]
-                }
             });
+
             this.stepsArr.push({
                 stepNum: 0,
                 arg: {
@@ -74,12 +69,9 @@ class SelectSortView extends Sort {
                 let max = currentBlock;
                 for (let nextBlock = currentBlock + 1; nextBlock < sizesOrig.length; nextBlock++) {
                     // coloring block that we are currently investigating for being max / min
-                    this.stepsArr.push({
-                        stepNum: 1,
-                        arg: {
+                    this.addStep('colorBlocks', {
                             color: colors.highlight,
                             blocks: [nextBlock]
-                        }
                     });
                     this.stepsArr.push({
                         stepNum: 10,
@@ -99,21 +91,15 @@ class SelectSortView extends Sort {
                     ) {
                         // if yes coloring it and clearing previous max
                         if (max !== currentBlock) {
-                            this.stepsArr.push({
-                                stepNum: 1,
-                                arg: {
+                            this.addStep('colorBlocks', {
                                     color: colors.default,
                                     blocks: [max]
-                                }
                             });
                         }
 
-                        this.stepsArr.push({
-                            stepNum: 1,
-                            arg: {
+                        this.addStep('colorBlocks', {
                                 color: colors.chosen,
                                 blocks: [nextBlock]
-                            }
                         });
 
                         // and updating current max / min
@@ -126,12 +112,9 @@ class SelectSortView extends Sort {
                         });
                     } else {
                         // if not clearing hgighlight
-                        this.stepsArr.push({
-                            stepNum: 1,
-                            arg: {
+                        this.addStep('colorBlocks', {
                                 color: colors.default,
                                 blocks: [nextBlock]
-                            }
                         });
                         this.stepsArr.push({
                             stepNum: 0,
@@ -166,12 +149,9 @@ class SelectSortView extends Sort {
                 });
 
                 // highliting found max / min block
-                this.stepsArr.push({
-                    stepNum: 1,
-                    arg: {
-                        color: 'red',
+                this.addStep('colorBlocks', {
+                        color: colors.current,
                         blocks: [maxBlock]
-                    }
                 });
 
                 // swapping future array values
@@ -226,12 +206,9 @@ class SelectSortView extends Sort {
                 });
 
                 //???
-                this.stepsArr.push({
-                    stepNum: 1,
-                    arg: {
+                this.addStep('colorBlocks', {
                         color: colors.default,
                         blocks: [sizesOrig.length - 1]
-                    }
                 });
             }
 
@@ -243,22 +220,16 @@ class SelectSortView extends Sort {
             });
 
             // clearing colors
-            this.stepsArr.push({
-                stepNum: 1,
-                arg: {
+            this.addStep('colorBlocks', {
                     color: colors.default,
                     blocks: [currentBlock, maxBlock]
-                }
             });
         }
 
         // coloring last blocks as sorted
-        this.stepsArr.push({
-            stepNum: 1,
-            arg: {
+        this.addStep('colorBlocks', {
                 color: colors.sorted,
                 blocks: [sizes.length - 1, sizes.length - 2]
-            }
         });
 
         this.stepsArr.push({
@@ -270,7 +241,7 @@ class SelectSortView extends Sort {
     }
 }
 
-export default SelectSortView;
+export default SelectSort;
 
 // old sorting methods
 
@@ -328,7 +299,7 @@ export default SelectSortView;
 //                 return;
 //             });
 //         let ifContinue = true;
-//         blocksView.colorSingleBlock(currentBlock, 'red');
+//         blocksView.colorSingleBlock(currentBlock, colors.current);
 
 //         const maxBlock = waitTime > 200 && animated ?
 //             ifContinue = await this.highlightConsequtiveBlocks(currentBlock, sizes.length - 1, waitTime, sortType) :
@@ -345,7 +316,7 @@ export default SelectSortView;
 //                 return;
 //             });
 
-//             blocksView.colorSingleBlock(maxBlock, 'red');
+//             blocksView.colorSingleBlock(maxBlock, colors.current);
 //             this.arrSwap(sizes, currentBlock, maxBlock);
 
 //             await this.wait(waitTime).catch((err) => {

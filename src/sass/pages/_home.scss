@@ -64,14 +64,16 @@
 
         &__performance-block {
             width: 45%;
-            text-align: center;
+            text-align: right;
 
             &:nth-child(2) {
-                width: 2%;
+                width: 8%;
+                text-align: center;
             }
 
             &:nth-child(3) {
                 width: 45%;
+                text-align: left;
             }
         }
 

@@ -14,6 +14,7 @@ class BubbleSort extends Sort {
     instantSort(sizes, sortType) {
         let n = sizes.length;
         let ifAnySwapped;
+        let comparisonsCounter = 0;
         while (n > 1) {
             ifAnySwapped = false;
             for (let i = 0; i < n - 1; i++) {
@@ -23,14 +24,17 @@ class BubbleSort extends Sort {
                     this.arrSwap(sizes, i, i + 1);
                     ifAnySwapped = true;
                 }
+                comparisonsCounter++;
             }
             if (!ifAnySwapped) break;
         }
+
         blocksView.renderBlocks(sizes, this.blockWidth, false);
+        settingsView.setComparisonNum(comparisonsCounter);
     }
 
     // STEPS MAKER
-    async makeSteps(sizesOrig, waitTime, animated = true, sortType = true) {
+    makeSteps(sizesOrig, waitTime, animated = true, sortType = true) {
         this.stepsArr = [];
         this.stepsArr.push({
             stepNum: 'initial settings',
@@ -50,12 +54,9 @@ class BubbleSort extends Sort {
                     },
                 })
                 
-                this.stepsArr.push({
-                    stepNum: 1,
-                    arg: {
-                        color: 'red',
+                this.addStep('colorBlocks', {
+                        color: colors.current,
                         blocks: [i, i+1],
-                    },
                 });
                 
                 this.stepsArr.push({
@@ -73,15 +74,12 @@ class BubbleSort extends Sort {
 
                 if (sortType && sizes[i] < sizes[i + 1] ||
                     !sortType && sizes[i] > sizes[i + 1]) {
-                        console.log('true')
+                        
                     if (waitTime > 100) {
-                        this.stepsArr.push({
-                            stepNum: 1,
-                            arg: {
+                        this.addStep('colorBlocks', {
                                 color: colors.chosen,
                                 blocks: [i, i+1],
-                            },
-                        })
+                        });
                         this.stepsArr.push({
                             stepNum: 0,
                             arg: {
@@ -127,12 +125,9 @@ class BubbleSort extends Sort {
                     ifAnySwapped = true;
                 }
 
-                this.stepsArr.push({
-                    stepNum: 1,
-                    arg: {
+                this.addStep('colorBlocks', {
                         color: colors.default,
                         blocks: [i, i + 1]
-                    },
                 });
             }
             if (!ifAnySwapped) break;
@@ -174,7 +169,7 @@ export default BubbleSort;
     //             });
     //             if (!contionueFlag) break;
 
-    //             blocksView.colorSeveralBlocks('red', i, i + 1);
+    //             blocksView.colorSeveralBlocks(colors.current, i, i + 1);
     //             await this.wait(waitTime).catch(err => {
     //                 contionueFlag = false;
     //             });

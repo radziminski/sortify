@@ -56,6 +56,8 @@ export const colors = {
     light: '#2B90FE',
     accent: '#65939c',
 
+    current: '#fb0000',
+
     // Sorting:
     highlight: '#8bc4fa',
     chosen: '#e98bfa',

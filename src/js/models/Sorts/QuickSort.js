@@ -42,7 +42,7 @@ class QuickSort extends Sort {
         console.log(sizes);
     }
 
-    async makeSteps(sizesOrig, waitTime, animated = true, sortType = true) {
+    makeSteps(sizesOrig, waitTime, animated = true, sortType = true) {
         this.stepsArr = [];
         this.stepsArr.push({
             stepNum: 'initial settings',
@@ -63,30 +63,19 @@ class QuickSort extends Sort {
             const pivotIndex = end;
 
             // Highlighting pivot
-            this.stepsArr.push({
-                stepNum: 1,
-                arg: {
+            this.addStep('colorBlocks', {
                     color: colors.highlight,
                     blocks: [pivotIndex]
-                }
             });
 
-            this.stepsArr.push({
-                stepNum: 0,
-                arg: {
-                    waitTime: waitTime
-                }
-            });
+            this.addStep('wait', {waitTime})
 
             let i;
             for (i = start; i < end; i++) {
                 // Highlighting i block
-                this.stepsArr.push({
-                    stepNum: 1,
-                    arg: {
+                this.addStep('colorBlocks', {
                         color: colors.accent,
                         blocks: [i]
-                    }
                 });
                 this.stepsArr.push({
                     stepNum: 0,
@@ -98,12 +87,9 @@ class QuickSort extends Sort {
                 if (sizes[i] <= sizes[pivotIndex]) {
                     [sizes[i], sizes[currentIndex]] = [sizes[currentIndex], sizes[i]];
 
-                    this.stepsArr.push({
-                        stepNum: 1,
-                        arg: {
+                    this.addStep('colorBlocks', {
                             color: colors.highlight,
                             blocks: [pivotIndex]
-                        }
                     });
                     this.stepsArr.push({
                         stepNum: 0,
@@ -128,20 +114,14 @@ class QuickSort extends Sort {
                     });
                     currentIndex++;
 
-                    this.stepsArr.push({
-                        stepNum: 1,
-                        arg: {
+                    this.addStep('colorBlocks', {
                             blocks: [currentIndex],
                             color: colors.default
-                        }
                     });
                 }
-                this.stepsArr.push({
-                    stepNum: 1,
-                    arg: {
+                this.addStep('colorBlocks', {
                         blocks: [i],
                         color: colors.default
-                    }
                 });
             }
             [sizes[currentIndex], sizes[end]] = [sizes[end], sizes[currentIndex]];
@@ -160,12 +140,9 @@ class QuickSort extends Sort {
                 }
             });
 
-            this.stepsArr.push({
-                stepNum: 1,
-                arg: {
+            this.addStep('colorBlocks', {
                     blocks: [pivotIndex],
                     color: colors.default
-                }
             });
 
             if (currentIndex - 1 > start) {

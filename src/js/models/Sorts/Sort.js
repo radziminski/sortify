@@ -193,11 +193,14 @@ class Sort {
 
     // Function stopping sorting and reseting all properties
     stop(blocksNum = 0) {
-        clearTimeout(this.timeout);
+        console.log('started stopping')
         this.breakPointer = true;
+        clearTimeout(this.timeout);
         blocksView.colorAllBlocks(blocksNum);
+        blocksView.clearRaiseBlocks(blocksNum);
         settingsView.resetComparisonsNum();
         this.currentStep = 1;
+        console.log('finished stopping');
     }
 
     // Fucntion only stopping sorting so it can be continued later
@@ -209,6 +212,14 @@ class Sort {
     //////////////////////////////////////////
     //////   SORTING CONTROL METHODS   ///////
     //////////////////////////////////////////
+
+    // Steps creation
+    addStep(stepID, args) {
+        this.stepsArr.push({
+            stepNum: stepID,
+            arg: args
+        });
+    }
 
     // Method that perform given step (According to step list below) from the steps array
     async stepsDecoder(step, arg) {
@@ -256,6 +267,7 @@ class Sort {
 
         switch (step) {
             case 0:
+            case 'wait':
                 console.log('step0');
                 await this.wait(arg.waitTime).catch(err => {
                     throw new Error(err);
@@ -263,16 +275,19 @@ class Sort {
                 break;
 
             case 1:
+            case 'colorBlocks':
                 console.log('step1');
                 blocksView.colorSeveralBlocksArr(arg.color, arg.blocks);
                 break;
 
             case 2:
+            case 'colorAllBlocks':
                 console.log('step2');
                 blocksView.colorAllBlocks(arg.blocksNum, arg.color);
                 break;
 
             case 3:
+            case 'swapAnimation':
                 console.log('step3');
                 await this.blocksSwapAnimation(arg.blocks[0], arg.blocks[1], arg.waitTime).catch(
                     err => {
@@ -282,44 +297,54 @@ class Sort {
                 break;
 
             case 4:
+            case 'swapHeight':
                 console.log('step4');
                 blocksView.swapBlocksHeight(arg.blocks[0], arg.blocks[1]);
                 break;
 
-            case 5:
+            case 5 :
+            case 'arrSwap':
                 console.log('step5');
                 this.arrSwap(arg.sizes, arg.blocks[0], arg.blocks[1]);
                 break;
 
-            case 6:
+            case 6 :
+            case 'swapColors':
                 console.log('step6');
                 blocksView.swapBlocksColors(arg.blocks[0], arg.blocks[1]);
                 break;
 
-            case 7:
+            case 7 :
+            case 'raiseBlocks':
                 console.log('step7');
                 await this.raiseBlocks(arg.blocks, arg.waitTime).catch(err => {
                     throw new Error(err);
                 });
                 break;
 
-            case 8:
+            case 8 :
+            case 'lowerBlocks':
                 console.log('step8');
                 await this.lowerBlocks(arg.blocks, arg.waitTime).catch(err => {
                     throw new Error(err);
                 });
                 break;
 
-            case 9:
+            case 9 :
+            case 'setHeight':
                 for (let block in arg.blocks) {
                     arg.blocks[block] = arg.val[block];
                 }
                 break;
-            case 10:
+            case 10 :
+            case 'updtComparisons':
                 if (!arg.num)
                     settingsView.incrementComparisonsNum();
                 else 
                     settingsView.addToComparisonNum(arg.num);
+                break;
+            default:
+                console.error('Error, step not found!');
                 break;
         }
 
@@ -361,7 +386,7 @@ class Sort {
         let completed = false;
         completed = await this.executeSteps().catch(err => {
             console.log('cought Highest');
-            throw new Error(err);
+            return false;
         });
 
         // Fnalizing animation with flash of green coloring
@@ -374,6 +399,7 @@ class Sort {
         }
 
         settingsView.changeToPlayIcon();
+        return true;
     }
 
     // Fucntion iterating thorugh steps array and executing each step

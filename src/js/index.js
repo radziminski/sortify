@@ -5,6 +5,7 @@ import SelectSort from './models/Sorts/SelectSort';
 import BubbleSort from './models/Sorts/BubbleSort';
 import InsertSort from './models/Sorts/InsertSort';
 import QuickSort from './models/Sorts/QuickSort';
+import MergeSort from './models/Sorts/MergeSort';
 import { DOMelements, selectBlock, colors } from './base';
 import './../sass/main.scss';
 import './../css/animate.min.css';
@@ -112,7 +113,7 @@ DOMelements.sortingButtons.addEventListener('click', event => {
 
         case DOMelements.mergeSortBtn:
             settingsView.highlightSortingBtn(selectedBtn);
-
+            state.sorting = new MergeSort(state.blocks.blockWidth, false, false);
             break;
 
         case DOMelements.heapSortBtn:
