@@ -82,6 +82,7 @@ function gradient(startColor, endColor, steps) {
     return stepsHex;
 }
 
+// WRONG!
 function switchTest(key) {
     switch (key) {
         case (1 || 'a'):
@@ -96,8 +97,8 @@ function switchTest(key) {
     }
 }
 
-switchTest(1);
-switchTest('a');
-switchTest('b');
-switchTest(2);
-switchTest(3);
+const time = setTimeout(() => {
+    console.log('cleared');
+}, 2000);
+
+clearTimeout(time);

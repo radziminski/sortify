@@ -39,33 +39,24 @@ class MergeSort extends Sort {
                 blocks: [i]
             });
         }
-        gradColors = this.gradientBlocks(n / 4);
         gradColors = [
-            '#FF6633',
-            '#FFB399',
-            '#FF33FF',
-            '#FFFF99',
-            '#00B3E6',
-            '#E6B333',
-            '#3366E6',
-            '#999966',
-            '#99FF99',
-            '#6680B3',
-            '#66991A',
-            '#FF99E6',
-            '#CCFF1A',
-            '#FF1A66',
-            '#E6331A',
-            '#33FFCC',
-            '#66994D',
-            '#B366CC',
-            '#4D8000',
-            '#B33300',
-            '#CC80CC',
-            '#66664D',
-        ];
+            '#8200fb',
+            '#00fb8e',
+            '#fb00ab',
+            '#4900d4',
+            '#f23115',
+            '#c100e8',
+            '#fff50f',
+            '#00e5fb',
+            
+        ].reverse();
+        for (let i = 0; i < n / 10; i++) {
+            gradColors.push(...gradColors);
+        }
         let colorPointer = 0;
-        for (let i = 0; i < n + 1; i++) {
+        let biggestPartition = 2;
+
+        for (let i = 0; i < n; i++) {
             let block = i;
             this.addStep('colorBlocks', {
                 color: colors.current,
@@ -73,7 +64,6 @@ class MergeSort extends Sort {
             });
             block++;
             let divider = 4;
-            let first = true;
             if (block % 2 === 0) {
                 this.addStep('raiseBlocks', {
                     waitTime,
@@ -84,13 +74,15 @@ class MergeSort extends Sort {
                     waitTime,
                     blocks: [i - 1, i]
                 });
+                this.addStep('colorBlocks', {
+                    color: gradColors[colorPointer],
+                    blocks: [i - 1, i]
+                });
+                colorPointer++;
             }
             if ((Math.log(block) / Math.log(2)) % 1 === 0 && block > 3) {
+                biggestPartition = block;
                 while (i - divider + 1 >= 0) {
-                    console.log('current block: ' + block);
-                    console.log('current i: ' + i);
-                    console.log('first: ' + first);
-                    console.log('\n');
                     const blocks = [];
                     for (let j = i - divider + 1; j <= i; j++) blocks.push(j);
 
@@ -110,30 +102,66 @@ class MergeSort extends Sort {
                     colorPointer++;
                     divider *= 2;
                 }
-            }
-            this.addStep('wait', { waitTime: waitTime / 2 });
-        }
-    }
-
-    sortPartition(sizes, sizesOrig, firstBlock, lastBlock, waitTime) {
-        let left = firstBlock;
-        let right = Math.ceil((lastBlock - firstBlock) / 2) + firstBlock;
-        const leftEnd = right;
-        const rightEnd = lastBlock + 1;
-        while (left < rightEnd) {
-            const min = this.findMin(left, sizes.slice(0, rightEnd));
-            if (min !== left) {
-                this.addStep('arrSwap', { sizes: sizesOrig, blocks: [left, min] });
+            } else if (
+                (Math.log(block - biggestPartition) / Math.log(2)) % 1 === 0 &&
+                block - biggestPartition > 3
+            ) {
+                const blocks = [];
+                for (let j = biggestPartition; j <= i; j++) blocks.push(j);
+                this.addStep('raiseBlocks', {
+                    waitTime,
+                    blocks
+                });
+                this.sortPartition(sizes, sizesOrig, biggestPartition, i, waitTime);
                 this.addStep('lowerBlocks', {
                     waitTime,
-                    blocks: [min]
+                    blocks
                 });
-                this.addStep('swapAnimation', { waitTime, blocks: [left, min] });
-                [sizes[left], sizes[min]] = [sizes[min], sizes[left]];
+                this.addStep('colorBlocks', {
+                    color: gradColors[colorPointer],
+                    blocks
+                });
+                colorPointer++;
+            }
+
+            this.addStep('wait', { waitTime: waitTime / 2 });
+        }
+        const blocks = [];
+        for (let j = 0; j < sizes.length; j++) blocks.push(j);
+        this.addStep('raiseBlocks', {
+            waitTime,
+            blocks
+        });
+        this.sortPartition(sizes, sizesOrig, 0, sizes.length - 1, waitTime);
+        this.addStep('lowerBlocks', {
+            waitTime,
+            blocks
+        });
+    }
+
+    sortPartition(sizes, sizesOrig, firstBlock, lastBlock, waitTime, sortType) {
+        let left = firstBlock;
+        const rightEnd = lastBlock + 1;
+        while (left < rightEnd) {
+            let selected = this.findMin(left, sizes.slice(0, rightEnd));
+            if (!sortType)
+                selected = this.findMax(left, sizes.slice(0, rightEnd));
+            if (selected !== left) {
+                this.addStep('lowerBlocks', {
+                    waitTime,
+                    blocks: [selected]
+                });
+                let curr = selected;
+                while (curr > left) {
+                    this.addStep('swapAnimation', { waitTime: waitTime / 2, blocks: [curr, curr - 1] });
+                    [sizes[curr], sizes[curr - 1]] = [sizes[curr - 1], sizes[curr]];
+                    this.addStep('arrSwap', { sizes: sizesOrig, blocks: [curr, curr - 1] });
+                    curr--;
+                }
             } else {
                 this.addStep('lowerBlocks', {
                     waitTime,
-                    blocks: [min]
+                    blocks: [selected]
                 });
             }
             left++;

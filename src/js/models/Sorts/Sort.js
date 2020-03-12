@@ -8,6 +8,7 @@ class Sort {
         this.blockWidth = blockWidth; // Width of the block used to calculate block moving animations
         this.currentStep = 1; // Step counter indicating which step from steps array we are in
         this.timeout = null;
+        this.stepsArr = [];
     }
 
     //////////////////////////////////////////
@@ -105,7 +106,7 @@ class Sort {
         selectBlock(blockA).style.transform = `translate(${distance}px, 0)`;
         selectBlock(blockB).style.transform = `translate(${-1 * distance}px, 0)`;
 
-        await this.wait(1500 * transitionTimeInSeconds, () => {
+        await this.wait(1100 * transitionTimeInSeconds, () => {
             // Reseting all transition times at end, so the blocks can be actually swapped
             // without showing weird jumps to the user
             selectBlock(blockA).style.transition = 'background-color 0.0s, transform 0s';
@@ -149,9 +150,6 @@ class Sort {
             throw new Error(err);
         });
 
-        console.log('LOWERING blocks:');
-        console.log(blocks);
-        console.log('done lowering');
 
         // Assinging margin bottom property for all blocks
         for (let block in blocks) {
@@ -206,6 +204,8 @@ class Sort {
     // Fucntion only stopping sorting so it can be continued later
     pause(sizes = null) {
         this.breakPointer = true;
+        clearTimeout(this.timeout);
+        this.step--;
         //if (sizes) blocksView.renderBlocks(sizes, this.blockWidth, false);
     }
 
@@ -268,7 +268,6 @@ class Sort {
         switch (step) {
             case 0:
             case 'wait':
-                console.log('step0');
                 await this.wait(arg.waitTime).catch(err => {
                     throw new Error(err);
                 });
@@ -276,19 +275,16 @@ class Sort {
 
             case 1:
             case 'colorBlocks':
-                console.log('step1');
                 blocksView.colorSeveralBlocksArr(arg.color, arg.blocks);
                 break;
 
             case 2:
             case 'colorAllBlocks':
-                console.log('step2');
                 blocksView.colorAllBlocks(arg.blocksNum, arg.color);
                 break;
 
             case 3:
             case 'swapAnimation':
-                console.log('step3');
                 await this.blocksSwapAnimation(arg.blocks[0], arg.blocks[1], arg.waitTime).catch(
                     err => {
                         throw new Error(err);
@@ -298,25 +294,21 @@ class Sort {
 
             case 4:
             case 'swapHeight':
-                console.log('step4');
                 blocksView.swapBlocksHeight(arg.blocks[0], arg.blocks[1]);
                 break;
 
             case 5 :
             case 'arrSwap':
-                console.log('step5');
                 this.arrSwap(arg.sizes, arg.blocks[0], arg.blocks[1]);
                 break;
 
             case 6 :
             case 'swapColors':
-                console.log('step6');
                 blocksView.swapBlocksColors(arg.blocks[0], arg.blocks[1]);
                 break;
 
             case 7 :
             case 'raiseBlocks':
-                console.log('step7');
                 await this.raiseBlocks(arg.blocks, arg.waitTime).catch(err => {
                     throw new Error(err);
                 });
@@ -324,7 +316,6 @@ class Sort {
 
             case 8 :
             case 'lowerBlocks':
-                console.log('step8');
                 await this.lowerBlocks(arg.blocks, arg.waitTime).catch(err => {
                     throw new Error(err);
                 });
@@ -345,6 +336,7 @@ class Sort {
                 break;
             default:
                 console.error('Error, step not found!');
+                console.error('Step: ' + step);
                 break;
         }
 
@@ -386,6 +378,7 @@ class Sort {
         let completed = false;
         completed = await this.executeSteps().catch(err => {
             console.log('cought Highest');
+            console.log(err)
             return false;
         });
 
@@ -411,6 +404,8 @@ class Sort {
                 return false;
             } else {
                 this.currentStep = i;
+                console.log('current step: ' + i)
+                console.log(this.stepsArr[i].stepNum);
                 await this.stepsDecoder(this.stepsArr[i].stepNum, this.stepsArr[i].arg).catch(
                     err => {
                         throw new Error(err);

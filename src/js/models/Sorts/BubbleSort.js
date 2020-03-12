@@ -59,18 +59,8 @@ class BubbleSort extends Sort {
                         blocks: [i, i+1],
                 });
                 
-                this.stepsArr.push({
-                    stepNum: 0,
-                    arg: {
-                        waitTime: waitTime,
-                    },
-                });
-
-                this.stepsArr.push({
-                    stepNum: 10,
-                    arg: {
-                    },
-                });
+                this.addStep('wait', {waitTime});
+                this.addStep('updtComparisons', {});
 
                 if (sortType && sizes[i] < sizes[i + 1] ||
                     !sortType && sizes[i] > sizes[i + 1]) {
@@ -80,12 +70,7 @@ class BubbleSort extends Sort {
                                 color: colors.chosen,
                                 blocks: [i, i+1],
                         });
-                        this.stepsArr.push({
-                            stepNum: 0,
-                            arg: {
-                                waitTime: waitTime,
-                            },
-                        });
+                        this.addStep('wait', {waitTime});
                     }
 
                     if (waitTime > 100) {
@@ -116,11 +101,6 @@ class BubbleSort extends Sort {
 
                     this.arrSwap(sizes, i, i + 1);
 
-                    this.stepsArr.push({
-                        stepNum: 0,
-                        arg: {
-                        },
-                    });
 
                     ifAnySwapped = true;
                 }

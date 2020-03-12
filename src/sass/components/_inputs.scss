@@ -248,18 +248,18 @@
     &__label-text {
         position: relative;
         display: inline-block;
-        margin-right: 0.8rem;
-        margin-bottom: -0.45rem;
-        width: 2rem;
-        height: 2rem;
+        margin-right: 8px;
+        margin-bottom: -4.5px;
+        width: 20px;
+        height: 20px;
         border: 2px solid $color-gray;
         border-radius: 100%;
 
         &:after {
             content: '';
             position: absolute;
-            top: 15%;
-            left: 15%;
+            top: 3px;
+            left: 3px;
             width: 10px;
             height: 10px;
             border-radius: 100%;
@@ -272,7 +272,7 @@
     }
 
     &__radio:hover &__label-text:after {
-        transform: scale(3.6);
+        transform: scale(3.2);
     }
     
     &__input:checked + &__label-text {

@@ -53,23 +53,15 @@ class InsertSort extends Sort {
                     color: colors.chosen
             });
 
-            this.stepsArr.push({
-                stepNum: 7,
-                arg: {
-                    blocks: [markedBlock],
-                    waitTime: waitTime
-                }
+            this.addStep('raiseBlocks', {
+                blocks: [markedBlock],
+                waitTime
             });
             this.addStep('wait', {waitTime})
-            let k = markedBlock;
-            console.log(markedBlockHeight);
-            console.log(sizes);
 
-            this.stepsArr.push({
-                stepNum: 10,
-                arg: {
-                }
-            });
+            let k = markedBlock;
+
+            this.addStep('updtComparisons', {});
 
             while (
                 ((sizes[k - 1] > markedBlockHeight && !sortType) ||
@@ -77,54 +69,35 @@ class InsertSort extends Sort {
                 k >= 1
             ) {
                 sizes[k] = sizes[k - 1];
-                this.stepsArr.push({
-                    stepNum: 5,
-                    arg: {
-                        blocks: [k, k - 1],
-                        sizes: sizesOrig
-                    }
+                this.addStep('arrSwap', {
+                    blocks: [k, k - 1],
+                    sizes: sizesOrig
                 });
+                
                 if (waitTime > 100) {
-                    this.stepsArr.push({
-                        stepNum: 3,
-                        arg: {
-                            blocks: [k, k - 1],
-                            waitTime: waitTime
-                        }
+                    this.addStep('swapAnimation', {
+                        blocks: [k, k - 1],
+                        waitTime: waitTime
                     });
                 } else {
-                    this.stepsArr.push({
-                        stepNum: 4,
-                        arg: {
-                            blocks: [k, k - 1]
-                        }
+                    this.addStep('swapHeight', {
+                        blocks: [k, k - 1]
                     });
                 }
-                this.stepsArr.push({
-                    stepNum: 10,
-                    arg: {
-                    }
-                });
+                this.addStep('updtComparisons', {});
                 k--;
             }
             
             sizes[k] = markedBlockHeight;
-            this.stepsArr.push({
-                stepNum: 0,
-                arg: {
-                    waitTime: 50
-                }
-            });
+            this.addStep('wait', {waitTime: 50})
             this.addStep('colorBlocks', {
                     blocks: [k],
                     color: colors.sorted
             });
-            this.stepsArr.push({
-                stepNum: 8,
-                arg: {
-                    blocks: [k],
-                    waitTime: waitTime
-                }
+
+            this.addStep('lowerBlocks', {
+                blocks: [k],
+                waitTime
             });
         }
         return true;
