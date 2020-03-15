@@ -101,4 +101,15 @@ const time = setTimeout(() => {
     console.log('cleared');
 }, 2000);
 
-clearTimeout(time);
+
+const destrTest = (arr) => {
+    return [arr, arr.length];
+}
+
+let x = [1, 2, 3, 4 ,5]
+let y, ysize;
+[y, ysize] = destrTest(x);
+console.log(y)
+console.log(ysize)
+
+

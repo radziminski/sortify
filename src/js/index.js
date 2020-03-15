@@ -6,7 +6,7 @@ import BubbleSort from './models/Sorts/BubbleSort';
 import InsertSort from './models/Sorts/InsertSort';
 import QuickSort from './models/Sorts/QuickSort';
 import MergeSort from './models/Sorts/MergeSort';
-import { DOMelements, selectBlock, colors } from './base';
+import { DOMelements, colors, sortingComplexities, calculateAvgComplexity } from './base';
 import './../sass/main.scss';
 import './../css/animate.min.css';
 
@@ -20,13 +20,11 @@ document.onreadystatechange = function() {
     }
 };
 
-settingsView.highlightSortingBtn(DOMelements.selectSortBtn);
 
 const state = {
     sorting: false,
     stopSorting: () => {
         state.sorting ? state.sorting.stop(state.blocks.blocksNum) : null;
-        settingsView.changeToPlayIcon();
     }
 };
 
@@ -49,6 +47,9 @@ const renderBlocks = (blocksNum, minHeight = 20, maxHeight = 200) => {
     // Generate blocks sizes
     state.blocks.generateBlocks(minHeight, maxHeight);
 
+    // Updating performance data
+    settingsView.updateComplexity(blocksNum, state.sorting.getType());
+
     // Render Blocks
     blocksView.renderBlocks(state.blocks.sizes, blockWidth);
     blocksView.toggleBlocksHeight(state.blocks.blocksNum, settingsView.getDisplayHeights());
@@ -60,6 +61,8 @@ const reRenderBlocks = () => {
     state.sorting.updateBlockWidth(blockWidth);
 
     state.blocks = new Blocks(state.blocks.blocksNum, blockWidth, state.blocks.sizes);
+
+    settingsView.updateComplexity(state.blocks.blocksNum, state.sorting.getType());
 
     blocksView.renderBlocks(state.blocks.sizes, blockWidth, false);
     blocksView.toggleBlocksHeight(state.blocks.blocksNum, settingsView.getDisplayHeights());
@@ -93,26 +96,34 @@ DOMelements.sortingButtons.addEventListener('click', event => {
     switch (selectedBtn) {
         case DOMelements.bubbleSortBtn:
             settingsView.highlightSortingBtn(selectedBtn);
+            settingsView.setComplexityLabel(sortingComplexities.bubbleSort);
+            settingsView.updateComplexity(state.blocks.blocksNum, 'bubbleSort');
             state.sorting = new BubbleSort(state.blocks.blockWidth, false, false);
             break;
 
         case DOMelements.selectSortBtn:
             settingsView.highlightSortingBtn(selectedBtn);
+            settingsView.setComplexityLabel(sortingComplexities.selectSort);
+            settingsView.updateComplexity(state.blocks.blocksNum, 'selectSort');
             state.sorting = new SelectSort(state.blocks.blockWidth, false, false);
             break;
 
         case DOMelements.insertSortBtn:
             settingsView.highlightSortingBtn(selectedBtn);
+            settingsView.setComplexityLabel(sortingComplexities.insertSort);
+            settingsView.updateComplexity(state.blocks.blocksNum, 'insertSort');
             state.sorting = new InsertSort(state.blocks.blockWidth, false, false);
             break;
 
         case DOMelements.quickSortBtn:
             settingsView.highlightSortingBtn(selectedBtn);
+            settingsView.updateComplexity(state.blocks.blocksNum, 'quickSort');
             state.sorting = new QuickSort(state.blocks.blockWidth, false, false);
             break;
 
         case DOMelements.mergeSortBtn:
             settingsView.highlightSortingBtn(selectedBtn);
+            settingsView.updateComplexity(state.blocks.blocksNum, 'mergeSort');
             state.sorting = new MergeSort(state.blocks.blockWidth, false, false);
             break;
 
@@ -143,7 +154,6 @@ DOMelements.startSortBtn.addEventListener('click', event => {
         );
     else {
         state.sorting.pause(state.blocks.sizes);
-        console.log(state.blocks.sizes);
     }
 });
 
@@ -186,6 +196,7 @@ DOMelements.inputSortingSpeedSlider.addEventListener('input', event => {
     DOMelements.speedSliderLabels.forEach(element => {
         element.classList.remove('u-highlighted-text');
     });
+    settingsView.turnOnAnimations(true);
     switch (event.target.value) {
         case '1':
             DOMelements.speedSliderLabelSupSlow.classList.add('u-highlighted-text');
@@ -197,9 +208,11 @@ DOMelements.inputSortingSpeedSlider.addEventListener('input', event => {
             DOMelements.speedSliderLabelMedium.classList.add('u-highlighted-text');
             break;
         case '4':
+            settingsView.turnOnAnimations(false);
             DOMelements.speedSliderLabelFast.classList.add('u-highlighted-text');
             break;
         case '5':
+            settingsView.turnOnAnimations(false);
             DOMelements.speedSliderLabelSupFast.classList.add('u-highlighted-text');
             break;
     }
@@ -240,10 +253,12 @@ window.addEventListener('load', () => {
         settingsView.getMinHeight(),
         settingsView.getMaxHeight()
     );
+    settingsView.highlightSortingBtn(DOMelements.selectSortBtn);
+    settingsView.setComplexityLabel(sortingComplexities.insertSort);
+    settingsView.setDefaultComplexity(20 * 20)
 });
 
 window.addEventListener('resize', () => {
     state.sorting.stop(state.blocks.blocksNum);
-    settingsView.changeToPlayIcon();
     reRenderBlocks();
 });

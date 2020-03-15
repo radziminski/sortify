@@ -9,6 +9,8 @@ export const DOMelements = {
 
     // Performance
     comparisonsNum: document.querySelector('.js--comp-num'),
+    complexityLabel: document.querySelector('.js--complexity-label'),
+    complexityAvgNum: document.querySelector('.js--complexity'),
 
     // Sorting Btns
     buttons: document.querySelector('.section-controls__sorting-buttons'),
@@ -68,6 +70,25 @@ export const colors = {
     // light: '#3a536b',
     // accent: '#65939c'
 };
+
+export const sortingComplexities = {
+    bubbleSort: 'n<sup>2</sup>',
+    selectSort: 'n<sup>2</sup>',
+    insertSort: 'n<sup>2</sup>',
+    quickSort: 'n log<sub>2</sub>(n)',
+    mergeSort: 'n log<sub>2</sub>(n)',
+}
+
+export const calculateAvgComplexity = (blocksNum, sorting) => {
+    switch (sorting) {
+        case 'bubbleSort':
+        case 'selectSort':
+        case 'insertSort':
+            return Math.pow(blocksNum, 2);
+        default:
+            return Math.ceil(blocksNum * Math.log(blocksNum, 2));
+    }
+}
 
 export const selectBlock = id => {
     return document.querySelector(`.id-${id}`);

@@ -65,6 +65,7 @@
         &__performance-block {
             width: 45%;
             text-align: right;
+            height: 3rem;
 
             &:nth-child(2) {
                 width: 8%;
@@ -74,6 +75,13 @@
             &:nth-child(3) {
                 width: 45%;
                 text-align: left;
+            }
+
+            sup {
+                font-size: 1.1rem;
+            }
+            sub {
+                font-size: 1rem;
             }
         }
 

@@ -4,13 +4,14 @@ import * as blocksView from '../../views/blocksView';
 import * as settingsView from '../../views/settingsView';
 
 class QuickSort extends Sort {
-    constructor(blockWidth, breakPointer, pausePointer) {
-        super(blockWidth, breakPointer, pausePointer);
+    getType() {
+        return 'quickSort';
     }
 
     instantSort(sizes, sortType) {
         const partitionsLeft = [0, sizes.length - 1];
         let top = 1;
+        let comparisons = 0;
 
         while (top >= 0) {
             const end = partitionsLeft[top--];
@@ -21,10 +22,11 @@ class QuickSort extends Sort {
             const pivot = sizes[end];
             let i;
             for (i = start; i < end; i++) {
-                if (sizes[i] <= pivot) {
+                if ((sizes[i] <= pivot && !sortType) || (sizes[i] >= pivot && sortType)) {
                     [sizes[i], sizes[currentIndex]] = [sizes[currentIndex], sizes[i]];
                     currentIndex++;
                 }
+                comparisons++;
             }
             [sizes[currentIndex], sizes[end]] = [sizes[end], sizes[currentIndex]];
 
@@ -39,10 +41,10 @@ class QuickSort extends Sort {
                 partitionsLeft[++top] = end;
             }
         }
-        console.log(sizes);
+        return comparisons;
     }
 
-    makeSteps(sizesOrig, waitTime, animated = true, sortType = true) {
+    makeSteps(sizesOrig, waitTime, sortType = true) {
         this.stepsArr = [];
         this.stepsArr.push({
             stepNum: 'initial settings',

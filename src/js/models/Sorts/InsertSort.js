@@ -4,12 +4,12 @@ import * as blocksView from '../../views/blocksView';
 import * as settingsView from '../../views/settingsView';
 
 class InsertSort extends Sort {
-    constructor(blockWidth, breakPointer, pausePointer) {
-        super(blockWidth, breakPointer, pausePointer);
+    getType() {
+        return 'insertSort';
     }
 
     instantSort(sizes, sortType) {
-        let comparionsCounter = 0;
+        let comparisons = 0;
 
         for (let i = 1; i < sizes.length; i++) {
             let markedBlock = sizes[i];
@@ -17,20 +17,20 @@ class InsertSort extends Sort {
             while (
                 ((sizes[k - 1] > markedBlock && !sortType) ||
                     (sizes[k - 1] < markedBlock && sortType)) &&
-                k >= 1
+                k > 0
             ) {
                 sizes[k] = sizes[k - 1];
                 k--;
-                comparionsCounter++;
+                comparisons++
             }
             sizes[k] = markedBlock;
         }
 
         blocksView.renderBlocks(sizes, this.blockWidth);
-        settingsView.setComparisonNum(comparionsCounter);
+        return comparisons;
     }
 
-    makeSteps(sizesOrig, waitTime, animated = true, sortType = true) {
+    makeSteps(sizesOrig, waitTime, sortType = true) {
         this.stepsArr = [];
         this.stepsArr.push({
             stepNum: 'initial settings',

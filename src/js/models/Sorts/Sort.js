@@ -16,7 +16,7 @@ class Sort {
     //////////////////////////////////////////
 
     instantSort(sizes, sortType) {
-        console.log('This should be overwriten');
+        console.error('This should be overwriten');
     }
 
     //////////////////////////////////////////
@@ -91,10 +91,11 @@ class Sort {
         selectBlock(blockB).style.transition = `transform ${transitionTimeInSeconds}s`;
 
         // Waiting moment to make sure that above steps are done
-        await this.wait(10).catch(err => {
+        try {
+            await this.wait(10);
+        } catch (err) {
             throw new Error(err);
-        });
-
+        }
         // Calculating distance in pixels for which blocks will be transformed
         const distance = (blockB - blockA) * this.blockWidth;
 
@@ -106,28 +107,25 @@ class Sort {
         selectBlock(blockA).style.transform = `translate(${distance}px, 0)`;
         selectBlock(blockB).style.transform = `translate(${-1 * distance}px, 0)`;
 
-        await this.wait(1100 * transitionTimeInSeconds, () => {
-            // Reseting all transition times at end, so the blocks can be actually swapped
-            // without showing weird jumps to the user
-            selectBlock(blockA).style.transition = 'background-color 0.0s, transform 0s';
-            selectBlock(blockB).style.transition = 'background-color 0.0s, transform 0s';
-            selectBlock(blockA).style.transform = 'translate(0, 0)';
-            selectBlock(blockB).style.transform = 'translate(0, 0)';
-            selectBlock(blockA).style.marginBottom = blockBPrevMargin;
-            selectBlock(blockB).style.marginBottom = blockAPrevMargin;
+        try {
+            await this.wait(1100 * transitionTimeInSeconds, () => {
+                // Reseting all transition times at end, so the blocks can be actually swapped
+                // without showing weird jumps to the user
+                selectBlock(blockA).style.transition = 'background-color 0.0s, transform 0s';
+                selectBlock(blockB).style.transition = 'background-color 0.0s, transform 0s';
+                selectBlock(blockA).style.transform = 'translate(0, 0)';
+                selectBlock(blockB).style.transform = 'translate(0, 0)';
+                selectBlock(blockA).style.marginBottom = blockBPrevMargin;
+                selectBlock(blockB).style.marginBottom = blockAPrevMargin;
 
-            // Swapping blocks heights and their colors
-            blocksView.swapBlocksColors(blockA, blockB);
-            blocksView.swapBlocksHeight(blockA, blockB);
-        }).catch(err => {
-            // blocksView.swapBlocksColors(blockA, blockB);
-            // blocksView.swapBlocksHeight(blockA, blockB);
-            throw new Error(err);
-        });
-
-        await this.delay().catch(err => {
-            throw new Error(err);
-        });
+                // Swapping blocks heights and their colors
+                blocksView.swapBlocksColors(blockA, blockB);
+                blocksView.swapBlocksHeight(blockA, blockB);
+            });
+            await this.delay();
+        } catch (error) {
+            throw new Error(error);
+        }
 
         // Restoring original blocks transition times
         selectBlock(blockA).style.transition = 'background-color 0.2s, transform 0s';
@@ -145,20 +143,17 @@ class Sort {
                 blocks[block]
             ).style.transition = `background-color 0.2s, margin-bottom ${waitTime / 1000}s`;
         }
-
-        await this.wait(10).catch(err => {
-            throw new Error(err);
-        });
-
-
-        // Assinging margin bottom property for all blocks
-        for (let block in blocks) {
-            selectBlock(blocks[block]).style.marginBottom = '0px';
+        try {
+            await this.wait(10);
+            for (let block in blocks) {
+                selectBlock(blocks[block]).style.marginBottom = '0px';
+            }
+            await this.wait(1.5 * waitTime);
+        } catch (error) {
+            throw new Error(error);
         }
 
-        await this.wait(1.5 * waitTime).catch(err => {
-            throw new Error(err);
-        });
+        // Assinging margin bottom property for all blocks
 
         return true;
     }
@@ -172,15 +167,13 @@ class Sort {
             ).style.transition = `background-color 0.2s, margin-bottom ${waitTime / 1000}s`;
         }
 
-        await this.wait(10).catch(err => {
-            throw new Error(err);
-        });
-
-        for (let block in blocks) selectBlock(blocks[block]).style.marginBottom = '200px';
-
-        await this.wait(1.5 * waitTime).catch(err => {
-            throw new Error(err);
-        });
+        try {
+            await this.wait(10);
+            for (let block in blocks) selectBlock(blocks[block]).style.marginBottom = '200px';
+            await this.wait(1.5 * waitTime);
+        } catch (error) {
+            throw new Error(error);
+        }
 
         return true;
     }
@@ -191,13 +184,14 @@ class Sort {
 
     // Function stopping sorting and reseting all properties
     stop(blocksNum = 0) {
-        console.log('started stopping')
+        console.log('started stopping');
         this.breakPointer = true;
         clearTimeout(this.timeout);
         blocksView.colorAllBlocks(blocksNum);
         blocksView.clearRaiseBlocks(blocksNum);
         settingsView.resetComparisonsNum();
         this.currentStep = 1;
+        settingsView.changeToPlayIcon();
         console.log('finished stopping');
     }
 
@@ -214,7 +208,7 @@ class Sort {
     //////////////////////////////////////////
 
     // Steps creation
-    addStep(stepID, args) {
+    addStep(stepID, args, animated = true) {
         this.stepsArr.push({
             stepNum: stepID,
             arg: args
@@ -222,7 +216,7 @@ class Sort {
     }
 
     // Method that perform given step (According to step list below) from the steps array
-    async stepsDecoder(step, arg) {
+    async stepsDecoder(step, arg, animated = true) {
         /* STEPS:
             0: wait some time 
                 arg:    waitTime
@@ -264,86 +258,86 @@ class Sort {
             10: increment comparisons num
                 arg: -
         */
+        try {
+            switch (step) {
+                case 0:
+                case 'wait':
+                    await this.wait(arg.waitTime);
+                    break;
 
-        switch (step) {
-            case 0:
-            case 'wait':
-                await this.wait(arg.waitTime).catch(err => {
-                    throw new Error(err);
-                });
-                break;
+                case 1:
+                case 'colorBlocks':
+                    blocksView.colorSeveralBlocksArr(arg.color, arg.blocks);
+                    break;
 
-            case 1:
-            case 'colorBlocks':
-                blocksView.colorSeveralBlocksArr(arg.color, arg.blocks);
-                break;
+                case 2:
+                case 'colorAllBlocks':
+                    blocksView.colorAllBlocks(arg.blocksNum, arg.color);
+                    break;
 
-            case 2:
-            case 'colorAllBlocks':
-                blocksView.colorAllBlocks(arg.blocksNum, arg.color);
-                break;
-
-            case 3:
-            case 'swapAnimation':
-                await this.blocksSwapAnimation(arg.blocks[0], arg.blocks[1], arg.waitTime).catch(
-                    err => {
-                        throw new Error(err);
+                case 3:
+                case 'swapAnimation':
+                    if (!animated) {
+                        blocksView.swapBlocksHeight(arg.blocks[0], arg.blocks[1]);
+                        await this.wait(arg.waitTime / 2);
+                        return;
                     }
-                );
-                break;
+                    await this.blocksSwapAnimation(arg.blocks[0], arg.blocks[1], arg.waitTime);
+                    break;
 
-            case 4:
-            case 'swapHeight':
-                blocksView.swapBlocksHeight(arg.blocks[0], arg.blocks[1]);
-                break;
+                case 4:
+                case 'swapHeight':
+                    blocksView.swapBlocksHeight(arg.blocks[0], arg.blocks[1]);
+                    break;
 
-            case 5 :
-            case 'arrSwap':
-                this.arrSwap(arg.sizes, arg.blocks[0], arg.blocks[1]);
-                break;
+                case 5:
+                case 'arrSwap':
+                    this.arrSwap(arg.sizes, arg.blocks[0], arg.blocks[1]);
+                    break;
 
-            case 6 :
-            case 'swapColors':
-                blocksView.swapBlocksColors(arg.blocks[0], arg.blocks[1]);
-                break;
+                case 6:
+                case 'swapColors':
+                    blocksView.swapBlocksColors(arg.blocks[0], arg.blocks[1]);
+                    break;
 
-            case 7 :
-            case 'raiseBlocks':
-                await this.raiseBlocks(arg.blocks, arg.waitTime).catch(err => {
-                    throw new Error(err);
-                });
-                break;
+                case 7:
+                case 'raiseBlocks':
+                    if (!animated) return;
+                    await this.raiseBlocks(arg.blocks, arg.waitTime);
+                    break;
 
-            case 8 :
-            case 'lowerBlocks':
-                await this.lowerBlocks(arg.blocks, arg.waitTime).catch(err => {
-                    throw new Error(err);
-                });
-                break;
+                case 8:
+                case 'lowerBlocks':
+                    if (!animated) return;
+                    await this.lowerBlocks(arg.blocks, arg.waitTime);
+                    break;
 
-            case 9 :
-            case 'setHeight':
-                for (let block in arg.blocks) {
-                    arg.blocks[block] = arg.val[block];
-                }
-                break;
-            case 10 :
-            case 'updtComparisons':
-                if (!arg.num)
-                    settingsView.incrementComparisonsNum();
-                else 
-                    settingsView.addToComparisonNum(arg.num);
-                break;
-            default:
-                console.error('Error, step not found!');
-                console.error('Step: ' + step);
-                break;
+                case 9:
+                case 'setHeight':
+                    for (let block in arg.blocks) {
+                        arg.blocks[block] = arg.val[block];
+                    }
+                    break;
+                case 10:
+                case 'updtComparisons':
+                    if (!arg.num) settingsView.incrementComparisonsNum();
+                    else settingsView.addToComparisonNum(arg.num);
+                    break;
+                default:
+                    console.error('Error, step not found!');
+                    console.error('Step: ' + step);
+                    break;
+            }
+        } catch (error) {
+            throw new Error(error);
         }
 
-        await this.wait(20).catch(() => {
+        try {
+            await this.wait(20);
+        } catch (error) {
             this.currentStep++;
-            throw new Error();
-        });
+            throw new Error(error);
+        }
 
         return true;
     }
@@ -357,11 +351,12 @@ class Sort {
 
         // Instant sorting if time is 0 (or almost 0)
         if (waitTime < 10) {
-            this.instantSort(sizes, sortType);
+            const comparisons = this.instantSort(sizes, sortType);
             blocksView.renderBlocks(sizes, this.blockWidth, true);
             settingsView.changeToPlayIcon();
             blocksView.toggleBlocksHeight(sizes.length, 0);
-
+            this.stop(sizes.length);
+            settingsView.setComparisonNum(comparisons);
             return true;
         }
 
@@ -372,15 +367,17 @@ class Sort {
         }
 
         // Creating steps array
-        if (this.currentStep === 1) this.makeSteps(sizes, waitTime, animated, sortType);
+        if (this.currentStep === 1) this.makeSteps(sizes, waitTime, sortType);
 
         // Executing steps (from steps array)
         let completed = false;
-        completed = await this.executeSteps().catch(err => {
+        try {
+            completed = await this.executeSteps(animated);
+        } catch (error) {
             console.log('cought Highest');
-            console.log(err)
+            console.log(error);
             return false;
-        });
+        }
 
         // Fnalizing animation with flash of green coloring
         if (completed) {
@@ -391,12 +388,12 @@ class Sort {
             blocksView.colorAllBlocks(sizes.length);
         }
 
-        settingsView.changeToPlayIcon();
+        this.stop(sizes.length);
         return true;
     }
 
     // Fucntion iterating thorugh steps array and executing each step
-    async executeSteps() {
+    async executeSteps(animated = true) {
         let i = this.currentStep;
 
         while (i < this.stepsArr.length) {
@@ -404,13 +401,18 @@ class Sort {
                 return false;
             } else {
                 this.currentStep = i;
-                console.log('current step: ' + i)
-                console.log(this.stepsArr[i].stepNum);
-                await this.stepsDecoder(this.stepsArr[i].stepNum, this.stepsArr[i].arg).catch(
-                    err => {
-                        throw new Error(err);
-                    }
-                );
+                // console.log('current step: ' + i)
+                // console.log(this.stepsArr[i].stepNum);
+                try {
+                    await this.stepsDecoder(
+                        this.stepsArr[i].stepNum,
+                        this.stepsArr[i].arg,
+                        animated
+                    );
+                } catch (error) {
+                    throw new Error(error);
+                }
+
                 i++;
             }
         }

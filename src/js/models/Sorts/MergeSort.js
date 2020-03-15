@@ -1,11 +1,60 @@
 import Sort from './Sort';
 import { colors, selectBlock } from '../../base';
 import * as blocksView from '../../views/blocksView';
-import * as settingsView from '../../views/settingsView';
 
 const gradColors = ['#f23115', '#fff50f', '#00d427', '#4900d4', '#c100e8', '#e80306'];
 
 class MergeSort extends Sort {
+    getType() {
+        return 'mergeSort';
+    }
+
+    instantMerge(arr1, arr2, sortType, comparisons) {
+        const results = [];
+        let i = 0;
+        let j = 0;
+
+        while (i < arr1.length && j < arr2.length) {
+            if ((arr2[j] > arr1[i] && !sortType) || (arr2[j] < arr1[i] && sortType)) {
+                results.push(arr1[i]);
+                i++;
+            } else {
+                results.push(arr2[j]);
+                j++;
+            }
+            comparisons.num++;
+        }
+        while (i < arr1.length) {
+            results.push(arr1[i]);
+            i++;
+        }
+        while (j < arr2.length) {
+            results.push(arr2[j]);
+            j++;
+        }
+        return results;
+    }
+
+    // Recrusive Merge Sort
+    mergeSort(arr, sortType, comparisons) {
+        if (arr.length <= 1) return arr;
+        let left, right;
+        const mid = Math.floor(arr.length / 2);
+        left = this.mergeSort(arr.slice(0, mid), sortType, comparisons);
+        right = this.mergeSort(arr.slice(mid), sortType, comparisons);
+        return this.instantMerge(left, right, sortType, comparisons);
+    }
+
+    instantSort(sizes, sortType) {
+        let newSizes;
+        const comparisons = {
+            num: 0
+        };
+        newSizes = this.mergeSort(sizes, sortType, comparisons);
+        for (let i = 0; i < sizes.length; i++) sizes[i] = newSizes[i];
+        return comparisons.num;
+    }
+
     gradientBlocks(blocksNum) {
         let useColors = gradColors;
         if (blocksNum < 100) useColors = gradColors.slice(0, 5);
@@ -22,7 +71,7 @@ class MergeSort extends Sort {
         return colors;
     }
 
-    makeSteps(sizesOrig, waitTime, animated = true, sortType = true) {
+    makeSteps(sizesOrig, waitTime, sortType = true) {
         this.stepsArr = [];
         this.stepsArr.push({
             stepNum: 'initial settings',
@@ -39,7 +88,7 @@ class MergeSort extends Sort {
                 blocks: [i]
             });
         }
-        gradColors = [
+        const someColors = [
             '#8200fb',
             '#00fb8e',
             '#fb00ab',
@@ -47,11 +96,11 @@ class MergeSort extends Sort {
             '#f23115',
             '#c100e8',
             '#fff50f',
-            '#00e5fb',
-            
+            '#00e5fb'
         ].reverse();
+        gradColors = [];
         for (let i = 0; i < n / 10; i++) {
-            gradColors.push(...gradColors);
+            gradColors.push(...someColors);
         }
         let colorPointer = 0;
         let biggestPartition = 2;
@@ -69,7 +118,7 @@ class MergeSort extends Sort {
                     waitTime,
                     blocks: [i - 1, i]
                 });
-                this.sortPartition(sizes, sizesOrig, i - 1, i, waitTime);
+                this.sortPartition(sizes, sizesOrig, i - 1, i, waitTime, sortType);
                 this.addStep('lowerBlocks', {
                     waitTime,
                     blocks: [i - 1, i]
@@ -90,7 +139,7 @@ class MergeSort extends Sort {
                         waitTime,
                         blocks
                     });
-                    this.sortPartition(sizes, sizesOrig, i - divider + 1, i, waitTime);
+                    this.sortPartition(sizes, sizesOrig, i - divider + 1, i, waitTime, sortType);
                     this.addStep('lowerBlocks', {
                         waitTime,
                         blocks
@@ -112,7 +161,7 @@ class MergeSort extends Sort {
                     waitTime,
                     blocks
                 });
-                this.sortPartition(sizes, sizesOrig, biggestPartition, i, waitTime);
+                this.sortPartition(sizes, sizesOrig, biggestPartition, i, waitTime, sortType);
                 this.addStep('lowerBlocks', {
                     waitTime,
                     blocks
@@ -126,36 +175,43 @@ class MergeSort extends Sort {
 
             this.addStep('wait', { waitTime: waitTime / 2 });
         }
-        const blocks = [];
-        for (let j = 0; j < sizes.length; j++) blocks.push(j);
-        this.addStep('raiseBlocks', {
-            waitTime,
-            blocks
-        });
-        this.sortPartition(sizes, sizesOrig, 0, sizes.length - 1, waitTime);
-        this.addStep('lowerBlocks', {
-            waitTime,
-            blocks
-        });
+        if ((Math.log(sizes.length) / Math.log(2)) % 1 !== 0) {
+            const blocks = [];
+            for (let j = 0; j < sizes.length; j++) blocks.push(j);
+            this.addStep('raiseBlocks', {
+                waitTime,
+                blocks
+            });
+            this.sortPartition(sizes, sizesOrig, 0, sizes.length - 1, waitTime, sortType);
+            this.addStep('lowerBlocks', {
+                waitTime,
+                blocks
+            });
+        }
     }
 
     sortPartition(sizes, sizesOrig, firstBlock, lastBlock, waitTime, sortType) {
         let left = firstBlock;
         const rightEnd = lastBlock + 1;
         while (left < rightEnd) {
+            if (left !== firstBlock) this.addStep('updtComparisons', {});
             let selected = this.findMin(left, sizes.slice(0, rightEnd));
-            if (!sortType)
-                selected = this.findMax(left, sizes.slice(0, rightEnd));
+            if (sortType) selected = this.findMax(left, sizes.slice(0, rightEnd));
             if (selected !== left) {
                 this.addStep('lowerBlocks', {
                     waitTime,
                     blocks: [selected]
                 });
                 let curr = selected;
+
                 while (curr > left) {
-                    this.addStep('swapAnimation', { waitTime: waitTime / 2, blocks: [curr, curr - 1] });
+                    this.addStep('swapAnimation', {
+                        waitTime: waitTime / 2,
+                        blocks: [curr, curr - 1]
+                    });
                     [sizes[curr], sizes[curr - 1]] = [sizes[curr - 1], sizes[curr]];
                     this.addStep('arrSwap', { sizes: sizesOrig, blocks: [curr, curr - 1] });
+
                     curr--;
                 }
             } else {

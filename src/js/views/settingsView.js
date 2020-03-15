@@ -1,4 +1,4 @@
-import { DOMelements } from '../base';
+import { DOMelements, sortingComplexities, calculateAvgComplexity } from '../base';
 
 /////////// Sorting Buttons ////////////////
 
@@ -28,6 +28,13 @@ export const changeToPauseIcon = () => {
     DOMelements.startSortBtn.name = 'pause';
 };
 
+// Animation change
+
+export const turnOnAnimations = (checked) => {
+    DOMelements.inputAnimateCheckbox.checked = checked;
+}
+
+
 /////////// Comparisons ///////////
 
 export const incrementComparisonsNum = () => {
@@ -49,7 +56,21 @@ export const addToComparisonNum = num => {
     let previousNum = DOMelements.comparisonsNum.innerHTML * 1;
     previousNum += num;
     DOMelements.comparisonsNum.innerHTML = previousNum;
+};
 
+// Complexity
+
+export const setComplexityLabel = label => {
+    DOMelements.complexityLabel.innerHTML = label;
+}
+
+export const setDefaultComplexity = num => {
+    DOMelements.complexityAvgNum.innerHTML = num;
+}
+
+export const updateComplexity = (blocksNum, sorting) => {
+    setComplexityLabel(sortingComplexities[sorting]);
+    setDefaultComplexity(calculateAvgComplexity(blocksNum, sorting));
 }
 
 /////////// getting input values ///////////
