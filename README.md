@@ -7,6 +7,11 @@ Use [npm](https://www.npmjs.com/) package menager to install this app.
 npm install
 ```
 ### Usage
+To run application use 
+```bash
+npm start
+```
+or go to [Sortify website](https://radziminski.github.io/sortify)
 #### Website Layout:
 ![layout](https://i.ibb.co/MCQnfTY/sortify.png)
 1. Green section
