@@ -4,6 +4,7 @@ Web application visualizing different sorting algorithms. It displays animations
 ### Instalation
 Use [npm](https://www.npmjs.com/) package menager to install this app.
 ```bash
+git clone https://github.com/radziminski/sortify
 npm install
 ```
 ### Usage
