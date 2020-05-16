@@ -9,6 +9,10 @@
         font-size: 1.6rem;
         padding-top: 0.1rem;
         width: 14.5rem;
+
+        @include respond(small-phone) {
+            font-size: 1.3rem;
+        }
     }
 
     &__slide-input {
@@ -16,7 +20,7 @@
         opacity: 0.75;
         transition: opacity 0.2s;
         cursor: pointer;
-        
+
         display: block;
         -webkit-appearance: none;
         background-color: #bdc3c7;
@@ -74,7 +78,6 @@
     &__values-list {
         list-style: none;
         position: relative;
-
     }
 
     &__value {
@@ -85,17 +88,34 @@
         transform: translateX(-50%);
         transition: all 0.2s;
 
+        @include respond(small-phone) {
+            font-size: 1rem;
+        }
+
         &:nth-child(1) {
             left: 0;
+            @include respond(small-phone) {
+                left: 5%;
+            }
         }
         &:nth-child(2) {
             left: 20%;
+
+            @include respond(small-phone) {
+                left: 25%;
+            }
         }
         &:nth-child(3) {
             left: 40%;
+            @include respond(small-phone) {
+                left: 45%;
+            }
         }
         &:nth-child(4) {
             left: 60%;
+            @include respond(small-phone) {
+                left: 65%;
+            }
         }
         &:nth-child(5) {
             left: 80%;
@@ -107,7 +127,7 @@
         margin-top: 0.5rem;
     }
 
-    &--high &__slide-input { 
+    &--high &__slide-input {
         width: 68%;
     }
 
@@ -130,10 +150,14 @@
     display: flex;
     vertical-align: bottom;
     justify-content: space-between;
-    
+
     &__label-text {
         font-size: 1.6rem;
         padding-top: 0.1rem;
+
+        @include respond(small-phone) {
+            font-size: 1.3rem;
+        }
     }
 
     &__toggle {
@@ -146,7 +170,7 @@
         margin-left: 0.7rem;
 
         &:before {
-            content: "";
+            content: '';
             position: relative;
             top: 0.3rem;
             left: 0.3rem;
@@ -171,7 +195,7 @@
             transition: all 0.2s ease;
 
             &:before {
-                content: "";
+                content: '';
                 position: absolute;
                 display: block;
                 margin: -1.8rem;
@@ -187,7 +211,6 @@
     }
 
     &__input:checked + &__toggle {
-
         &:before {
             background: $color-primary;
         }
@@ -211,7 +234,7 @@
     }
 
     &__space {
-        content: "&nbsp;";
+        content: '&nbsp;';
         width: 60%;
         display: block;
         background-color: transparent;
@@ -222,6 +245,10 @@
     display: block;
     margin-bottom: 1.5rem;
     font-size: 1.6rem;
+
+    @include respond(small-phone) {
+        font-size: 1.4rem;
+    }
 
     &__input {
         display: none;
@@ -236,6 +263,9 @@
     &__title {
         display: inline-block;
         width: 13.5rem;
+        @include respond(phone) {
+            width: 10rem;
+        }
     }
 
     &__radio {
@@ -243,8 +273,12 @@
         font-size: 1.6rem;
         display: inline-block;
         margin-right: 2rem;
+        @include respond(small-phone) {
+            font-size: 1.3rem;
+            margin-right: 1rem;
+        }
     }
-  
+
     &__label-text {
         position: relative;
         display: inline-block;
@@ -255,6 +289,11 @@
         border: 2px solid $color-gray;
         border-radius: 100%;
 
+        @include respond(phone) {
+            width: 18px;
+            height: 18px;
+        }
+
         &:after {
             content: '';
             position: absolute;
@@ -262,6 +301,10 @@
             left: 3px;
             width: 10px;
             height: 10px;
+            @include respond(phone) {
+                width: 8px;
+                height: 8px;
+            }
             border-radius: 100%;
             background-color: $color-primary;
             transform: scale(0);
@@ -274,15 +317,13 @@
     &__radio:hover &__label-text:after {
         transform: scale(3.2);
     }
-    
+
     &__input:checked + &__label-text {
         border-color: $color-primary;
         &:after {
             transform: scale(1);
-            transition: all 0.2s cubic-bezier(.35,.9,.4,.9);
+            transition: all 0.2s cubic-bezier(0.35, 0.9, 0.4, 0.9);
             opacity: 1;
         }
     }
- 
-  
 }

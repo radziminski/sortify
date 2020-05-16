@@ -1,7 +1,7 @@
 .row {
     max-width: $grid-width;
     margin: 0 auto;
-    
+    overflow: hidden;
 
     &:not(:last-child) {
         margin-bottom: $gutter-vertical;
@@ -12,20 +12,19 @@
     @include respond(tab-land) {
         padding: 0 4rem;
     }
-    @include respond(small-phone) {
+    @include respond(phone) {
         padding: 0 3rem;
     }
+    @include respond(small-phone) {
+        padding: 0 2rem;
+    }
 
-    
-
-
-    [class^="col-"] {
+    [class^='col-'] {
         float: left;
-        
+
         &:not(:last-child) {
             margin-right: $gutter-horizontal;
         }
-
     }
 
     .col-1-of-2 {
@@ -49,7 +48,7 @@
         width: calc((3 * (100% - 3 * #{$gutter-horizontal}) / 4) + 2 * #{$gutter-horizontal});
     }
 
-    [class^="col-"] {
+    [class^='col-'] {
         @include respond(tab-port) {
             display: block;
             width: 100%;
@@ -58,6 +57,4 @@
             }
         }
     }
-
-    
 }

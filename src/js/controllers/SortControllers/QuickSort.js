@@ -1,7 +1,5 @@
 import Sort from './Sort';
 import { colors } from '../../base';
-import * as blocksView from '../../views/blocksView';
-import * as settingsView from '../../views/settingsView';
 
 class QuickSort extends Sort {
     getType() {

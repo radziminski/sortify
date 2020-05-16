@@ -54,7 +54,7 @@ export const colors = {
     default: '#2B90FE',
     dark: '#141414',
     light: '#2B90FE',
-    accent: '#65939c',
+    accent: '#e98bfa',
 
     current: '#fb0000',
 

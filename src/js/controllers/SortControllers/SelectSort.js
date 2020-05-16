@@ -1,7 +1,5 @@
 import Sort from './Sort';
 import { colors } from '../../base';
-import * as blocksView from '../../views/blocksView';
-import * as settingsView from '../../views/settingsView';
 
 class SelectSort extends Sort {
     getType() {
@@ -60,6 +58,7 @@ class SelectSort extends Sort {
                         blocks: [nextBlock],
                     });
                     this.addStep('updtComparisons', {});
+                    this.addStep('wait', { waitTime });
 
                     // checking if it is bigger / smaller than previous max / min
                     if ((sizes[nextBlock] > sizes[max] && sortType) || (sizes[nextBlock] < sizes[max] && !sortType)) {

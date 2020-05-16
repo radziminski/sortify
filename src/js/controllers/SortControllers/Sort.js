@@ -199,7 +199,7 @@ class Sort {
     //////////////////////////////////////////
 
     // Steps creation
-    addStep(stepID, args, animated = true) {
+    addStep(stepID, args) {
         this.stepsArr.push({
             stepNum: stepID,
             arg: args,
@@ -209,64 +209,50 @@ class Sort {
     // Method that perform given step (According to step list below) from the steps array
     async stepsDecoder(step, arg, animated = true) {
         /* STEPS:
-            0: wait some time 
+            wait some time 
                 arg:    waitTime
-    
-            1: color several blocks 
+            color several blocks 
                 arg:    color
                 arg:    blocks[]
-    
-            2:  color all blocks
+            color all blocks
                 arg:    color
                 arg:    blocksnum
-    
-            3:  block swap animation
+            block swap animation
                 arg:    blocks[]
                 arg:    waitTime
-    
-            4:  swap blocks height
+            swap blocks height
                 arg:    blocks[]
-    
-            5:  arr swap
+            arr swap
                 arg:    sizes
                 arg:    blocks[]
-    
-            6:  swap blocks colors
+            swap blocks colors
                 arg:    blocks[]
-    
-            7: raise block
+            raise block
                 arg:    blocks
                 arg;    waitTime
-            
-            8: lower block
+            lower block
                 arg:    blocks
                 arg;    waitTime
-            
-            9: set blocks height
+            set blocks height
                 arg:    blocks[]
                 values: val[] 
-    
-            10: increment comparisons num
+            increment comparisons num
                 arg: -
         */
         try {
             switch (step) {
-                case 0:
                 case 'wait':
                     await this.wait(arg.waitTime);
                     break;
 
-                case 1:
                 case 'colorBlocks':
                     blocksView.colorSeveralBlocksArr(arg.color, arg.blocks);
                     break;
 
-                case 2:
                 case 'colorAllBlocks':
                     blocksView.colorAllBlocks(arg.blocksNum, arg.color);
                     break;
 
-                case 3:
                 case 'swapAnimation':
                     if (!animated) {
                         blocksView.swapBlocksHeight(arg.blocks[0], arg.blocks[1]);
@@ -276,44 +262,39 @@ class Sort {
                     await this.blocksSwapAnimation(arg.blocks[0], arg.blocks[1], arg.waitTime);
                     break;
 
-                case 4:
                 case 'swapHeight':
                     blocksView.swapBlocksHeight(arg.blocks[0], arg.blocks[1]);
                     break;
 
-                case 5:
                 case 'arrSwap':
                     this.arrSwap(arg.sizes, arg.blocks[0], arg.blocks[1]);
                     break;
 
-                case 6:
                 case 'swapColors':
                     blocksView.swapBlocksColors(arg.blocks[0], arg.blocks[1]);
                     break;
 
-                case 7:
                 case 'raiseBlocks':
                     if (!animated) return;
                     await this.raiseBlocks(arg.blocks, arg.waitTime);
                     break;
 
-                case 8:
                 case 'lowerBlocks':
                     if (!animated) return;
                     await this.lowerBlocks(arg.blocks, arg.waitTime);
                     break;
 
-                case 9:
                 case 'setHeight':
                     for (let block in arg.blocks) {
                         arg.blocks[block] = arg.val[block];
                     }
                     break;
-                case 10:
+
                 case 'updtComparisons':
                     if (!arg.num) settingsView.incrementComparisonsNum();
                     else settingsView.addToComparisonNum(arg.num);
                     break;
+
                 default:
                     console.error('Error, step not found!');
                     console.error('Step: ' + step);
@@ -333,8 +314,8 @@ class Sort {
         return true;
     }
 
-    async clearPrevSort() {
-        settingsView.resetComparisonsNum();
+    async clearPrevSort(shouldResetCompNum = false) {
+        if (shouldResetCompNum) settingsView.resetComparisonsNum();
         this.breakPointer = true;
         await this.delay();
         this.breakPointer = false;
@@ -361,7 +342,8 @@ class Sort {
     // Method initializing and performing whole sort animation
     async sortIt(sizes, waitTime, animated = true, sortType = true) {
         // Stopping previous sorting
-        await this.clearPrevSort();
+        if (this.currentStep === 1) await this.clearPrevSort(true);
+        else await this.clearPrevSort();
         // Instant sorting if time is 0 (or almost 0)
         if (waitTime < 10) return await this.sortItInstantSort(sizes, sortType);
 
