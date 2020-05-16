@@ -25,8 +25,9 @@ or go to [Sortify website](https://radziminski.github.io/sortify)
 4. Purple section
     - These are settings that allow to control the operation of appliaction. Settings are divided into two columns: Blocks settings, where user may change number of blocks, their minimal and maximum height and shuffle or generate new blocks. In Sorting settings, user may change the speed of the animation, sorting type (ascending or descending) and smoothness of animation with "animated" toggle button - with this turned off the animations visibility will be reduced to minimum. 
 #### Important remark:
-Application may behave wrongly in "fast" speed of sorting - due to very little times between given sorting steps, some of them might be performed in wrong order, crashing the animation. 
-Therefore, instant, normal or slower speed is recomended. 
+Application may behave wrongly while "fast" speed of sorting is selected - due to very little times between given sorting steps, some of them might be performed in wrong order, crashing the animation. 
+Therefore, instant, normal or slower speed is recomended.
+Also, there are some bugs with pause function, its sometimes breaks the corectness of sorting, it needs to be fixed as well.
 ## Built With
 - Html and CSS
 - Vanilla javascript with Babel compiler 
@@ -34,6 +35,8 @@ Therefore, instant, normal or slower speed is recomended.
 - Animations were done only in CSS
 - Webpack used for bundling
 - Deployed on [GithubPages](https://radziminski.github.io/sortify)
-
+## To do
+- Fix fast speed bugs
+- Fix pause bugs
 ## License
 This project is licensed under the MIT License.
