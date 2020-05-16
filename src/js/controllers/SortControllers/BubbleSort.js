@@ -1,9 +1,7 @@
-import Sort from "./Sort";
+import Sort from './Sort';
 import { colors } from '../../base';
 import * as blocksView from '../../views/blocksView';
 import * as settingsView from '../../views/settingsView';
-
-
 
 class BubbleSort extends Sort {
     getType() {
@@ -17,9 +15,7 @@ class BubbleSort extends Sort {
         while (n > 1) {
             ifAnySwapped = false;
             for (let i = 0; i < n - 1; i++) {
-
-                if (sizes[i] < sizes[i + 1] && sortType ||
-                    sizes[i] > sizes[i + 1] && !sortType) {
+                if ((sizes[i] < sizes[i + 1] && sortType) || (sizes[i] > sizes[i + 1] && !sortType)) {
                     this.arrSwap(sizes, i, i + 1);
                     ifAnySwapped = true;
                 }
@@ -28,7 +24,7 @@ class BubbleSort extends Sort {
             if (!ifAnySwapped) break;
         }
 
-        return (comparisons);
+        return comparisons;
     }
 
     // STEPS MAKER
@@ -45,67 +41,42 @@ class BubbleSort extends Sort {
             let ifAnySwapped = false;
             // n !== sizes.length ? blocksView.colorSingleBlock(n , 'rgb(31, 111, 197)') : null;
             for (let i = 0; i < n - 1; i++) {
-                if ((n !== sizes.length || i !== 0) && waitTime > 100) this.stepsArr.push({
-                    stepNum: 0,
-                    arg: {
-                        waitTime: waitTime,
-                    },
-                })
-                
+                if ((n !== sizes.length || i !== 0) && waitTime > 100) this.addStep('wait', { waitTime });
+
                 this.addStep('colorBlocks', {
-                        color: colors.current,
-                        blocks: [i, i+1],
+                    color: colors.current,
+                    blocks: [i, i + 1],
                 });
-                
-                this.addStep('wait', {waitTime});
+
+                this.addStep('wait', { waitTime });
                 this.addStep('updtComparisons', {});
 
-                if (sortType && sizes[i] < sizes[i + 1] ||
-                    !sortType && sizes[i] > sizes[i + 1]) {
-                        
+                if ((sortType && sizes[i] < sizes[i + 1]) || (!sortType && sizes[i] > sizes[i + 1])) {
                     if (waitTime > 100) {
                         this.addStep('colorBlocks', {
-                                color: colors.chosen,
-                                blocks: [i, i+1],
+                            color: colors.chosen,
+                            blocks: [i, i + 1],
                         });
-                        this.addStep('wait', {waitTime});
+                        this.addStep('wait', { waitTime });
                     }
 
                     if (waitTime > 100) {
-                        this.stepsArr.push({
-                            stepNum: 3,
-                            arg: {
-                                waitTime: waitTime,
-                                blocks: [i, i + 1]
-                            },
-                        });
+                        this.addStep('swapAnimation', { waitTime: waitTime, blocks: [i, i + 1] });
                     } else {
                         // blocksView.swapBlocksColors(i, i + 1);
-                        this.stepsArr.push({
-                            stepNum: 4,
-                            arg: {
-                                blocks: [i, i + 1]
-                            },
-                        });
+                        this.addStep('swapHeight', { blocks: [i, i + 1] });
                     }
 
-                    this.stepsArr.push({
-                        stepNum: 5,
-                        arg: {
-                            sizes: sizesOrig,
-                            blocks: [i, i + 1]
-                        },
-                    });
+                    this.addStep('arrSwap', { sizes: sizesOrig, blocks: [i, i + 1] });
 
                     this.arrSwap(sizes, i, i + 1);
-
 
                     ifAnySwapped = true;
                 }
 
                 this.addStep('colorBlocks', {
-                        color: colors.default,
-                        blocks: [i, i + 1]
+                    color: colors.default,
+                    blocks: [i, i + 1],
                 });
             }
             if (!ifAnySwapped) break;
@@ -113,8 +84,6 @@ class BubbleSort extends Sort {
             n--;
         }
     }
-
 }
 
 export default BubbleSort;
-

@@ -23,7 +23,7 @@ class SelectSort extends Sort {
         this.stepsArr = [];
         this.stepsArr.push({
             stepNum: 'initial settings',
-            blocksNum: sizesOrig.length
+            blocksNum: sizesOrig.length,
         });
         const sizes = [...sizesOrig];
 
@@ -32,36 +32,23 @@ class SelectSort extends Sort {
             currentBlock > 0
                 ? this.addStep('colorBlocks', {
                       color: colors.sorted,
-                      blocks: [currentBlock - 1]
+                      blocks: [currentBlock - 1],
                   })
                 : null;
 
             // wait if not in first iteration
-            if (currentBlock !== 0)
-                this.stepsArr.push({
-                    stepNum: 0,
-                    arg: {
-                        waitTime: waitTime
-                    }
-                });
+            if (currentBlock !== 0) this.addStep('wait', { waitTime });
 
             // highliting current block
             this.addStep('colorBlocks', {
                 color: colors.current,
-                blocks: [currentBlock]
+                blocks: [currentBlock],
             });
 
-            this.stepsArr.push({
-                stepNum: 0,
-                arg: {
-                    waitTime: waitTime
-                }
-            });
+            this.addStep('wait', { waitTime });
 
             // finding curent max / min block
-            const maxBlock = sortType
-                ? this.findMax(currentBlock, sizes)
-                : this.findMin(currentBlock, sizes);
+            const maxBlock = sortType ? this.findMax(currentBlock, sizes) : this.findMin(currentBlock, sizes);
 
             // displaying searching procedure as sequence of coloring
             if (waitTime > 100) {
@@ -70,158 +57,94 @@ class SelectSort extends Sort {
                     // coloring block that we are currently investigating for being max / min
                     this.addStep('colorBlocks', {
                         color: colors.highlight,
-                        blocks: [nextBlock]
+                        blocks: [nextBlock],
                     });
-                    this.stepsArr.push({
-                        stepNum: 10,
-                        arg: {}
-                    });
-                    this.stepsArr.push({
-                        stepNum: 0,
-                        arg: {
-                            waitTime: waitTime
-                        }
-                    });
+                    this.addStep('updtComparisons', {});
 
                     // checking if it is bigger / smaller than previous max / min
-                    if (
-                        (sizes[nextBlock] > sizes[max] && sortType) ||
-                        (sizes[nextBlock] < sizes[max] && !sortType)
-                    ) {
+                    if ((sizes[nextBlock] > sizes[max] && sortType) || (sizes[nextBlock] < sizes[max] && !sortType)) {
                         // if yes coloring it and clearing previous max
                         if (max !== currentBlock) {
                             this.addStep('colorBlocks', {
                                 color: colors.default,
-                                blocks: [max]
+                                blocks: [max],
                             });
                         }
 
                         this.addStep('colorBlocks', {
                             color: colors.chosen,
-                            blocks: [nextBlock]
+                            blocks: [nextBlock],
                         });
 
                         // and updating current max / min
                         max = nextBlock;
-                        this.stepsArr.push({
-                            stepNum: 0,
-                            arg: {
-                                waitTime: waitTime
-                            }
-                        });
+                        this.addStep('wait', { waitTime });
                     } else {
                         // if not clearing hgighlight
                         this.addStep('colorBlocks', {
                             color: colors.default,
-                            blocks: [nextBlock]
+                            blocks: [nextBlock],
                         });
-                        this.stepsArr.push({
-                            stepNum: 0,
-                            arg: {
-                                waitTime: 50
-                            }
-                        });
+                        this.addStep('wait', { waitTime: 50 });
                     }
                 }
             } else {
-                this.stepsArr.push({
-                    stepNum: 0,
-                    arg: {
-                        waitTime: 50
-                    }
-                });
-                this.stepsArr.push({
-                    stepNum: 10,
-                    arg: {
-                        num: sizes.length - currentBlock - 1
-                    }
+                this.addStep('wait', { waitTime: 50 });
+                this.addStep('updtComparisons', {
+                    num: sizes.length - currentBlock - 1,
                 });
             }
 
             // if max is not current block we need to do swap and swap animation
             if (maxBlock !== currentBlock) {
-                this.stepsArr.push({
-                    stepNum: 0,
-                    arg: {
-                        waitTime: waitTime
-                    }
-                });
+                this.addStep('wait', { waitTime });
 
                 // highliting found max / min block
                 this.addStep('colorBlocks', {
                     color: colors.current,
-                    blocks: [maxBlock]
+                    blocks: [maxBlock],
                 });
 
                 // swapping future array values
-                this.stepsArr.push({
-                    stepNum: 5,
-                    arg: {
-                        sizes: sizesOrig,
-                        blocks: [currentBlock, maxBlock]
-                    }
+                this.addStep('arrSwap', {
+                    sizes: sizesOrig,
+                    blocks: [currentBlock, maxBlock],
                 });
 
                 // swapping current array values
                 this.arrSwap(sizes, currentBlock, maxBlock);
 
-                this.stepsArr.push({
-                    stepNum: 0,
-                    arg: {
-                        waitTime: waitTime
-                    }
-                });
+                this.addStep('wait', { waitTime });
 
                 // displaying or not blocks switch animation and switching their properties
-                this.stepsArr.push({
-                    stepNum: 3,
-                    arg: {
-                        blocks: [currentBlock, maxBlock],
-                        waitTime: waitTime
-                    }
-                });
+                this.addStep('swapAnimation', { blocks: [currentBlock, maxBlock], waitTime: waitTime });
             } else {
                 // if curreent block is max then we just move to next one
-                this.stepsArr.push({
-                    stepNum: 0,
-                    arg: {
-                        waitTime: waitTime / 3
-                    }
-                });
+                this.addStep('wait', { waitTime: waitTime / 3 });
 
                 //???
                 this.addStep('colorBlocks', {
                     color: colors.default,
-                    blocks: [sizesOrig.length - 1]
+                    blocks: [sizesOrig.length - 1],
                 });
             }
 
-            this.stepsArr.push({
-                stepNum: 0,
-                arg: {
-                    waitTime: waitTime
-                }
-            });
+            this.addStep('wait', { waitTime });
 
             // clearing colors
             this.addStep('colorBlocks', {
                 color: colors.default,
-                blocks: [currentBlock, maxBlock]
+                blocks: [currentBlock, maxBlock],
             });
         }
 
         // coloring last blocks as sorted
         this.addStep('colorBlocks', {
             color: colors.sorted,
-            blocks: [sizes.length - 1, sizes.length - 2]
+            blocks: [sizes.length - 1, sizes.length - 2],
         });
 
-        this.stepsArr.push({
-            stepNum: 0,
-            arg: {
-                waitTime: waitTime
-            }
-        });
+        this.addStep('wait', { waitTime });
     }
 }
 

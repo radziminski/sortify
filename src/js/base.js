@@ -21,7 +21,6 @@ export const DOMelements = {
     insertSortBtn: document.querySelector('.js--insert-btn'),
     quickSortBtn: document.querySelector('.js--quick-btn'),
     mergeSortBtn: document.querySelector('.js--merge-btn'),
-    heapSortBtn: document.querySelector('.js--heap-btn'),
     raddixSortBtn: document.querySelector('.js--raddix-btn'),
 
     // Sorting speed slider
@@ -32,7 +31,7 @@ export const DOMelements = {
     speedSliderLabelFast: document.querySelector('.js--speed-slider-label-fast'),
     speedSliderLabelSupFast: document.querySelector('.js--speed-slider-label-sfast'),
 
-    // Adv Settings
+    // Settings
     startSortBtn: document.querySelector('.js--play'),
     stopSortBtn: document.querySelector('.js--stop'),
     playerContainer: document.querySelector('.js--player'),
@@ -48,9 +47,8 @@ export const DOMelements = {
     inputMinHeightText: document.querySelector('.js--blocks-min-height-text'),
     inputMinHeightSlider: document.querySelector('.js--blocks-min-height-slide'),
     inputMaxHeightText: document.querySelector('.js--blocks-max-height-text'),
-    inputMaxHeightSlider: document.querySelector('.js--blocks-max-height-slide')
+    inputMaxHeightSlider: document.querySelector('.js--blocks-max-height-slide'),
 };
-
 
 export const colors = {
     default: '#2B90FE',
@@ -63,12 +61,7 @@ export const colors = {
     // Sorting:
     highlight: '#8bc4fa',
     chosen: '#e98bfa',
-    sorted: 'rgb(31, 111, 197)'
-
-    // default: '#2c3e50',
-    // dark: '#2c3e50',
-    // light: '#3a536b',
-    // accent: '#65939c'
+    sorted: 'rgb(31, 111, 197)',
 };
 
 export const sortingComplexities = {
@@ -77,7 +70,7 @@ export const sortingComplexities = {
     insertSort: 'n<sup>2</sup>',
     quickSort: 'n log<sub>2</sub>(n)',
     mergeSort: 'n log<sub>2</sub>(n)',
-}
+};
 
 export const calculateAvgComplexity = (blocksNum, sorting) => {
     switch (sorting) {
@@ -88,8 +81,6 @@ export const calculateAvgComplexity = (blocksNum, sorting) => {
         default:
             return Math.ceil(blocksNum * Math.log(blocksNum, 2));
     }
-}
-
-export const selectBlock = id => {
-    return document.querySelector(`.id-${id}`);
 };
+
+export const selectBlock = (id) => document.querySelector(`.id-${id}`);

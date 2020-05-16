@@ -35,7 +35,7 @@ class Sort {
     }
 
     delay(callback = null) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             this.timeout = setTimeout(() => {
                 if (callback) callback();
                 resolve(true);
@@ -78,17 +78,13 @@ class Sort {
 
     // Animation of two blocks swapping
     async blocksSwapAnimation(blockA, blockB, transitionTime) {
-        console.log('Swapping blocks: ' + blockA + 'and ' + blockB);
-
-        let transitionTimeInSeconds = Math.round(transitionTime / 10) / 100;
-        if (transitionTimeInSeconds === 0) transitionTimeInSeconds = 0.1;
         // Removing classess added for initial animations (after generating the blocks)
-        selectBlock(blockA).classList.remove('animated', 'fadeInUp');
-        selectBlock(blockB).classList.remove('animated', 'fadeInUp');
+        blocksView.turnOffAnimation(blockA);
+        blocksView.turnOffAnimation(blockB);
 
         // Setting up transition of transform property to the general time of sorting
-        selectBlock(blockA).style.transition = `transform ${transitionTimeInSeconds}s`;
-        selectBlock(blockB).style.transition = `transform ${transitionTimeInSeconds}s`;
+        blocksView.setTransitionTime(blockA, transitionTime);
+        blocksView.setTransitionTime(blockB, transitionTime);
 
         // Waiting moment to make sure that above steps are done
         try {
@@ -96,25 +92,27 @@ class Sort {
         } catch (err) {
             throw new Error(err);
         }
-        // Calculating distance in pixels for which blocks will be transformed
-        const distance = (blockB - blockA) * this.blockWidth;
 
-        // Checking if blocks were not moved up eariler
+        // Saving if blocks were not moved up eariler
         const blockAPrevMargin = selectBlock(blockA).style.marginBottom;
         const blockBPrevMargin = selectBlock(blockB).style.marginBottom;
 
+        // Calculating distance in pixels for which blocks will be transformed
+        const distance = (blockB - blockA) * this.blockWidth;
+
         // Visualizing swapping blocks animation
-        selectBlock(blockA).style.transform = `translate(${distance}px, 0)`;
-        selectBlock(blockB).style.transform = `translate(${-1 * distance}px, 0)`;
+        blocksView.moveBlockHorizontal(blockA, distance);
+        blocksView.moveBlockHorizontal(blockB, -distance);
 
         try {
-            await this.wait(1100 * transitionTimeInSeconds, () => {
+            await this.wait(1100 * blocksView.convertTransitionTimeToMs(transitionTime), () => {
                 // Reseting all transition times at end, so the blocks can be actually swapped
                 // without showing weird jumps to the user
-                selectBlock(blockA).style.transition = 'background-color 0.0s, transform 0s';
-                selectBlock(blockB).style.transition = 'background-color 0.0s, transform 0s';
-                selectBlock(blockA).style.transform = 'translate(0, 0)';
-                selectBlock(blockB).style.transform = 'translate(0, 0)';
+                blocksView.clearTransitionTime(blockA);
+                blocksView.clearTransitionTime(blockB);
+                blocksView.moveBlockHorizontal(blockA, 0);
+                blocksView.moveBlockHorizontal(blockB, 0);
+
                 selectBlock(blockA).style.marginBottom = blockBPrevMargin;
                 selectBlock(blockB).style.marginBottom = blockAPrevMargin;
 
@@ -128,8 +126,8 @@ class Sort {
         }
 
         // Restoring original blocks transition times
-        selectBlock(blockA).style.transition = 'background-color 0.2s, transform 0s';
-        selectBlock(blockB).style.transition = 'background-color 0.2s, transform 0s';
+        blocksView.setTransitionTime(blockA, 200);
+        blocksView.setTransitionTime(blockB, 200);
 
         return true;
     }
@@ -138,15 +136,13 @@ class Sort {
     async lowerBlocks(blocks, waitTime) {
         // Adding margin transition so the block is moved up smoothly (margin-bottom will be added to it)
         for (let block in blocks) {
-            selectBlock(blocks[block]).classList.remove('animated', 'fadeInUp');
-            selectBlock(
-                blocks[block]
-            ).style.transition = `background-color 0.2s, margin-bottom ${waitTime / 1000}s`;
+            blocksView.turnOffAnimation(blocks[block]);
+            blocksView.setTransitionTime(blocks[block], waitTime);
         }
         try {
             await this.wait(10);
             for (let block in blocks) {
-                selectBlock(blocks[block]).style.marginBottom = '0px';
+                blocksView.moveBlockVertical(blocks[block], 0);
             }
             await this.wait(1.5 * waitTime);
         } catch (error) {
@@ -161,15 +157,13 @@ class Sort {
     // Method used to raise (move up) given blocks, analogicly to lowerBlocks()
     async raiseBlocks(blocks, waitTime) {
         for (let block in blocks) {
-            selectBlock(blocks[block]).classList.remove('animated', 'fadeInUp');
-            selectBlock(
-                blocks[block]
-            ).style.transition = `background-color 0.2s, margin-bottom ${waitTime / 1000}s`;
+            blocksView.turnOffAnimation(blocks[block]);
+            blocksView.setTransitionTime(blocks[block], waitTime);
         }
 
         try {
             await this.wait(10);
-            for (let block in blocks) selectBlock(blocks[block]).style.marginBottom = '200px';
+            for (let block in blocks) blocksView.moveBlockVertical(blocks[block], 200);
             await this.wait(1.5 * waitTime);
         } catch (error) {
             throw new Error(error);
@@ -184,19 +178,16 @@ class Sort {
 
     // Function stopping sorting and reseting all properties
     stop(blocksNum = 0) {
-        console.log('started stopping');
         this.breakPointer = true;
         clearTimeout(this.timeout);
         blocksView.colorAllBlocks(blocksNum);
         blocksView.clearRaiseBlocks(blocksNum);
-        settingsView.resetComparisonsNum();
         this.currentStep = 1;
         settingsView.changeToPlayIcon();
-        console.log('finished stopping');
     }
 
     // Fucntion only stopping sorting so it can be continued later
-    pause(sizes = null) {
+    pause() {
         this.breakPointer = true;
         clearTimeout(this.timeout);
         this.step--;
@@ -211,7 +202,7 @@ class Sort {
     addStep(stepID, args, animated = true) {
         this.stepsArr.push({
             stepNum: stepID,
-            arg: args
+            arg: args,
         });
     }
 
@@ -342,23 +333,37 @@ class Sort {
         return true;
     }
 
-    // Method initializing and performing whole sort animation
-    async sortIt(sizes, waitTime, animated = true, sortType = true) {
-        // Stopping previous sorting
+    async clearPrevSort() {
+        settingsView.resetComparisonsNum();
         this.breakPointer = true;
         await this.delay();
         this.breakPointer = false;
+    }
 
+    async sortItInstantSort(sizes, sortType) {
+        const comparisons = this.instantSort(sizes, sortType);
+        blocksView.renderBlocks(sizes, this.blockWidth, true);
+        settingsView.changeToPlayIcon();
+        blocksView.toggleBlocksHeight(sizes.length, 0);
+        this.stop(sizes.length);
+        settingsView.setComparisonNum(comparisons);
+        return true;
+    }
+
+    async sortCompletedAnimation(sizesLength, waitTime) {
+        blocksView.colorAllBlocks(sizesLength);
+        waitTime > 300 ? await this.wait(waitTime) : await this.wait(250);
+        blocksView.colorAllBlocks(sizesLength, 'rgba(0,173,68,1)');
+        waitTime > 300 ? await this.wait(waitTime) : await this.wait(400);
+        blocksView.colorAllBlocks(sizesLength);
+    }
+
+    // Method initializing and performing whole sort animation
+    async sortIt(sizes, waitTime, animated = true, sortType = true) {
+        // Stopping previous sorting
+        await this.clearPrevSort();
         // Instant sorting if time is 0 (or almost 0)
-        if (waitTime < 10) {
-            const comparisons = this.instantSort(sizes, sortType);
-            blocksView.renderBlocks(sizes, this.blockWidth, true);
-            settingsView.changeToPlayIcon();
-            blocksView.toggleBlocksHeight(sizes.length, 0);
-            this.stop(sizes.length);
-            settingsView.setComparisonNum(comparisons);
-            return true;
-        }
+        if (waitTime < 10) return await this.sortItInstantSort(sizes, sortType);
 
         if (waitTime < 50) {
             blocksView.disableTransition(sizes.length);
@@ -374,19 +379,11 @@ class Sort {
         try {
             completed = await this.executeSteps(animated);
         } catch (error) {
-            console.log('cought Highest');
-            console.log(error);
             return false;
         }
 
         // Fnalizing animation with flash of green coloring
-        if (completed) {
-            blocksView.colorAllBlocks(sizes.length);
-            waitTime > 300 ? await this.wait(waitTime) : await this.wait(250);
-            blocksView.colorAllBlocks(sizes.length, 'rgba(0,173,68,1)');
-            waitTime > 300 ? await this.wait(waitTime) : await this.wait(400);
-            blocksView.colorAllBlocks(sizes.length);
-        }
+        if (completed) await this.sortCompletedAnimation(sizes.length, waitTime);
 
         this.stop(sizes.length);
         return true;
@@ -401,14 +398,9 @@ class Sort {
                 return false;
             } else {
                 this.currentStep = i;
-                // console.log('current step: ' + i)
-                // console.log(this.stepsArr[i].stepNum);
+
                 try {
-                    await this.stepsDecoder(
-                        this.stepsArr[i].stepNum,
-                        this.stepsArr[i].arg,
-                        animated
-                    );
+                    await this.stepsDecoder(this.stepsArr[i].stepNum, this.stepsArr[i].arg, animated);
                 } catch (error) {
                     throw new Error(error);
                 }

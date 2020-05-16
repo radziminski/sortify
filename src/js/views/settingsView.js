@@ -4,12 +4,11 @@ import { DOMelements, sortingComplexities, calculateAvgComplexity } from '../bas
 
 export function highlightSortingBtn(btn) {
     const allBtns = DOMelements.allSortingBtns;
-    allBtns.forEach(btn => btn.classList.remove('btn--active'));
+    allBtns.forEach((btn) => btn.classList.remove('btn--active'));
     btn.classList.add('btn--active');
 }
 
 /////////// Changing play Button ///////////
-
 export const togglePlayIcon = () => {
     let curr = DOMelements.startSortBtn.name;
     if (curr !== 'play') {
@@ -28,12 +27,11 @@ export const changeToPauseIcon = () => {
     DOMelements.startSortBtn.name = 'pause';
 };
 
-// Animation change
+/////////// AnimationsChange ///////////
 
 export const turnOnAnimations = (checked) => {
     DOMelements.inputAnimateCheckbox.checked = checked;
-}
-
+};
 
 /////////// Comparisons ///////////
 
@@ -48,30 +46,30 @@ export const resetComparisonsNum = () => {
     DOMelements.comparisonsNum.innerHTML = 0;
 };
 
-export const setComparisonNum = num => {
+export const setComparisonNum = (num) => {
     DOMelements.comparisonsNum.innerHTML = num;
 };
 
-export const addToComparisonNum = num => {
+export const addToComparisonNum = (num) => {
     let previousNum = DOMelements.comparisonsNum.innerHTML * 1;
     previousNum += num;
     DOMelements.comparisonsNum.innerHTML = previousNum;
 };
 
-// Complexity
+/////////// Complexity ///////////
 
-export const setComplexityLabel = label => {
+export const setComplexityLabel = (label) => {
     DOMelements.complexityLabel.innerHTML = label;
-}
+};
 
-export const setDefaultComplexity = num => {
+export const setDefaultComplexity = (num) => {
     DOMelements.complexityAvgNum.innerHTML = num;
-}
+};
 
 export const updateComplexity = (blocksNum, sorting) => {
     setComplexityLabel(sortingComplexities[sorting]);
     setDefaultComplexity(calculateAvgComplexity(blocksNum, sorting));
-}
+};
 
 /////////// getting input values ///////////
 

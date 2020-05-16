@@ -7,9 +7,7 @@ import { DOMelements, colors, selectBlock } from '../base';
 const renderBlock = async (block, height, index, animated = true) => {
     DOMelements.blocksList.insertAdjacentHTML(
         'beforeend',
-        `<li class="section-blocks__single-block id-${index} ${
-            animated ? `animated fadeInUp` : null
-        } "
+        `<li class="section-blocks__single-block id-${index} ${animated ? `animated fadeInUp` : null} "
             style="margin-left: ${block.blockMargin}px;
             margin-right: ${block.blockMargin}px;
             width: ${block.blockActualWidth}px;
@@ -21,7 +19,7 @@ const renderBlock = async (block, height, index, animated = true) => {
 export const renderBlocks = async (sizes, blockWidth, animated = true) => {
     const block = {
         blockActualWidth: Math.floor(((3 * blockWidth) / 4) * 100) / 100,
-        blockMargin: Math.floor((blockWidth / 8) * 100) / 100
+        blockMargin: Math.floor((blockWidth / 8) * 100) / 100,
     };
     if (block.blockMargin < 1) {
         block.blockActualWidth = blockWidth;
@@ -43,13 +41,13 @@ export function colorSingleBlock(block, color) {
 }
 
 export function colorSeveralBlocks(color, ...blocks) {
-    blocks.forEach(block => {
+    blocks.forEach((block) => {
         colorSingleBlock(block, color);
     });
 }
 
 export function colorSeveralBlocksArr(color, blocks) {
-    blocks.forEach(block => {
+    blocks.forEach((block) => {
         colorSingleBlock(block, color);
     });
 }
@@ -110,22 +108,41 @@ export const clearBlocks = () => {
     DOMelements.blocksList.innerHTML = '';
 };
 
-export const disableTransition = blocksNum => {
+export const turnOffAnimation = (block) => selectBlock(block).classList.remove('animated', 'fadeInUp');
+export const turnOnAnimation = (block) => selectBlock(block).classList.add('animated', 'fadeInUp');
+
+export const convertTransitionTimeToMs = (transitionTime) => {
+    let transitionTimeInSeconds = Math.round(transitionTime / 10) / 100;
+    if (transitionTimeInSeconds === 0) transitionTimeInSeconds = 0.1;
+    return transitionTimeInSeconds;
+};
+
+export const setTransitionTime = (block, transitionTime) =>
+    (selectBlock(block).style.transition = `all ${convertTransitionTimeToMs(transitionTime)}s`);
+
+export const clearTransitionTime = (block) => (selectBlock(block).style.transition = `all 0s`);
+
+export const disableTransition = (blocksNum) => {
     for (let i = 0; i < blocksNum; i++) {
         selectBlock(i).classList.add('u-disable-transition');
     }
 };
 
-export const enableTransition = blocksNum => {
+export const enableTransition = (blocksNum) => {
     for (let i = 0; i < blocksNum; i++) {
         selectBlock(i).classList.remove('u-disable-transition');
     }
 };
 
-export const calculateBlockWidth = blocksNum => {
+export const calculateBlockWidth = (blocksNum) => {
     const contaninerWidth = DOMelements.blocksList.offsetWidth;
     let blockWidth = Math.floor((contaninerWidth / blocksNum) * 100) / 100;
     blockWidth > 70 ? (blockWidth = 70) : null;
 
     return blockWidth;
 };
+
+export const moveBlockHorizontal = (block, distance) =>
+    (selectBlock(block).style.transform = `translate(${distance}px, 0)`);
+
+export const moveBlockVertical = (block, height) => (selectBlock(block).style.marginBottom = `${height}px`);

@@ -6,7 +6,7 @@
     background-color: $color-primary;
     // background-color: transparent;
     // background-image: $background-grad-2;
-    
+
     border-radius: 2rem;
     color: $color-white;
     font-size: 1.5rem;
@@ -14,18 +14,17 @@
     transition: all 0.3s;
     cursor: pointer;
     backface-visibility: hidden;
-    
 
     &:hover {
         background-color: $color-primary-medium-1;
     }
-        /* transform: translateY(-0.2rem) */
+    /* transform: translateY(-0.2rem) */
 
     &:active {
         outline: none;
         background-color: $color-primary-medium-2;
         transition: all 0.1s;
-        transform: translateY(0.1rem)
+        transform: translateY(0.1rem);
     }
 
     &:focus {
@@ -33,7 +32,7 @@
     }
 
     &--full {
-        width: 17rem;
+        width: 19rem;
         border-radius: 0;
         //border-left: 1px solid $color-black;
     }
@@ -48,11 +47,11 @@
             outline: none;
         }
 
-        @include respond (tab-port) {
+        @include respond(tab-port) {
             height: 7rem;
             padding: 0 1rem;
         }
-        @include respond (small-phone) {
+        @include respond(small-phone) {
             width: 5rem;
         }
 
@@ -65,7 +64,7 @@
                 outline: none;
             }
         }
-        
+
         &:last-child {
             border-top-right-radius: 2rem;
             border-bottom-right-radius: 2rem;
@@ -76,10 +75,9 @@
         }
     }
 
-    
     &--active {
         background-color: $color-secondary;
-        
+
         &:hover {
             background-color: $color-secondary-medium-1;
         }
@@ -90,16 +88,15 @@
             outline: none;
         }
     }
-    
+
     &--control {
-        
         width: 45%;
         height: 3rem;
-        margin-top: .8rem;
+        margin-top: 0.8rem;
         margin-bottom: 1.5rem;
         padding: 0.7rem 1rem;
         font-size: 1.4rem;
-        border-radius: .5rem;
+        border-radius: 0.5rem;
         transition: all 0.15s;
 
         @include respond(tab-port) {
@@ -107,9 +104,5 @@
             width: 100%;
             float: none;
         }
-
-        
     }
 }
-
-

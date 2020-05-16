@@ -1,41 +1,38 @@
 import Blocks from './models/Blocks';
 import * as blocksView from './views/blocksView';
 import * as settingsView from './views/settingsView';
-import SelectSort from './models/Sorts/SelectSort';
-import BubbleSort from './models/Sorts/BubbleSort';
-import InsertSort from './models/Sorts/InsertSort';
-import QuickSort from './models/Sorts/QuickSort';
-import MergeSort from './models/Sorts/MergeSort';
-import { DOMelements, colors, sortingComplexities, calculateAvgComplexity } from './base';
+import SelectSort from './controllers/SortControllers/SelectSort';
+import BubbleSort from './controllers/SortControllers/BubbleSort';
+import InsertSort from './controllers/SortControllers/InsertSort';
+import QuickSort from './controllers/SortControllers/QuickSort';
+import MergeSort from './controllers/SortControllers/MergeSort';
+import { DOMelements, sortingComplexities } from './base';
 import './../sass/main.scss';
 import './../css/animate.min.css';
 
-// WEB INITIALIZATION
+//////////////////////////////////////////
+////////   WEB INITIALIZATION     ////////
+//////////////////////////////////////////
+
 // Handling FOUC
 document.onreadystatechange = function() {
     if (document.readyState === 'complete') {
         DOMelements.loader.style.display = 'none';
         DOMelements.hideWrapper.style.visibility = 'visible';
-        //elements.hideWrapper.style.opacity = 1;
     }
 };
-
 
 const state = {
     sorting: false,
     stopSorting: () => {
         state.sorting ? state.sorting.stop(state.blocks.blocksNum) : null;
-    }
+        settingsView.resetComparisonsNum();
+    },
 };
 
-// for testing purposes:
-window.state = state;
-
 //////////////////////////////////////////
-/////////      CONTROLLERS       /////////
+////////    BLOCK CONTROLLERS     ////////
 //////////////////////////////////////////
-
-// Blocks Render
 
 const renderBlocks = (blocksNum, minHeight = 20, maxHeight = 200) => {
     const blockWidth = blocksView.calculateBlockWidth(blocksNum);
@@ -69,7 +66,7 @@ const reRenderBlocks = () => {
 };
 
 //////////////////////////////////////////
-/////////    HELP FUNCTIONS      /////////
+///////   INPUT HELP FUNCTIONS    ////////
 //////////////////////////////////////////
 
 const sliderOverflowCheck = (min, max, type) => {
@@ -88,7 +85,7 @@ const sliderOverflowCheck = (min, max, type) => {
 /////////    EVENT LISTENERS     /////////
 //////////////////////////////////////////
 
-DOMelements.sortingButtons.addEventListener('click', event => {
+DOMelements.sortingButtons.addEventListener('click', (event) => {
     state.stopSorting();
 
     const selectedBtn = event.target;
@@ -127,22 +124,12 @@ DOMelements.sortingButtons.addEventListener('click', event => {
             state.sorting = new MergeSort(state.blocks.blockWidth, false, false);
             break;
 
-        case DOMelements.heapSortBtn:
-            settingsView.highlightSortingBtn(selectedBtn);
-
-            break;
-
-        case DOMelements.raddixSortBtn:
-            settingsView.highlightSortingBtn(selectedBtn);
-
-            break;
-
         default:
             null;
     }
 });
 
-DOMelements.startSortBtn.addEventListener('click', event => {
+DOMelements.startSortBtn.addEventListener('click', () => {
     if (!state.sorting) return;
 
     if (settingsView.togglePlayIcon())
@@ -153,33 +140,29 @@ DOMelements.startSortBtn.addEventListener('click', event => {
             settingsView.getSortType()
         );
     else {
-        state.sorting.pause(state.blocks.sizes);
+        state.sorting.pause();
     }
 });
 
 DOMelements.stopSortBtn.addEventListener('click', state.stopSorting);
 
-DOMelements.generateBlocksBtn.addEventListener('click', event => {
+DOMelements.generateBlocksBtn.addEventListener('click', () => {
     state.stopSorting();
-    renderBlocks(
-        settingsView.getBlocksNum(),
-        settingsView.getMinHeight(),
-        settingsView.getMaxHeight()
-    );
+    renderBlocks(settingsView.getBlocksNum(), settingsView.getMinHeight(), settingsView.getMaxHeight());
 });
 
-DOMelements.shuffleBlocksBtn.addEventListener('click', event => {
+DOMelements.shuffleBlocksBtn.addEventListener('click', () => {
     state.stopSorting();
 
     state.blocks.blocksShuffle();
     reRenderBlocks(settingsView.getBlocksNum());
 });
 
-DOMelements.inputBlocksNumSlider.addEventListener('input', event => {
+DOMelements.inputBlocksNumSlider.addEventListener('input', (event) => {
     DOMelements.inputBlocksNumText.value = event.target.value;
 });
 
-DOMelements.inputBlocksNumText.addEventListener('input', event => {
+DOMelements.inputBlocksNumText.addEventListener('input', (event) => {
     const { value } = event.target;
     if (value < 2) {
         DOMelements.inputBlocksNumSlider.value = 2;
@@ -192,8 +175,8 @@ DOMelements.inputBlocksNumText.addEventListener('input', event => {
     }
 });
 
-DOMelements.inputSortingSpeedSlider.addEventListener('input', event => {
-    DOMelements.speedSliderLabels.forEach(element => {
+DOMelements.inputSortingSpeedSlider.addEventListener('input', (event) => {
+    DOMelements.speedSliderLabels.forEach((element) => {
         element.classList.remove('u-highlighted-text');
     });
     settingsView.turnOnAnimations(true);
@@ -218,44 +201,40 @@ DOMelements.inputSortingSpeedSlider.addEventListener('input', event => {
     }
 });
 
-DOMelements.inputMaxHeightSlider.addEventListener('input', event => {
+DOMelements.inputMaxHeightSlider.addEventListener('input', (event) => {
     DOMelements.inputMaxHeightText.value = event.target.value;
     sliderOverflowCheck(settingsView.getMinHeight(), parseInt(event.target.value), 'max');
 });
 
-DOMelements.inputMaxHeightText.addEventListener('input', event => {
+DOMelements.inputMaxHeightText.addEventListener('input', (event) => {
     if (event.target.value < 20) event.target.value = 20;
     if (event.target.value > 300) event.target.value = 300;
     DOMelements.inputMaxHeightSlider.value = event.target.value;
     sliderOverflowCheck(settingsView.getMinHeight(), parseInt(event.target.value), 'max');
 });
 
-DOMelements.inputMinHeightSlider.addEventListener('input', event => {
+DOMelements.inputMinHeightSlider.addEventListener('input', (event) => {
     DOMelements.inputMinHeightText.value = event.target.value;
     sliderOverflowCheck(parseInt(event.target.value), settingsView.getMaxHeight(), 'min');
 });
 
-DOMelements.inputMinHeightText.addEventListener('input', event => {
+DOMelements.inputMinHeightText.addEventListener('input', (event) => {
     if (event.target.value < 20) event.target.value = 20;
     if (event.target.value > 300) event.target.value = 300;
     DOMelements.inputMinHeightSlider.value = event.target.value;
     sliderOverflowCheck(parseInt(event.target.value), settingsView.getMaxHeight(), 'min');
 });
 
-DOMelements.inputDisplayHeightsCheckbox.addEventListener('input', event => {
+DOMelements.inputDisplayHeightsCheckbox.addEventListener('input', (event) => {
     blocksView.toggleBlocksHeight(state.blocks.blocksNum, event.target.checked);
 });
 
 window.addEventListener('load', () => {
     state.sorting = new SelectSort(null, false, false);
-    renderBlocks(
-        settingsView.getBlocksNum(),
-        settingsView.getMinHeight(),
-        settingsView.getMaxHeight()
-    );
+    renderBlocks(settingsView.getBlocksNum(), settingsView.getMinHeight(), settingsView.getMaxHeight());
     settingsView.highlightSortingBtn(DOMelements.selectSortBtn);
     settingsView.setComplexityLabel(sortingComplexities.insertSort);
-    settingsView.setDefaultComplexity(20 * 20)
+    settingsView.setDefaultComplexity(20 * 20);
 });
 
 window.addEventListener('resize', () => {

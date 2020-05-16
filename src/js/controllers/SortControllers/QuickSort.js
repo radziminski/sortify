@@ -48,7 +48,7 @@ class QuickSort extends Sort {
         this.stepsArr = [];
         this.stepsArr.push({
             stepNum: 'initial settings',
-            blocksNum: sizesOrig.length
+            blocksNum: sizesOrig.length,
         });
 
         const sizes = [...sizesOrig];
@@ -66,85 +66,54 @@ class QuickSort extends Sort {
 
             // Highlighting pivot
             this.addStep('colorBlocks', {
-                    color: colors.highlight,
-                    blocks: [pivotIndex]
+                color: colors.highlight,
+                blocks: [pivotIndex],
             });
 
-            this.addStep('wait', {waitTime})
+            this.addStep('wait', { waitTime });
 
             let i;
             for (i = start; i < end; i++) {
                 // Highlighting i block
                 this.addStep('colorBlocks', {
-                        color: colors.accent,
-                        blocks: [i]
+                    color: colors.accent,
+                    blocks: [i],
                 });
-                this.stepsArr.push({
-                    stepNum: 0,
-                    arg: {
-                        waitTime: waitTime
-                    }
-                });
+                this.addStep('wait', { waitTime });
 
                 if (sizes[i] <= sizes[pivotIndex]) {
                     [sizes[i], sizes[currentIndex]] = [sizes[currentIndex], sizes[i]];
 
                     this.addStep('colorBlocks', {
-                            color: colors.highlight,
-                            blocks: [pivotIndex]
+                        color: colors.highlight,
+                        blocks: [pivotIndex],
                     });
-                    this.stepsArr.push({
-                        stepNum: 0,
-                        arg: {
-                            waitTime: waitTime
-                        }
-                    });
+                    this.addStep('wait', { waitTime });
 
-                    this.stepsArr.push({
-                        stepNum: 5,
-                        arg: {
-                            blocks: [i, currentIndex],
-                            sizes: sizesOrig
-                        }
-                    });
-                    this.stepsArr.push({
-                        stepNum: 3,
-                        arg: {
-                            blocks: [i, currentIndex],
-                            waitTime: waitTime
-                        }
-                    });
+                    this.addStep('arrSwap', { blocks: [i, currentIndex], sizes: sizesOrig });
+
+                    this.addStep('swapAnimation', { blocks: [i, currentIndex], waitTime: waitTime });
                     currentIndex++;
 
                     this.addStep('colorBlocks', {
-                            blocks: [currentIndex],
-                            color: colors.default
+                        blocks: [currentIndex],
+                        color: colors.default,
                     });
                 }
                 this.addStep('colorBlocks', {
-                        blocks: [i],
-                        color: colors.default
+                    blocks: [i],
+                    color: colors.default,
                 });
             }
             [sizes[currentIndex], sizes[end]] = [sizes[end], sizes[currentIndex]];
-            this.stepsArr.push({
-                stepNum: 5,
-                arg: {
-                    blocks: [currentIndex, end],
-                    sizes: sizesOrig
-                }
-            });
-            this.stepsArr.push({
-                stepNum: 3,
-                arg: {
-                    blocks: [currentIndex, end],
-                    waitTime: waitTime
-                }
-            });
+
+            this.addStep('arrSwap', { blocks: [currentIndex, end], sizes: sizesOrig });
+
+            this.addStep('swapAnimation', { blocks: [currentIndex, end], waitTime: waitTime });
 
             this.addStep('colorBlocks', {
-                    blocks: [pivotIndex],
-                    color: colors.default
+                blocks: [pivotIndex],
+                color: colors.default,
             });
 
             if (currentIndex - 1 > start) {
