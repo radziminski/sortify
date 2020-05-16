@@ -38,5 +38,6 @@ Also, there are some bugs with pause function, its sometimes breaks the corectne
 ## To do
 - Fix fast speed bugs
 - Fix pause bugs
+- Better quick sort animation
 ## License
 This project is licensed under the MIT License.
