@@ -1,5 +1,5 @@
 # Sortify
-Web application visualizing different sorting algorithms. It displays animations of sorting the rectangular blocks with different heights. Current version supports: bubble sort, selection sort, insert sort, quick sort and merge sort.
+Web application visualizing different sorting algorithms. It displays animations of sorting on rectangular blocks with different heights. Current version supports: bubble sort, selection sort, insert sort, quick sort and merge sort.
 ## Getting started
 ### Instalation
 Use [npm](https://www.npmjs.com/) package menager to install this app.
