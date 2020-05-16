@@ -153,7 +153,6 @@ DOMelements.startSortBtn.addEventListener('click', () => {
         );
     } else {
         state.sorting.pause();
-        checkRednerBlocksAgainstLogicBlocks();
     }
 });
 

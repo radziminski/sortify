@@ -239,10 +239,12 @@ class Sort {
             increment comparisons num
                 arg: -
         */
+        let didTimePassedFlag = false;
         try {
             switch (step) {
                 case 'wait':
                     await this.wait(arg.waitTime);
+                    didTimePassedFlag = true;
                     break;
 
                 case 'colorBlocks':
@@ -254,6 +256,7 @@ class Sort {
                     break;
 
                 case 'swapAnimation':
+                    didTimePassedFlag = true;
                     if (!animated) {
                         blocksView.swapBlocksHeight(arg.blocks[0], arg.blocks[1]);
                         await this.wait(arg.waitTime / 2);
@@ -276,11 +279,13 @@ class Sort {
 
                 case 'raiseBlocks':
                     if (!animated) return;
+                    didTimePassedFlag = true;
                     await this.raiseBlocks(arg.blocks, arg.waitTime);
                     break;
 
                 case 'lowerBlocks':
                     if (!animated) return;
+                    didTimePassedFlag = true;
                     await this.lowerBlocks(arg.blocks, arg.waitTime);
                     break;
 
@@ -303,12 +308,13 @@ class Sort {
         } catch (error) {
             throw new Error(error);
         }
-
-        try {
-            await this.wait(20);
-        } catch (error) {
-            this.currentStep++;
-            throw new Error(error);
+        if (didTimePassedFlag) {
+            try {
+                await this.wait(20);
+            } catch (error) {
+                this.currentStep++;
+                throw new Error(error);
+            }
         }
 
         return true;
