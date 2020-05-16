@@ -6,7 +6,7 @@ import BubbleSort from './controllers/SortControllers/BubbleSort';
 import InsertSort from './controllers/SortControllers/InsertSort';
 import QuickSort from './controllers/SortControllers/QuickSort';
 import MergeSort from './controllers/SortControllers/MergeSort';
-import { DOMelements, sortingComplexities } from './base';
+import { DOMelements, sortingComplexities, selectBlock } from './base';
 import './../sass/main.scss';
 import './../css/animate.min.css';
 
@@ -27,7 +27,9 @@ const state = {
     stopSorting: () => {
         state.sorting ? state.sorting.stop(state.blocks.blocksNum) : null;
         settingsView.resetComparisonsNum();
+        checkRednerBlocksAgainstLogicBlocks();
     },
+    showHeights: false,
 };
 
 //////////////////////////////////////////
@@ -63,6 +65,15 @@ const reRenderBlocks = () => {
 
     blocksView.renderBlocks(state.blocks.sizes, blockWidth, false);
     blocksView.toggleBlocksHeight(state.blocks.blocksNum, settingsView.getDisplayHeights());
+};
+
+const checkRednerBlocksAgainstLogicBlocks = () => {
+    if (!state.blocks.sizes || !state.blocks.sizes.length) return;
+    for (let block = 0; block < state.blocks.sizes.length; block++) {
+        state.showHeights
+            ? blocksView.setBlocksHeight(block, state.blocks.sizes[block])
+            : blocksView.setBlocksHeight(block, state.blocks.sizes[block], false);
+    }
 };
 
 //////////////////////////////////////////
@@ -132,15 +143,17 @@ DOMelements.sortingButtons.addEventListener('click', (event) => {
 DOMelements.startSortBtn.addEventListener('click', () => {
     if (!state.sorting) return;
 
-    if (settingsView.togglePlayIcon())
+    if (settingsView.togglePlayIcon()) {
+        checkRednerBlocksAgainstLogicBlocks();
         state.sorting.sortIt(
             state.blocks.sizes,
             settingsView.getTime(),
             settingsView.getAnimate(),
             settingsView.getSortType()
         );
-    else {
+    } else {
         state.sorting.pause();
+        checkRednerBlocksAgainstLogicBlocks();
     }
 });
 
@@ -227,6 +240,7 @@ DOMelements.inputMinHeightText.addEventListener('input', (event) => {
 
 DOMelements.inputDisplayHeightsCheckbox.addEventListener('input', (event) => {
     blocksView.toggleBlocksHeight(state.blocks.blocksNum, event.target.checked);
+    state.showHeights = !state.showHeights;
 });
 
 window.addEventListener('load', () => {

@@ -32,6 +32,11 @@ export const renderBlocks = async (sizes, blockWidth, animated = true) => {
     }
 };
 
+export const setBlocksHeight = (block, height, showHeight = true) => {
+    selectBlock(block).style.height = `${height}px`;
+    if (showHeight) selectBlock(block).innerHTML = `${height}`;
+};
+
 //////////////////////////////////////////////
 ///////////   BLOCKS COLOR METHODS    ////////
 //////////////////////////////////////////////
@@ -84,7 +89,6 @@ export function toggleBlocksHeight(blocksNum, show = 1) {
     for (let i = 0; i < blocksNum; i++) {
         const block = selectBlock(i);
         if (!show) {
-            //block.innerHTML = `<div style="animation: fadeOut 0.1s; animation-fill-mode: forwards;">${parseInt(block.style.height)}</div>`;
             block.innerHTML = ` `;
         } else {
             //block.innerHTML = `<div style="animation: fadeIn 0.1s;">${parseInt(block.style.height)}</div>`;

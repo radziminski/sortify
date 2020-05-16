@@ -85,7 +85,7 @@ export const getTime = () => {
         case '3':
             return 300;
         case '4':
-            return 100;
+            return 130;
         case '5':
             return 0;
     }

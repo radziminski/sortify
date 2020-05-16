@@ -49,7 +49,7 @@ class SelectSort extends Sort {
             const maxBlock = sortType ? this.findMax(currentBlock, sizes) : this.findMin(currentBlock, sizes);
 
             // displaying searching procedure as sequence of coloring
-            if (waitTime > 100) {
+            if (waitTime > 130) {
                 let max = currentBlock;
                 for (let nextBlock = currentBlock + 1; nextBlock < sizesOrig.length; nextBlock++) {
                     // coloring block that we are currently investigating for being max / min

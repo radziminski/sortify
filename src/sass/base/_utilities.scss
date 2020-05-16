@@ -18,7 +18,6 @@
     margin-bottom: 1.6rem;
 }
 
-
 .u-margin-bottom-medium {
     margin-bottom: 3rem;
 }
@@ -53,7 +52,15 @@
 }
 
 .u-highlighted-text {
-    opacity: 1 !important; 
+    opacity: 1 !important;
     transform: translateX(-50%) translateY(-3px) scale(1.12) !important;
+}
 
+.u-page-link {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+        color: $color-primary-dark;
+    }
 }
